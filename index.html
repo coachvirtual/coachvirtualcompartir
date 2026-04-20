@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coach Virtual</title>
+    <title>Coach Virtual - Santillana Compartir</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -11,20 +11,20 @@
     
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-screen w-screen relative flex flex-col items-center justify-center">
+<body class="h-screen w-screen relative flex flex-col items-center justify-center overflow-hidden">
 
-    <img src="assets/fondo-coachvirtual-compartir.png" id="bg-image" alt="Fondo espacial Coach Virtual">
+    <img src="assets/fondo-coachvirtual-compartir.png" id="bg-image" alt="Fondo espacial">
 
     <div class="fixed top-0 w-full p-4 md:p-6 flex justify-between items-center z-20">
-        <div class="h-10 md:h-14 flex items-center">
-            <img src="assets/logo-compartir.png" alt="Logo Santillana Compartir" class="h-full w-auto object-contain drop-shadow-lg">
+        <div class="h-10 md:h-14">
+            <img src="assets/logo-compartir.png" alt="Logo Compartir" class="h-full w-auto object-contain drop-shadow-xl">
         </div>
         
         <div class="flex gap-2 md:gap-4">
-            <a href="https://www.edi.santillanacompartir.com.co/" target="_blank" rel="noopener noreferrer" class="glass-panel text-white px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-bold hover:bg-white/10 transition shadow-lg border border-white/20 flex items-center justify-center text-center">
+            <a href="https://www.edi.santillanacompartir.com.co/" target="_blank" class="glass-panel text-white px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-bold hover:bg-white/10 transition shadow-lg border border-white/20">
                 Edi Compartir
             </a>
-            <a href="https://www.santillanacompartir.com.co/" target="_blank" rel="noopener noreferrer" class="glass-panel text-white px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-bold hover:bg-white/10 transition shadow-lg border border-white/20 flex items-center justify-center text-center">
+            <a href="https://www.santillanacompartir.com.co/" target="_blank" class="glass-panel text-white px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-bold hover:bg-white/10 transition shadow-lg border border-white/20">
                 Santillana Compartir
             </a>
         </div>
@@ -36,15 +36,15 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 max-w-5xl mx-auto">
             
             <div class="card h-[400px] md:h-[480px] overflow-hidden flex justify-center items-center" onclick="openRoleSelection('Conocimientos')">
-                <img src="assets/5.png" alt="Compartir Conocimientos" class="w-full h-full object-cover scale-[1.35] transition-transform duration-500 hover:scale-[1.45]">
+                <img src="assets/5.png" alt="Conocimientos" class="w-full h-full object-cover scale-[1.35] transition-transform duration-500 hover:scale-[1.45]">
             </div>
 
             <div class="card h-[400px] md:h-[480px] overflow-hidden flex justify-center items-center" onclick="openRoleSelection('Progreso')">
-                <img src="assets/6.png" alt="Compartir Progreso" class="w-full h-full object-cover scale-[1.35] transition-transform duration-500 hover:scale-[1.45]">
+                <img src="assets/6.png" alt="Progreso" class="w-full h-full object-cover scale-[1.35] transition-transform duration-500 hover:scale-[1.45]">
             </div>
 
             <div class="card h-[400px] md:h-[480px] overflow-hidden flex justify-center items-center" onclick="openRoleSelection('Ingles')">
-                <img src="assets/7.png" alt="Compartir Inglés" class="w-full h-full object-cover scale-[1.35] transition-transform duration-500 hover:scale-[1.45]">
+                <img src="assets/7.png" alt="Inglés" class="w-full h-full object-cover scale-[1.35] transition-transform duration-500 hover:scale-[1.45]">
             </div>
 
         </div>
@@ -56,7 +56,6 @@
                 <i data-lucide="arrow-left" class="w-5 h-5"></i> Volver al menú principal
             </button>
         </div>
-        
         <div id="section-content" class="w-full h-full glass-panel p-8 md:p-12 rounded-[2rem] text-white overflow-y-auto custom-scroll flex flex-col transition-opacity duration-500">
         </div>
     </div>
@@ -64,18 +63,16 @@
     <div id="video-modal" class="hidden fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm p-4 items-center justify-center fade-in">
         <div class="relative w-full max-w-5xl flex flex-col gap-4">
             <div class="flex justify-end w-full">
-                <button onclick="closeVideoModal()" class="bg-white/10 hover:bg-red-600 text-white p-2.5 rounded-full transition-all border border-white/20 shadow-lg">
+                <button onclick="closeVideoModal()" class="bg-white/10 hover:bg-red-600 text-white p-2.5 rounded-full transition-all border border-white/20">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
-            
             <div class="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                 <iframe id="modal-iframe" class="w-full h-full" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
-
             <div class="text-center">
                 <a id="modal-external-link" href="#" target="_blank" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors bg-white/5 px-4 py-2 rounded-full border border-white/10">
-                    <i data-lucide="external-link" class="w-4 h-4"></i> ¿No carga el video? Haz clic aquí para verlo directamente en YouTube
+                    <i data-lucide="external-link" class="w-4 h-4"></i> ¿No carga el video? Haz clic aquí para YouTube
                 </a>
             </div>
         </div>
@@ -91,17 +88,11 @@
                 <div class="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-[0_0_15px_rgba(79,70,229,0.5)]">
                     <i data-lucide="bot" class="w-6 h-6"></i>
                 </div>
-                <div>
-                    <h3 class="text-white font-black text-lg leading-tight">Coach Bot</h3>
-                    <p class="text-[10px] text-green-400 font-bold uppercase tracking-widest flex items-center gap-1">
-                        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> En línea
-                    </p>
-                </div>
+                <div><h3 class="text-white font-black text-lg">Coach Bot</h3><p class="text-[10px] text-green-400 font-bold uppercase tracking-widest flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> En línea</p></div>
             </div>
-            <button onclick="toggleChat()" class="text-white/50 hover:text-white transition bg-white/10 p-2.5 rounded-full hover:bg-red-500/80 border border-white/20"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <button onclick="toggleChat()" class="text-white/50 hover:text-white transition bg-white/10 p-2.5 rounded-full hover:bg-red-500 border border-white/20"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
-        <div id="chat-msgs" class="flex-1 overflow-y-auto p-6 custom-scroll flex flex-col gap-5">
-        </div>
+        <div id="chat-msgs" class="flex-1 overflow-y-auto p-6 custom-scroll flex flex-col gap-5"></div>
     </div>
 
     <script src="js/main.js"></script>
