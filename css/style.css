@@ -5,11 +5,10 @@
 
 body { 
     margin: 0; 
-    overflow-x: hidden; 
     background-color: #0f172a; 
 }
 
-/* Imagen de fondo estática */
+/* Imagen de fondo estática asegurada al centro en cualquier dispositivo */
 #bg-image {
     position: fixed;
     top: 50%;
@@ -21,7 +20,8 @@ body {
     z-index: -1;
     transform: translateX(-50%) translateY(-50%);
     object-fit: cover;
-    opacity: 0.85; /* Puedes subirlo a 1 si quieres que se vea más iluminado */
+    object-position: center;
+    opacity: 0.85;
 }
 
 .text-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
