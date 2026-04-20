@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coach Virtual</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="h-screen w-screen relative flex flex-col items-center justify-center">
+
+    <img src="assets/fondo-coachvirtual-compartir.png" id="bg-image" alt="Fondo espacial Coach Virtual">
+
+    <div class="fixed top-0 w-full p-6 flex justify-between items-center z-20">
+        <div class="text-white font-black text-xl md:text-2xl tracking-widest drop-shadow-lg">COACH VIRTUAL</div>
+        <div class="flex gap-4">
+            <button class="text-white font-bold hover:text-indigo-300 transition">Login</button>
+            <button class="glass-panel text-white px-6 py-2 rounded-full font-bold hover:bg-white/10 transition shadow-lg border border-white/20">
+                Start Now
+            </button>
+        </div>
+    </div>
+
+    <div id="main-menu" class="text-center z-10 w-full max-w-6xl px-4 mt-12 transition-all duration-500 transform scale-100 opacity-100">
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-12 uppercase drop-shadow-lg tracking-tight">Bienvenido a tu coach virtual</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 max-w-5xl mx-auto">
+            
+            <div class="card h-[400px] md:h-[480px] overflow-hidden" onclick="openRoleSelection('Conocimientos')">
+                <img src="assets/5.png" alt="Compartir Conocimientos" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+            </div>
+
+            <div class="card h-[400px] md:h-[480px] overflow-hidden" onclick="openRoleSelection('Progreso')">
+                <img src="assets/6.png" alt="Compartir Progreso" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+            </div>
+
+            <div class="card h-[400px] md:h-[480px] overflow-hidden" onclick="openRoleSelection('Ingles')">
+                <img src="assets/7.png" alt="Compartir Inglés" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+            </div>
+
+        </div>
+    </div>
+
+    <div id="section-view" class="hidden flex-col z-10 w-full max-w-5xl px-4 mt-12 transition-all duration-500 transform scale-95 opacity-0 absolute top-24 bottom-24">
+        <div class="w-full flex justify-start mb-6">
+            <button onclick="closeSection()" class="glass-panel text-white px-6 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-white/10 transition shadow-lg border border-white/20">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i> Volver al menú principal
+            </button>
+        </div>
+        
+        <div id="section-content" class="w-full h-full glass-panel p-8 md:p-12 rounded-[2rem] text-white overflow-y-auto custom-scroll flex flex-col transition-opacity duration-500">
+        </div>
+    </div>
+
+    <div id="video-modal" class="hidden fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm p-4 items-center justify-center fade-in">
+        <div class="relative w-full max-w-5xl flex flex-col gap-4">
+            <div class="flex justify-end w-full">
+                <button onclick="closeVideoModal()" class="bg-white/10 hover:bg-red-600 text-white p-2.5 rounded-full transition-all border border-white/20 shadow-lg">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <div class="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                <iframe id="modal-iframe" class="w-full h-full" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+
+            <div class="text-center">
+                <a id="modal-external-link" href="#" target="_blank" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors bg-white/5 px-4 py-2 rounded-full border border-white/10">
+                    <i data-lucide="external-link" class="w-4 h-4"></i> ¿No carga el video? Haz clic aquí para verlo directamente en YouTube
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="toggleChat()" class="fixed bottom-8 right-8 z-40 w-16 h-16 bg-white/10 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center text-white shadow-2xl hover:scale-110 hover:bg-white/20 transition-all group">
+        <i data-lucide="message-square" class="w-8 h-8 group-hover:text-indigo-300 transition-colors"></i>
+    </button>
+
+    <div id="chat-sidebar" class="fixed top-0 right-0 h-full w-full md:w-[400px] glass-panel z-50 flex flex-col border-l border-white/20 shadow-2xl">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-slate-900/50 backdrop-blur-xl">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-[0_0_15px_rgba(79,70,229,0.5)]">
+                    <i data-lucide="bot" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h3 class="text-white font-black text-lg leading-tight">Coach Bot</h3>
+                    <p class="text-[10px] text-green-400 font-bold uppercase tracking-widest flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> En línea
+                    </p>
+                </div>
+            </div>
+            <button onclick="toggleChat()" class="text-white/50 hover:text-white transition bg-white/10 p-2.5 rounded-full hover:bg-red-500/80 border border-white/20"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div id="chat-msgs" class="flex-1 overflow-y-auto p-6 custom-scroll flex flex-col gap-5">
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/bot.js"></script>
+</body>
+</html>
