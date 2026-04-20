@@ -1,5 +1,5 @@
 /* ============================================================
-   BASE DE DATOS DEL COACH VIRTUAL (Segmentada + Guiones + Pleno)
+   BASE DE DATOS DEL COACH VIRTUAL (Segmentada + Guiones Completos)
    ============================================================ */
 
 const BOT_DATA = {
@@ -71,7 +71,7 @@ const BOT_DATA = {
         options: [{ label: "◀ Volver", topic: "inicio" }]
     },
 
-    // 3. RESPUESTAS GENERALES (PROFESORES - CONOCIMIENTOS)
+    // 3. RESPUESTAS GENERALES (PROFESORES)
     "prof_gestion": {
         text: "¿Qué proceso de gestión deseas revisar?",
         options: [
@@ -84,41 +84,41 @@ const BOT_DATA = {
         ]
     },
     "docente_inicio": {
-        text: "¡Bienvenido a Compartir Conocimientos!\n\n1. Ingresa a edi.santillanacompartir.com.co.\n2. Arriba a la derecha tienes: Biblioteca, Tareas, Calendario y Notificaciones.\n3. En el centro verás tus clases.\n4. Al entrar a una clase verás 4 pestañas:\n  • **Programa:** Módulos y Aprendizajes Nucleares.\n  • **Recursos del aula:** Apoyo docente.\n  • **Panel:** Tablero de publicaciones.\n  • **Calificaciones:** Rejilla de control.\n\n▶️ <button onclick=\"openVideoModal('Bv_FinX79vk')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "¡Bienvenido a Compartir Conocimientos!\n\n1. Ingresa a edi.santillanacompartir.com.co.\n2. Arriba a la derecha tienes: Biblioteca, Tareas, Calendario y Notificaciones.\n3. En el centro verás tus clases.\n4. Al entrar a una clase verás 4 pestañas:\n  • **Programa:** Módulos y Aprendizajes Nucleares.\n  • **Recursos del aula:** Apoyo docente.\n  • **Panel:** Tablero de publicaciones.\n  • **Calificaciones:** Rejilla de control.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('Bv_FinX79vk')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "prof_gestion" }]
     },
     "docente_tarea": {
-        text: "Para crear una **Tarea**:\n\n1. Ve al Aprendizaje Nuclear y haz clic en **'+'** > Tarea.\n2. Configura la escala, categoría y destinatarios.\n3. Ponle título y elige el formato (texto, archivo, audio).\n4. Haz clic en **Crear Tarea**.\n5. Modifica el enunciado o imagen de fondo a la izquierda.\n6. Elige arriba a la derecha: Guardar Cambios (borrador), Guardar y publicar, o Programar.\n\n▶️ <button onclick=\"openVideoModal('KXROB84Q3IU')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "Para crear una **Tarea**:\n\n1. Ve al Aprendizaje Nuclear y haz clic en **'+'** > Tarea.\n2. Configura la escala, categoría y destinatarios.\n3. Ponle título y elige el formato (texto, archivo, audio).\n4. Haz clic en **Crear Tarea**.\n5. Modifica el enunciado o imagen de fondo a la izquierda.\n6. Elige arriba a la derecha: Guardar Cambios (borrador), Guardar y publicar, o Programar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('KXROB84Q3IU')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "prof_gestion" }]
     },
     "docente_asignar": {
-        text: "Para **Asignar contenidos**:\n\n1. Entra a la asignatura > Aprendizaje Nuclear.\n2. Ubica la sección de actividades.\n3. Frente al contenido, haz clic en los **tres puntos** y elige **'Asignar a...'**.\n4. Decide quién puede verlo, define fechas de entrega o permite entregas tardías.\n5. Haz clic en Guardar.\n\n▶️ <button onclick=\"openVideoModal('X6akIQPrJWw')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "Para **Asignar contenidos**:\n\n1. Entra a la asignatura > Aprendizaje Nuclear.\n2. Ubica la sección de actividades.\n3. Frente al contenido, haz clic en los **tres puntos** y elige **'Asignar a...'**.\n4. Decide quién puede verlo, define fechas de entrega o permite entregas tardías.\n5. Haz clic en Guardar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('X6akIQPrJWw')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "prof_gestion" }]
     },
     "docente_panel": {
-        text: "Para publicar en el **Panel de Comunicaciones**:\n\n1. En tu clase, ve a la pestaña Panel.\n2. En **Configuración**, elige los permisos de los estudiantes (comentar, publicar, o solo tú).\n3. Arriba, escribe tu anuncio (puedes adjuntar hasta 200MB en archivos).\n4. Haz clic en Publicar. Los alumnos recibirán notificación.\n\n▶️ <button onclick=\"openVideoModal('SO60tHz47kU')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "Para publicar en el **Panel de Comunicaciones**:\n\n1. En tu clase, ve a la pestaña Panel.\n2. En **Configuración**, elige los permisos de los estudiantes (comentar, publicar, o solo tú).\n3. Arriba, escribe tu anuncio (puedes adjuntar hasta 200MB en archivos).\n4. Haz clic en Publicar. Los alumnos recibirán notificación.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('SO60tHz47kU')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "prof_gestion" }]
     },
     "docente_material": {
-        text: "Para subir **Material Propio**:\n\n1. Desde inicio, ve a **Mi Biblioteca**.\n2. Clic en **'+'** > Añadir un material.\n3. Elige Enlace (ej. YouTube) o Archivo.\n4. Añade título, descripción y clasifícalo (nivel, disciplina).\n5. Haz clic en Aceptar. *Tip: Crea carpetas y arrastra tus recursos para organizarlos.*\n\n▶️ <button onclick=\"openVideoModal('sGX_D17T4h8')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "Para subir **Material Propio**:\n\n1. Desde inicio, ve a **Mi Biblioteca**.\n2. Clic en **'+'** > Añadir un material.\n3. Elige Enlace (ej. YouTube) o Archivo.\n4. Añade título, descripción y clasifícalo (nivel, disciplina).\n5. Haz clic en Aceptar. *Tip: Crea carpetas y arrastra tus recursos para organizarlos.*\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('sGX_D17T4h8')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "prof_gestion" }]
     },
 
-    // 4. RESPUESTAS GENERALES (ESTUDIANTES - CONOCIMIENTOS)
+    // 4. RESPUESTAS GENERALES (ESTUDIANTES)
     "est_inicio": {
-        text: "¡Bienvenido a tu plataforma!\n\n1. En edi.santillanacompartir.com.co selecciona Compartir Conocimientos.\n2. Arriba a la derecha ves tus Tareas, Calendario y Notificaciones.\n3. Al entrar a una clase verás:\n  • **Programa:** Tus saberes y actividades.\n  • **Recursos:** Tu Flipbook.\n  • **Panel:** Avisos de tu profe.\n  • **Calificaciones:** Tus avances.\n\n▶️ <button onclick=\"openVideoModal('9oKz6MQgDsk')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "¡Bienvenido a tu plataforma!\n\n1. En edi.santillanacompartir.com.co selecciona Compartir Conocimientos.\n2. Arriba a la derecha ves tus Tareas, Calendario y Notificaciones.\n3. Al entrar a una clase verás:\n  • **Programa:** Tus saberes y actividades.\n  • **Recursos:** Tu Flipbook.\n  • **Panel:** Avisos de tu profe.\n  • **Calificaciones:** Tus avances.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('9oKz6MQgDsk')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "est_conocimientos" }]
     },
     "est_tareas": {
-        text: "Para **Responder Tareas**:\n\n1. Ve a 'Mis Clases' y haz clic en el icono **Tareas** (arriba a la derecha).\n2. Haz clic en **Ver todo**. Puedes filtrar por Entregado o Pendiente.\n3. Selecciona la actividad pendiente, desarróllala y haz clic en **Enviar**.\n4. Luego dale a 'Volver a la lección'.\n\n▶️ <button onclick=\"openVideoModal('XugiPvcc20g')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "Para **Responder Tareas**:\n\n1. Ve a 'Mis Clases' y haz clic en el icono **Tareas** (arriba a la derecha).\n2. Haz clic en **Ver todo**. Puedes filtrar por Entregado o Pendiente.\n3. Selecciona la actividad pendiente, desarróllala y haz clic en **Enviar**.\n4. Luego dale a 'Volver a la lección'.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('XugiPvcc20g')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "est_conocimientos" }]
     },
     "est_libroweb": {
-        text: "Para encontrar tu **Libro Web**:\n\n1. Ingresa a una asignatura y ubica el Aprendizaje Nuclear.\n2. En la sección **Nuevos Aprendizajes** está tu Libro Web.\n3. Haz clic en **Ir** y luego en **Ver**. Se abrirá en una pestaña nueva.\n\n▶️ <button onclick=\"openVideoModal('l0MHO5QO1eQ')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "Para encontrar tu **Libro Web**:\n\n1. Ingresa a una asignatura y ubica el Aprendizaje Nuclear.\n2. En la sección **Nuevos Aprendizajes** está tu Libro Web.\n3. Haz clic en **Ir** y luego en **Ver**. Se abrirá en una pestaña nueva.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('l0MHO5QO1eQ')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "est_conocimientos" }]
     },
     "est_biblioteca": {
-        text: "Para ver la **Biblioteca (Recursos del Aula)**:\n\n1. Ingresa a tu asignatura.\n2. Dirígete a la pestaña **Recursos del aula**.\n3. En la sección **Anual** encontrarás los materiales de apoyo cargados por tu profe o colegio.\n\n▶️ <button onclick=\"openVideoModal('RjS2b5h-UqY')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "Para ver la **Biblioteca (Recursos del Aula)**:\n\n1. Ingresa a tu asignatura.\n2. Dirígete a la pestaña **Recursos del aula**.\n3. En la sección **Anual** encontrarás los materiales de apoyo cargados por tu profe o colegio.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('RjS2b5h-UqY')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "est_conocimientos" }]
     },
 
@@ -136,11 +136,11 @@ const BOT_DATA = {
         options: [{ label: "◀ Volver", topic: "progreso_docente" }]
     },
     "pleno_doc_reiniciar": {
-        text: "**Habilitar o Reiniciar Evaluaciones**\n\nSi un estudiante tuvo problemas técnicos o necesitas darle una nueva oportunidad, puedes reiniciar o habilitar nuevamente su prueba en Pleno.\n\n▶️ <button onclick=\"openVideoModal('OemyOCXD8U8')\" class=\"text-blue-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "**Habilitar o Reiniciar Evaluaciones**\n\nSi un estudiante tuvo problemas técnicos o necesitas darle una nueva oportunidad, puedes reiniciar o habilitar nuevamente su prueba en Pleno.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('OemyOCXD8U8')\" class=\"text-blue-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "progreso_docente" }]
     },
     "pleno_est_responder": {
-        text: "**Responder Evaluaciones en Pleno**\n\nIngresa a Pleno desde tu plataforma, busca la evaluación activa asignada por tu docente, respóndela cuidadosamente y envíala para conocer tus resultados.\n\n▶️ <button onclick=\"openVideoModal('_oDKSoJItHo')\" class=\"text-blue-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "**Responder Evaluaciones en Pleno**\n\nIngresa a Pleno desde tu plataforma, busca la evaluación activa asignada por tu docente, respóndela cuidadosamente y envíala para conocer tus resultados.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('_oDKSoJItHo')\" class=\"text-blue-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "progreso_estudiante" }]
     },
 
@@ -157,7 +157,7 @@ const BOT_DATA = {
         ]
     },
     "quiz_base": {
-        text: "Para **Crear un Quiz General**:\n\n1. En tu clase, entra al Aprendizaje Nuclear.\n2. Haz clic en **'+'** > Quiz.\n3. Configura escala, si es evaluativa y fechas.\n4. Clic en **Crear Quiz**.\n5. Haz clic en **'+'** para añadir preguntas ('Nueva pregunta' o 'Buscar en biblioteca').\n6. Asigna valor a las preguntas y dale a Guardar y Publicar.\n\n▶️ <button onclick=\"openVideoModal('xMUUcHz1RMY')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "Para **Crear un Quiz General**:\n\n1. En tu clase, entra al Aprendizaje Nuclear.\n2. Haz clic en **'+'** > Quiz.\n3. Configura escala, si es evaluativa y fechas.\n4. Clic en **Crear Quiz**.\n5. Haz clic en **'+'** para añadir preguntas ('Nueva pregunta' o 'Buscar en biblioteca').\n6. Asigna valor a las preguntas y dale a Guardar y Publicar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('xMUUcHz1RMY')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "quiz_categorias" }]
     },
     "cat_test": {
@@ -200,7 +200,7 @@ const BOT_DATA = {
         options: [{ label: "◀ Volver", topic: "cat_test" }]
     },
     "q_vf": {
-        text: "**Verdadero y Falso**\n\n1. Escribe la instrucción y la premisa.\n2. En opciones, escribe Verdadero y Falso.\n3. En Soluciones, elige Corrección Exacta y marca la opción correcta.\n4. Puedes añadir retroalimentación en Tratamiento del error.\n5. Clic en Guardar.\n\n▶️ <button onclick=\"openVideoModal('uoSCotTJcj0')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "**Verdadero y Falso**\n\n1. Escribe la instrucción y la premisa.\n2. En opciones, escribe Verdadero y Falso.\n3. En Soluciones, elige Corrección Exacta y marca la opción correcta.\n4. Puedes añadir retroalimentación en Tratamiento del error.\n5. Clic en Guardar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('uoSCotTJcj0')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "cat_test" }]
     },
     "q_tabla": {
@@ -224,11 +224,11 @@ const BOT_DATA = {
         options: [{ label: "◀ Volver", topic: "cat_relacionar" }]
     },
     "q_clasificar": {
-        text: "**Clasificar**\n\n1. En Editor de Tabla, define entre 1 a 5 columnas.\n2. En Respuestas, añade las palabras mezcladas.\n3. En Soluciones, arrastra cada palabra a su columna correcta.\n4. Clic en Guardar.\n\n▶️ <button onclick=\"openVideoModal('YgALIhJ-PGg')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "**Clasificar**\n\n1. En Editor de Tabla, define entre 1 a 5 columnas.\n2. En Respuestas, añade las palabras mezcladas.\n3. En Soluciones, arrastra cada palabra a su columna correcta.\n4. Clic en Guardar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('YgALIhJ-PGg')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "cat_relacionar" }]
     },
     "q_mates": {
-        text: "**Fórmulas Matemáticas**\n\n1. Escribe las operaciones matemáticas.\n2. Selecciona la respuesta y haz clic en 'Añadir hueco'.\n3. En Ajustes, activa el **teclado numérico, básico, intermedio o científico** para que aparezcan los símbolos.\n4. Clic en Guardar.\n\n▶️ <button onclick=\"openVideoModal('XTkETvJ-s_c')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</button>",
+        text: "**Fórmulas Matemáticas**\n\n1. Escribe las operaciones matemáticas.\n2. Selecciona la respuesta y haz clic en 'Añadir hueco'.\n3. En Ajustes, activa el **teclado numérico, básico, intermedio o científico** para que aparezcan los símbolos.\n4. Clic en Guardar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('XTkETvJ-s_c')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "cat_manual" }]
     },
     "q_manual_archivos": {
