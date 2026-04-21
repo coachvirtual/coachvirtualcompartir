@@ -11,16 +11,16 @@
     
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-screen w-screen relative flex flex-col items-center justify-center overflow-x-hidden overflow-y-auto md:overflow-hidden">
+<body class="min-h-screen w-screen relative flex flex-col items-center overflow-x-hidden overflow-y-auto bg-[#0f172a]">
 
     <img src="assets/fondo-coachvirtual-compartir.png" id="bg-image" alt="Fondo espacial">
 
-    <div class="fixed top-0 w-full p-4 md:p-6 flex justify-between items-center z-20">
-        <div class="h-8 sm:h-10 md:h-12 lg:h-14 transition-all">
+    <div class="fixed top-0 w-full p-4 md:p-6 flex justify-between items-start sm:items-center z-50 bg-[#0f172a]/80 backdrop-blur-md border-b border-white/10 shadow-lg">
+        <div class="h-10 sm:h-12 md:h-14 transition-all shrink-0 mt-1 sm:mt-0">
             <img src="assets/logo-compartir.png" alt="Logo Compartir" class="h-full w-auto object-contain drop-shadow-xl">
         </div>
         
-        <div class="flex flex-col sm:flex-row gap-2 md:gap-4">
+        <div class="flex flex-col sm:flex-row gap-2 md:gap-4 items-end sm:items-center">
             <a href="https://www.edi.santillanacompartir.com.co/" target="_blank" rel="noopener noreferrer" class="glass-panel text-white px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs md:text-sm font-bold hover:bg-white/10 transition shadow-lg border border-white/20 text-center">
                 Edi Compartir
             </a>
@@ -30,34 +30,34 @@
         </div>
     </div>
 
-    <div id="main-menu" class="text-center z-10 w-full max-w-6xl px-4 mt-24 sm:mt-20 md:mt-16 transition-all duration-500 transform scale-100 opacity-100 flex flex-col justify-center h-full pb-10 md:pb-0">
+    <div id="main-menu" class="text-center z-10 w-full max-w-6xl px-4 mt-32 md:mt-36 transition-all duration-500 transform scale-100 opacity-100 flex flex-col items-center pb-24 md:pb-12">
         
         <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 lg:mb-12 uppercase drop-shadow-lg tracking-tight">Bienvenido a tu coach virtual</h1>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto w-full items-center">
             
-            <div class="card group w-full max-w-[280px] sm:max-w-[300px] md:max-w-[320px] mx-auto h-[55vh] min-h-[320px] max-h-[460px] overflow-hidden flex justify-center items-center" onclick="openRoleSelection('Conocimientos')">
-                <img src="assets/5.png" alt="Conocimientos" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="card group w-full max-w-[280px] sm:max-w-[300px] md:max-w-[320px] mx-auto h-[40vh] min-h-[260px] md:min-h-[320px] max-h-[460px] flex justify-center items-center p-4 sm:p-5 md:p-6" onclick="openRoleSelection('Conocimientos')">
+                <img src="assets/5.png" alt="Conocimientos" class="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-105">
             </div>
 
-            <div class="card group w-full max-w-[280px] sm:max-w-[300px] md:max-w-[320px] mx-auto h-[55vh] min-h-[320px] max-h-[460px] overflow-hidden flex justify-center items-center" onclick="openRoleSelection('Progreso')">
-                <img src="assets/6.png" alt="Progreso" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="card group w-full max-w-[280px] sm:max-w-[300px] md:max-w-[320px] mx-auto h-[40vh] min-h-[260px] md:min-h-[320px] max-h-[460px] flex justify-center items-center p-4 sm:p-5 md:p-6" onclick="openRoleSelection('Progreso')">
+                <img src="assets/6.png" alt="Progreso" class="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-105">
             </div>
 
-            <div class="card group w-full max-w-[280px] sm:max-w-[300px] md:max-w-[320px] mx-auto h-[55vh] min-h-[320px] max-h-[460px] overflow-hidden flex justify-center items-center sm:col-span-2 md:col-span-1" onclick="openRoleSelection('Ingles')">
-                <img src="assets/7.png" alt="Inglés" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="card group w-full max-w-[280px] sm:max-w-[300px] md:max-w-[320px] mx-auto h-[40vh] min-h-[260px] md:min-h-[320px] max-h-[460px] flex justify-center items-center p-4 sm:p-5 md:p-6 sm:col-span-2 md:col-span-1" onclick="openRoleSelection('Ingles')">
+                <img src="assets/7.png" alt="Inglés" class="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-105">
             </div>
 
         </div>
     </div>
 
-    <div id="section-view" class="hidden flex-col z-10 w-full max-w-5xl px-4 mt-24 sm:mt-20 md:mt-16 transition-all duration-500 transform scale-95 opacity-0 absolute top-20 md:top-24 bottom-6 md:bottom-12">
+    <div id="section-view" class="hidden flex-col z-10 w-full max-w-5xl px-4 mt-32 md:mt-36 transition-all duration-500 transform scale-95 opacity-0 pb-24 md:pb-12">
         <div class="w-full flex justify-start mb-4 md:mb-6">
             <button onclick="closeSection()" class="glass-panel text-white px-4 md:px-6 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-white/10 transition shadow-lg border border-white/20 text-sm md:text-base">
                 <i data-lucide="arrow-left" class="w-4 h-4 md:w-5 md:h-5"></i> Volver al menú principal
             </button>
         </div>
-        <div id="section-content" class="w-full h-full glass-panel p-6 sm:p-8 md:p-12 rounded-[2rem] text-white overflow-y-auto custom-scroll flex flex-col transition-opacity duration-500">
+        <div id="section-content" class="w-full glass-panel p-6 sm:p-8 md:p-12 rounded-[2rem] text-white flex flex-col transition-opacity duration-500">
         </div>
     </div>
 
