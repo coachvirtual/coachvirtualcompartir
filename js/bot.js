@@ -92,7 +92,7 @@ const BOT_DATA = {
         options: [{ label: "◀ Volver", topic: "prof_gestion" }]
     },
     "docente_asignar": {
-        text: "Para **Asignar contenidos**:\n\n1. Entra a la asignatura > Aprendizaje Nuclear.\n2. Ubica la sección de actividades.\n3. Frente al contenido, haz clic en los **tres puntos** y elige **'Asignar a...'**.\n4. Decide quién puede verlo, define fechas de entrega o permite entregas tardías.\n5. Haz clic en Guardar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('X6akIQPrJWw')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        text: "Para **Asignar contenidos**:\n\n1. Entra a la asignatura > Aprendizaje Nuclear.\n2. Ubica la sección de activities.\n3. Frente al contenido, haz clic en los **tres puntos** y elige **'Asignar a...'**.\n4. Decide quién puede verlo, define fechas de entrega o permite entregas tardías.\n5. Haz clic en Guardar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('X6akIQPrJWw')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "prof_gestion" }]
     },
     "docente_panel": {
@@ -200,7 +200,7 @@ const BOT_DATA = {
         options: [{ label: "◀ Volver", topic: "cat_test" }]
     },
     "q_vf": {
-        text: "**Verdadero y Falso**\n\n1. Escribe la instrucción y la premisa.\n2. En opciones, escribe Verdadero y Falso.\n3. En Soluciones, elige Corrección Exacta y marca la opción correcta.\n4. Puedes añadir retroalimentación en Tratamiento del error.\n5. Clic en Guardar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('uoSCotTJcj0')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        text: "**Verdadero y Falso**\n\n1. Escribe la instrucción y la premisa.\n2. En opciones, escribe Verdadero y Falso.\n3. En Soluciones, elige Corrección Exacta y marca la option correcta.\n4. Puedes añadir retroalimentación en Tratamiento del error.\n5. Clic en Guardar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('uoSCotTJcj0')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "cat_test" }]
     },
     "q_tabla": {
