@@ -257,7 +257,7 @@ function renderBotResponse(topicId) {
         optionsHTML = `<div class="flex flex-col gap-2 mt-4 border-t border-white/10 pt-3">`;
         data.options.forEach(opt => {
             optionsHTML += `
-                <button onclick="handleUserClick('${opt.label}', '${opt.topic}')" class="bg-slate-800/80 hover:bg-indigo-600 border border-indigo-500/30 py-2.5 px-4 rounded-xl text-[11px] font-bold transition-colors text-left flex justify-between items-center group shadow-sm">
+                <button onclick="handleUserClick('${opt.label}', '${opt.topic}')" class="bg-slate-800/80 hover:bg-indigo-600 border border-indigo-500/30 py-2.5 px-4 rounded-xl text-[11px] font-bold transition-colors text-left flex justify-between items-center group shadow-[0_0_10px_rgba(79,70,229,0.1)] cyber-hover">
                     ${opt.label} <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                 </button>
             `;
@@ -270,7 +270,7 @@ function renderBotResponse(topicId) {
         .replace(/\n/g, '<br>');
 
     const botMsg = document.createElement('div');
-    botMsg.className = "self-start bg-slate-800/90 border border-white/10 text-white p-5 rounded-2xl rounded-tl-sm text-sm shadow-xl max-w-[90%] mb-2 leading-relaxed transform transition-all translate-y-2 opacity-0";
+    botMsg.className = "self-start bg-slate-800/90 border border-indigo-500/20 text-white p-5 rounded-2xl rounded-tl-sm text-sm shadow-[0_0_20px_rgba(0,0,0,0.4)] mb-2 leading-relaxed transform transition-all translate-y-2 opacity-0";
     botMsg.innerHTML = formattedText + optionsHTML;
     
     chatContainer.appendChild(botMsg);
@@ -282,7 +282,7 @@ function renderBotResponse(topicId) {
 
 function handleUserClick(label, targetTopic) {
     const userMsg = document.createElement('div');
-    userMsg.className = "self-end bg-indigo-600 text-white p-4 rounded-2xl rounded-tr-sm text-sm font-bold shadow-lg max-w-[85%] mb-2 transform transition-all translate-y-2 opacity-0";
+    userMsg.className = "self-end bg-indigo-600 text-white p-4 rounded-2xl rounded-tr-sm text-sm font-bold shadow-[0_0_15px_rgba(79,70,229,0.5)] max-w-[85%] mb-2 transform transition-all translate-y-2 opacity-0";
     userMsg.innerText = label.replace(/◀ Volver.*/, 'Atrás').replace(/◀ Cambiar Rol.*/, 'Atrás');
     chatContainer.appendChild(userMsg);
     
