@@ -249,5 +249,44 @@
 
     <script src="js/main.js"></script>
     <script src="js/bot.js"></script>
+
+    <!-- Estilos adicionales para el Asesor Curricular -->
+    <style>
+        /* Spinner animado para el Asesor */
+        @keyframes ac-spin { to { transform: rotate(360deg); } }
+        .animate-spin { animation: ac-spin .7s linear infinite; }
+
+        /* Resultado del Asesor — scrollable si es largo */
+        #ac-res-plan, #ac-res-as {
+            max-height: 420px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(236,72,153,0.3) transparent;
+        }
+        #ac-res-plan::-webkit-scrollbar,
+        #ac-res-as::-webkit-scrollbar { width: 5px; }
+        #ac-res-plan::-webkit-scrollbar-thumb,
+        #ac-res-as::-webkit-scrollbar-thumb {
+            background: rgba(236,72,153,0.3);
+            border-radius: 10px;
+        }
+
+        /* Modal del Asesor scrollable en móvil */
+        #asesor-modal {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+
+        /* Botones de acción del Asesor — flex wrap fix */
+        #ac-actions-plan, #ac-actions-as {
+            display: flex !important;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin-top: .75rem;
+        }
+        #ac-actions-plan.hidden, #ac-actions-as.hidden {
+            display: none !important;
+        }
+    </style>
 </body>
 </html>
