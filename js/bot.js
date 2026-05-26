@@ -81,13 +81,14 @@ const BOT_DATA = {
 
     // ── FE / CREO ──────────────────────────────────────────────
     "fe_docente": {
-        text: "**Compartir FE — CREO**\n\nCREO es el ecosistema de formación en valores. Aquí puedes:\n• Ver los tutoriales de contenidos y conexiones\n• Descargar las mallas curriculares de Primaria y Secundaria\n• Acceder a los Recursos Globales CREO\n\n▶️ Contenidos Globales: <a href=\"#\" onclick=\"openVideoModal('QCviXJSVUHc')\" class=\"text-cyan-400 font-bold underline\">Ver Video</a>\n▶️ Conexiones CREO: <a href=\"#\" onclick=\"openVideoModal('I7Yd9PWTDc8')\" class=\"text-cyan-400 font-bold underline\">Ver Video</a>\n\n📄 <a href=\"https://365santillana-my.sharepoint.com/personal/jmesa_santillana_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments%2FMalla%5FCOMPARTIR%5FCREO%5F1%5F5%5F2026%5FPDF2%201%2Epdf&parent=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments&ga=1\" target=\"_blank\" class=\"text-cyan-400 underline\">Malla Primaria</a> | <a href=\"https://365santillana-my.sharepoint.com/personal/jmesa_santillana_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments%2FMalla%20PDC%202026%2Epdf&parent=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments&ga=1\" target=\"_blank\" class=\"text-cyan-400 underline\">Malla Secundaria</a> | <a href=\"https://365santillana-my.sharepoint.com/personal/jmesa_santillana_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments%2FRecursos%20Globales%20CREO%202026%20COMPARTIR%2Epdf&parent=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments&ga=1\" target=\"_blank\" class=\"text-cyan-400 underline\">Recursos Globales</a>",
+        text: "**Compartir FE — CREO**\n\nCREO es el ecosistema de formación en valores integrado con Compartir.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('QCviXJSVUHc')\" class=\"text-cyan-400 font-bold underline\">Tutorial Contenidos Globales CREO</a>\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('I7Yd9PWTDc8')\" class=\"text-cyan-400 font-bold underline\">Tutorial Conexiones CREO en Compartir</a>\n\n📄 Para las mallas curriculares y recursos globales, ve a la tarjeta <strong>Compartir FE</strong> en el menú principal.",
         options: [
-            { label: "◀ Volver al menú",                              topic: "menu_profesor" }
+            { label: "◀ Volver al menú",  topic: "menu_profesor" }
         ]
     },
 
-
+    // ── CONOCIMIENTOS DOCENTE ────────────────────────────────
+    "prof_conocimientos": {
         text: "**Compartir Conocimientos — Docente**\n\n¿Qué deseas aprender?",
         options: [
             { label: "Gestión General (Asignar, Panel…)",       topic: "prof_gestion" },
@@ -448,7 +449,7 @@ function handleUserClick(label, targetTopic) {
     showTypingAndRespond(targetTopic);
 }
 
-function sendFreeText() {
+window.sendFreeText = function sendFreeText() {
     const input = document.getElementById('chat-input');
     const text  = input.value.trim();
     if (!text) return;
