@@ -85,12 +85,39 @@ const videosIngles = [
 ];
 
 const SECTION_DATA = {
-    'Conocimientos': { title: 'COMPARTIR CONOCIMIENTOS', icon: 'atom',       color: 'text-pink-400',    theme: 'pink' },
-    'Progreso':      { title: 'COMPARTIR PROGRESO',      icon: 'trending-up', color: 'text-blue-400',    theme: 'blue' },
-    'Ingles':        { title: 'COMPARTIR INGLÉS',        icon: 'globe',       color: 'text-emerald-400', theme: 'emerald' }
+    'Conocimientos': { title: 'COMPARTIR CONOCIMIENTOS', icon: 'atom',        color: 'text-pink-400',    theme: 'pink' },
+    'Progreso':      { title: 'COMPARTIR PROGRESO',      icon: 'trending-up',  color: 'text-blue-400',    theme: 'blue' },
+    'Ingles':        { title: 'COMPARTIR INGLÉS',        icon: 'globe',        color: 'text-emerald-400', theme: 'emerald' },
+    'FE':            { title: 'COMPARTIR FE',            icon: 'layout-grid',  color: 'text-cyan-400',    theme: 'cyan' }
 };
 
-const todosLosVideos = [...videosGenerales, ...videosActividades, ...videosProgreso, ...videosIngles];
+const videosFE = [
+    { id: 'QCviXJSVUHc', title: 'Tutorial Contenidos Globales CREO',    desc: 'Cómo usar los contenidos globales de CREO en Compartir', rol: 'Ambos', tags: ['creo','contenidos','globales','fe'] },
+    { id: 'I7Yd9PWTDc8', title: 'Tutorial Conexiones CREO en Compartir', desc: 'Integración y conexiones de CREO dentro de la plataforma', rol: 'Ambos', tags: ['creo','conexiones','compartir','fe'] }
+];
+
+const documentosFE = [
+    {
+        titulo: 'Conexión curricular Compartir - CREO Primaria',
+        icono: 'file-text',
+        color: 'cyan',
+        link: 'https://365santillana-my.sharepoint.com/personal/jmesa_santillana_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments%2FMalla%5FCOMPARTIR%5FCREO%5F1%5F5%5F2026%5FPDF2%201%2Epdf&parent=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments&ga=1'
+    },
+    {
+        titulo: 'Conexión curricular Compartir - CREO Secundaria',
+        icono: 'file-text',
+        color: 'cyan',
+        link: 'https://365santillana-my.sharepoint.com/personal/jmesa_santillana_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments%2FMalla%20PDC%202026%2Epdf&parent=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments&ga=1'
+    },
+    {
+        titulo: 'Recursos Globales CREO',
+        icono: 'layers',
+        color: 'cyan',
+        link: 'https://365santillana-my.sharepoint.com/personal/jmesa_santillana_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments%2FRecursos%20Globales%20CREO%202026%20COMPARTIR%2Epdf&parent=%2Fpersonal%2Fjmesa%5Fsantillana%5Fcom%2FDocuments%2FAttachments&ga=1'
+    }
+];
+
+const todosLosVideos = [...videosGenerales, ...videosActividades, ...videosProgreso, ...videosIngles, ...videosFE];
 let seccionActualVideos = [];
 let videoActualId = null;
 
@@ -226,7 +253,8 @@ function resetearProgreso() {
 const VIDEOS_POR_SECCION = {
     'Conocimientos': [...videosGenerales, ...videosActividades].map(v => v.id),
     'Progreso':      videosProgreso.map(v => v.id),
-    'Ingles':        videosIngles.map(v => v.id)
+    'Ingles':        videosIngles.map(v => v.id),
+    'FE':            videosFE.map(v => v.id)
 };
 
 function actualizarContadores() {
@@ -526,14 +554,14 @@ function renderFlujo(paso) {
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+        const cb = document.getElementById('coachbot-modal');
+        if (cb && cb.classList.contains('flex')) { cerrarCoachBot(); return; }
         const fm = document.getElementById('faq-modal');
         if (fm && fm.classList.contains('flex')) { cerrarFAQ(); return; }
         const pm = document.getElementById('problema-modal');
         if (pm && pm.classList.contains('flex')) { cerrarFlujoProblema(); return; }
         const vm = document.getElementById('video-modal');
         if (vm && !vm.classList.contains('hidden')) { closeVideoModal(); return; }
-        const cs = document.getElementById('chat-sidebar');
-        if (cs && cs.classList.contains('open')) { toggleChat(); }
     }
 });
 
@@ -632,6 +660,21 @@ const sectionContent  = document.getElementById('section-content');
 
 function openRoleSelection(sectionId) {
     const data = SECTION_DATA[sectionId];
+    resetSectionSearch();
+
+    // FE no tiene segmentación por rol — va directo al contenido
+    if (sectionId === 'FE') {
+        mainMenu.classList.add('fade-out');
+        setTimeout(() => {
+            mainMenu.classList.add('hidden');
+            sectionView.classList.remove('hidden');
+            requestAnimationFrame(() => sectionView.classList.add('fade-in'));
+            sectionView.setAttribute('tabindex', '-1');
+            sectionView.focus();
+        }, 400);
+        loadFEContent();
+        return;
+    }
     resetSectionSearch();
     sectionContent.innerHTML = `
         <div class="flex items-center gap-4 mb-6">
@@ -830,6 +873,57 @@ function grupoHTML(icon, color, titulo, videos, theme) {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10" role="list">${generarTarjetas(videos)}</div>`;
 }
 
+function loadFEContent() {
+    const data = SECTION_DATA['FE'];
+    seccionActualVideos = videosFE;
+    sectionContent.style.opacity = 0;
+    setTimeout(() => {
+        sectionContent.innerHTML = `
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-4">
+                    <i data-lucide="${data.icon}" class="w-10 h-10 ${data.color} drop-shadow-[0_0_15px_currentColor]" aria-hidden="true"></i>
+                    <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tight">${data.title}</h2>
+                </div>
+                <span class="hidden md:inline-block bg-cyan-500/20 text-cyan-300 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border border-cyan-500/30">CREO</span>
+            </div>
+            <div class="w-full h-px bg-white/10 mb-8"></div>
+
+            <p class="text-slate-300 mb-8 text-sm">Recursos de integración entre <strong>Compartir</strong> y <strong>CREO</strong> para docentes.</p>
+
+            <!-- VIDEOS -->
+            <h3 class="font-black text-white text-lg mb-4 flex items-center gap-2">
+                <i data-lucide="play-circle" class="${data.color} w-5 h-5 drop-shadow-[0_0_8px_currentColor]" aria-hidden="true"></i>
+                Tutoriales en video
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10" role="list">
+                ${generarTarjetas(videosFE)}
+            </div>
+
+            <!-- DOCUMENTOS -->
+            <h3 class="font-black text-white text-lg mb-4 flex items-center gap-2">
+                <i data-lucide="folder-open" class="${data.color} w-5 h-5 drop-shadow-[0_0_8px_currentColor]" aria-hidden="true"></i>
+                Documentos de apoyo
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+                ${documentosFE.map(doc => `
+                <a href="${doc.link}" target="_blank" rel="noopener noreferrer"
+                    class="flex flex-col items-center gap-3 p-5 glass-panel rounded-2xl border border-${doc.color}-500/20 hover:border-${doc.color}-400/50 hover:bg-${doc.color}-500/10 transition-all group text-center cyber-hover"
+                    aria-label="Abrir documento: ${doc.titulo}">
+                    <div class="w-12 h-12 bg-${doc.color}-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="${doc.icono}" class="w-6 h-6 text-${doc.color}-400" aria-hidden="true"></i>
+                    </div>
+                    <span class="text-white text-xs font-bold leading-tight">${doc.titulo}</span>
+                    <span class="text-slate-500 text-[10px] flex items-center gap-1">
+                        <i data-lucide="external-link" class="w-3 h-3" aria-hidden="true"></i> Abrir documento
+                    </span>
+                </a>`).join('')}
+            </div>`;
+        lucide.createIcons();
+        sectionContent.style.opacity = 1;
+    }, 300);
+}
+
+
 function closeSection() {
     sectionView.classList.remove('fade-in');
     seccionActualVideos = [];
@@ -850,29 +944,31 @@ function resetSectionSearch() {
 }
 
 /* ============================================================
-   CHAT
+   COACH BOT MODAL CENTRAL
    ============================================================ */
-const chatToggleBtn = document.getElementById('chat-toggle-btn');
-const chatBackdrop  = document.getElementById('chat-backdrop');
-
-function toggleChat() {
-    const sidebar = document.getElementById('chat-sidebar');
-    const isOpen  = sidebar.classList.contains('open');
-    if (isOpen) {
-        sidebar.classList.remove('open');
-        chatBackdrop.classList.add('hidden');
-        chatToggleBtn.setAttribute('aria-expanded', 'false');
-        chatToggleBtn.focus();
-    } else {
-        sidebar.classList.add('open');
-        chatBackdrop.classList.remove('hidden');
-        chatToggleBtn.setAttribute('aria-expanded', 'true');
-        setTimeout(() => {
-            const inp = document.getElementById('chat-input');
-            if (inp) inp.focus();
-        }, 300);
+window.abrirCoachBot = function() {
+    const m = document.getElementById('coachbot-modal');
+    if (!m) return;
+    m.classList.remove('hidden');
+    m.classList.add('flex');
+    m.focus();
+    // Si el bot aún no arrancó, iniciarlo
+    if (typeof initBot === 'function' && document.getElementById('chat-msgs').children.length === 0) {
+        initBot();
     }
-}
+    setTimeout(() => {
+        const inp = document.getElementById('chat-input');
+        if (inp) inp.focus();
+    }, 200);
+};
+
+window.cerrarCoachBot = function() {
+    const m = document.getElementById('coachbot-modal');
+    if (m) { m.classList.add('hidden'); m.classList.remove('flex'); }
+};
+
+// Mantener toggleChat como alias para compatibilidad con bot.js
+window.toggleChat = window.abrirCoachBot;
 
 /* ============================================================
    MODAL VIDEO
