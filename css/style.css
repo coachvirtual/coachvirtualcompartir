@@ -114,13 +114,7 @@ body { margin: 0; background-color: #0f172a; }
     transform: scale(1.06);
 }
 
-/* Chat */
-#chat-sidebar {
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    transform: translateX(100%);
-}
-#chat-sidebar.open { transform: translateX(0); }
-#chat-backdrop { transition: opacity 0.3s ease; }
+/* Chat input */
 #chat-input { max-height: 100px; overflow-y: auto; line-height: 1.5; }
 
 /* Scrollbar */
