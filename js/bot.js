@@ -406,7 +406,7 @@ function searchByKeyword(q) {
    ============================================================ */
 const chatContainer = document.getElementById('chat-msgs');
 
-function initBot() {
+window.initBot = function initBot() {
     chatContainer.innerHTML = '';
     renderBotResponse("inicio");
 }
@@ -444,7 +444,7 @@ function renderBotResponse(topicId) {
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-function handleUserClick(label, targetTopic) {
+window.handleUserClick = function handleUserClick(label, targetTopic) {
     appendUserMsg(label.replace(/◀ .*/, 'Atrás'));
     showTypingAndRespond(targetTopic);
 }
@@ -485,4 +485,4 @@ function showTypingAndRespond(targetTopic) {
     }, 550);
 }
 
-document.addEventListener("DOMContentLoaded", initBot);
+// El bot se inicializa cuando el usuario abre el modal (ver abrirCoachBot en main.js)

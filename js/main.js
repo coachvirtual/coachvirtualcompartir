@@ -952,9 +952,10 @@ window.abrirCoachBot = function() {
     m.classList.remove('hidden');
     m.classList.add('flex');
     m.focus();
-    // Si el bot aún no arrancó, iniciarlo
-    if (typeof initBot === 'function' && document.getElementById('chat-msgs').children.length === 0) {
-        initBot();
+    // Iniciar bot solo si el chat está vacío
+    const msgs = document.getElementById('chat-msgs');
+    if (msgs && msgs.children.length === 0 && typeof window.initBot === 'function') {
+        window.initBot();
     }
     setTimeout(() => {
         const inp = document.getElementById('chat-input');
