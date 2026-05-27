@@ -44,6 +44,13 @@
                 <img src="assets/logo-compartir.png" alt="Santillana Compartir - Tu aliado en transformación educativa" class="h-full w-auto object-contain drop-shadow-xl">
             </div>
             <nav class="flex items-center gap-2 md:gap-3" aria-label="Accesos rápidos">
+                <button onclick="abrirCoachBot()"
+                    class="glass-panel text-indigo-300 hover:text-white px-3 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold hover:bg-indigo-600/30 transition border border-indigo-500/30 hover:border-indigo-400 flex items-center gap-1.5 cyber-hover"
+                    aria-label="Abrir Coach Bot" aria-haspopup="dialog">
+                    <i data-lucide="bot" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                    <span class="hidden sm:inline">Coach Bot</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" aria-hidden="true"></span>
+                </button>
                 <a href="https://identity.santillanaconnect.com/login/?client_id=neds_client_compartir_colombia_pro&next=/connect/authorize%3Fresponse_type%3Dcode%26client_id%3Dneds_client_compartir_colombia_pro%26scope%3Dopenid%2Bprofile%2Bemail%2Brole%2Bexternal.info%2Bneds%252Ffull_access%26state%3DYzfvYEoCqjmlrdcFVEN5kfmqFbe_qg3LJY53ntRCi3A%253D%26redirect_uri%3Dhttps%253A%252F%252Fedi-compartir-co.stn-neds.com%252Fts%252Flogin%252Foauth2%252Fcode%252Fcompartirco%26code_challenge_method%3DS256%26nonce%3D0-MrxVEyQ6y0krvWzZ7mTyV__4MU0xYLR-2Vs2bc5vw%26code_challenge%3Dg9TAvRe_fHA5OSV3XOk7HJ_EY8wFDNrKN4kyIeOu5dY" target="_blank" rel="noopener noreferrer"
                     class="glass-panel text-white px-3 sm:px-5 py-1.5 rounded-full text-[10px] sm:text-xs font-bold hover:bg-white/10 transition border border-white/20 cyber-hover flex items-center gap-1.5">
                     <i data-lucide="log-in" class="w-3.5 h-3.5" aria-hidden="true"></i>
@@ -85,21 +92,6 @@
             </div>
             <input type="search" id="global-search" placeholder="¿Qué necesitas aprender hoy? (Ej: quiz, pleno, tareas...)" aria-label="Buscar tutoriales"
                 class="w-full glass-panel text-white placeholder-slate-400 rounded-full py-3 pl-12 pr-4 outline-none border border-white/20 focus:border-indigo-500/70 focus:ring-2 focus:ring-indigo-500/30 transition-all cyber-glow">
-        </div>
-
-        <!-- BOTONES ACCIÓN -->
-        <div class="mb-10 flex flex-col sm:flex-row gap-3 items-center justify-center flex-wrap">
-            <button onclick="abrirCoachBot()"
-                class="card flex items-center gap-3 text-white text-sm font-black px-8 py-4 rounded-full transition-all border border-indigo-500/40 hover:border-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.2)] hover:shadow-[0_0_35px_rgba(99,102,241,0.4)] bg-indigo-600/20 hover:bg-indigo-600/30"
-                aria-label="Abrir Coach Bot">
-                <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center shrink-0 shadow-[0_0_12px_rgba(99,102,241,0.6)]">
-                    <i data-lucide="bot" class="w-4 h-4 text-white" aria-hidden="true"></i>
-                </div>
-                Habla con el Coach Bot
-                <span class="flex items-center gap-1 text-[10px] text-green-400 font-bold">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" aria-hidden="true"></span> En línea
-                </span>
-            </button>
         </div>
 
         <!-- RESULTADOS BÚSQUEDA -->
@@ -213,7 +205,7 @@
                     <p class="text-slate-400 text-sm">Puede ser un bloqueo de red o una restricción del navegador.</p>
                     <a id="video-error-yt-link" href="#" target="_blank" rel="noopener noreferrer"
                         class="flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-6 py-2.5 rounded-full text-sm font-black transition">
-                        <i data-lucide="youtube" class="w-4 h-4" aria-hidden="true"></i> Abrir en YouTube
+                        <i data-lucide="external-link" class="w-4 h-4" aria-hidden="true"></i> Abrir en YouTube
                     </a>
                 </div>
             </div>
@@ -224,7 +216,7 @@
                 </div>
                 <a id="modal-yt-link" href="#" target="_blank" rel="noopener noreferrer"
                     class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-8 py-3 rounded-full text-sm font-black transition shadow-[0_0_20px_rgba(220,38,38,0.4)]">
-                    <i data-lucide="youtube" class="w-5 h-5" aria-hidden="true"></i> Ver en YouTube
+                    <i data-lucide="external-link" class="w-5 h-5" aria-hidden="true"></i> Ver en YouTube
                 </a>
                 <p class="text-slate-500 text-xs text-center">Puedes reducir la calidad en YouTube para ahorrar datos</p>
             </div>
