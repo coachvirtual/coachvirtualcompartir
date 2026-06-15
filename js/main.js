@@ -15,8 +15,41 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ============================================================
-   BASE DE DATOS DE VIDEOS
+   TOAST — notificaciones no bloqueantes (reemplaza alert())
+   Uso: mostrarToast('Mensaje', 'success' | 'info' | 'warning' | 'error', ms?)
    ============================================================ */
+function mostrarToast(mensaje, tipo = 'info', duracion = 3500) {
+    const colores = {
+        success: 'bg-green-500/20 border-green-500/40 text-green-300',
+        info:    'bg-indigo-500/20 border-indigo-500/40 text-indigo-300',
+        warning: 'bg-amber-500/20 border-amber-500/40 text-amber-300',
+        error:   'bg-red-500/20   border-red-500/40   text-red-300'
+    };
+    const iconos = { success: 'check-circle', info: 'info', warning: 'alert-triangle', error: 'x-circle' };
+
+    const toast = document.createElement('div');
+    toast.className = `fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-[500] flex items-center gap-3 px-5 py-3 rounded-2xl border backdrop-blur-md shadow-2xl text-sm font-bold transition-all duration-300 opacity-0 translate-y-4 ${colores[tipo] || colores.info}`;
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.innerHTML = `<i data-lucide="${iconos[tipo] || 'info'}" class="w-4 h-4 shrink-0" aria-hidden="true"></i><span>${mensaje}</span>`;
+    document.body.appendChild(toast);
+    lucide.createIcons({ nodes: [toast] });
+
+    // Animar entrada
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            toast.classList.remove('opacity-0', 'translate-y-4');
+        });
+    });
+
+    // Animar salida y eliminar
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-4');
+        setTimeout(() => toast.remove(), 300);
+    }, duracion);
+}
+
+
 const videosGenerales = [
     { id: 'Bv_FinX79vk', title: 'Primeros pasos Docentes',            desc: 'Introducción a Compartir Conocimientos',       rol: 'Docente',    tags: ['inicio','basico','plataforma'] },
     { id: 'X6akIQPrJWw', title: 'Asignar contenidos',                  desc: 'Gestión de material en Compartir Conocimientos', rol: 'Docente',  tags: ['asignar','material','gestion'] },
@@ -123,13 +156,33 @@ let videoActualId = null;
 
 /* ============================================================
    PROGRESO DE APRENDIZAJE
+   Los videos de FE (solo 2) se excluyen del cálculo global
+   porque son optativos y específicos. El 100% se alcanza
+   completando los videos de las 3 secciones principales.
    ============================================================ */
+const VIDEO_PROGRESO_IDS = new Set(
+    [...videosGenerales, ...videosActividades, ...videosProgreso, ...videosIngles].map(v => v.id)
+);
+
 function initProgreso() {
     actualizarUIProgreso();
 }
 
 function getVistos() {
     try { return JSON.parse(localStorage.getItem('cv_vistos') || '[]'); } catch { return []; }
+}
+
+/* ─── Actualiza la clase video-visto en la tarjeta visible sin reconstruir el grid ─── */
+function actualizarTarjetaVista(ytId) {
+    // Busca todos los botones con data-vid-id en sección activa y en resultados de búsqueda
+    document.querySelectorAll(`button[data-vid-id="${ytId}"]`).forEach(btn => {
+        if (!btn.classList.contains('video-visto')) {
+            btn.classList.add('video-visto');
+            btn.setAttribute('aria-label',
+                (btn.getAttribute('aria-label') || '').replace(' — ya visto', '') + ' — ya visto'
+            );
+        }
+    });
 }
 
 function marcarVisto() {
@@ -139,6 +192,9 @@ function marcarVisto() {
         vistos.push(videoActualId);
         localStorage.setItem('cv_vistos', JSON.stringify(vistos));
     }
+    // Actualizar tarjeta en la lista sin reconstruir el DOM
+    actualizarTarjetaVista(videoActualId);
+
     const btn = document.getElementById('btn-marcar-visto');
     if (btn) {
         btn.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i> ¡Visto! ✓';
@@ -157,19 +213,13 @@ function getRatings() {
 }
 
 function actualizarUIRating(ytId) {
-    const ratings   = getRatings();
-    const data      = ratings[ytId] || { like: 0, dislike: 0, miVoto: null };
+    const ratings    = getRatings();
+    const data       = ratings[ytId] || { like: 0, dislike: 0, miVoto: null };
     const btnLike    = document.getElementById('btn-like');
     const btnDislike = document.getElementById('btn-dislike');
-    const cntLike    = document.getElementById('count-like');
-    const cntDislike = document.getElementById('count-dislike');
     const feedback   = document.getElementById('rating-feedback');
 
     if (!btnLike) return;
-
-    // Actualizar conteos
-    if (cntLike)    cntLike.textContent    = data.like;
-    if (cntDislike) cntDislike.textContent = data.dislike;
 
     // Resetear estilos
     btnLike.classList.remove('voted-like', 'voted-dislike');
@@ -219,13 +269,15 @@ window.ratingVoto = function(tipo) {
 
 function actualizarUIProgreso() {
     const vistos = getVistos();
-    const total = todosLosVideos.length;
-    const pct = total > 0 ? Math.round((vistos.length / total) * 100) : 0;
+    // Solo contar vistos que pertenecen a las secciones principales (excluye FE)
+    const vistosContables = vistos.filter(id => VIDEO_PROGRESO_IDS.has(id));
+    const total = VIDEO_PROGRESO_IDS.size;
+    const pct = total > 0 ? Math.round((vistosContables.length / total) * 100) : 0;
     const banner = document.getElementById('progreso-banner');
     if (banner) {
-        if (vistos.length > 0) {
+        if (vistosContables.length > 0) {
             banner.classList.remove('hidden');
-            banner.classList.add('flex');
+            banner.style.display = 'flex';
         }
         const circulo = document.getElementById('progreso-circulo');
         const pctEl   = document.getElementById('progreso-pct');
@@ -233,18 +285,54 @@ function actualizarUIProgreso() {
         const totalEl  = document.getElementById('progreso-total');
         if (circulo) circulo.setAttribute('stroke-dasharray', `${pct} ${100 - pct}`);
         if (pctEl)    pctEl.textContent    = `${pct}%`;
-        if (vistosEl) vistosEl.textContent = vistos.length;
+        if (vistosEl) vistosEl.textContent = vistosContables.length;
         if (totalEl)  totalEl.textContent  = total;
     }
 }
 
+/* ============================================================
+   MODAL DE CONFIRMACIÓN (reemplaza window.confirm nativo)
+   Uso: confirmar({ titulo, desc, onOk })
+   ============================================================ */
+function confirmar({ titulo, desc, onOk }) {
+    const modal    = document.getElementById('confirm-modal');
+    const titleEl  = document.getElementById('confirm-title');
+    const descEl   = document.getElementById('confirm-desc');
+    const btnOk    = document.getElementById('confirm-ok');
+    const btnCancel= document.getElementById('confirm-cancel');
+    if (!modal) { if (window.confirm(titulo)) onOk(); return; } // fallback seguro
+
+    titleEl.textContent = titulo;
+    descEl.textContent  = desc || '';
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+    lucide.createIcons();
+    modal.focus();
+
+    const cerrar = () => {
+        modal.classList.add('hidden');
+        modal.style.display = '';
+        btnOk.removeEventListener('click', handleOk);
+        btnCancel.removeEventListener('click', cerrar);
+    };
+    const handleOk = () => { cerrar(); onOk(); };
+    btnOk.addEventListener('click', handleOk);
+    btnCancel.addEventListener('click', cerrar);
+    modal.addEventListener('click', e => { if (e.target === modal) cerrar(); }, { once: true });
+}
+
 function resetearProgreso() {
-    if (!confirm('¿Reiniciar tu progreso? Se borrarán todos los tutoriales marcados.')) return;
-    localStorage.removeItem('cv_vistos');
-    actualizarUIProgreso();
-    actualizarContadores();
-    const banner = document.getElementById('progreso-banner');
-    if (banner) { banner.classList.add('hidden'); banner.classList.remove('flex'); }
+    confirmar({
+        titulo: '¿Reiniciar tu progreso?',
+        desc:   'Se borrarán todos los tutoriales marcados como vistos.',
+        onOk() {
+            localStorage.removeItem('cv_vistos');
+            actualizarUIProgreso();
+            actualizarContadores();
+            const banner = document.getElementById('progreso-banner');
+            if (banner) { banner.classList.add('hidden'); banner.style.display = ''; banner.classList.remove('flex'); }
+        }
+    });
 }
 
 /* ============================================================
@@ -533,7 +621,7 @@ function renderFlujo(paso) {
                 cerrarFlujoProblema();
                 aplicarModoLento(true);
                 localStorage.setItem('cv_modo_lento', '1');
-                alert('Modo baja conexión activado. Los videos se abrirán directamente en YouTube.');
+                mostrarToast('Modo baja conexión activado — los videos abrirán en YouTube', 'info');
             } else if (op.siguiente) {
                 renderFlujo(op.siguiente);
             }
@@ -574,24 +662,41 @@ function initSearch() {
     const cardsContainer = document.getElementById('cards-container');
     if (!searchInput) return;
 
+    let debounceTimer = null;
+
     searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().trim();
-        if (query.length < 2) {
-            searchResults.classList.add('hidden');
-            cardsContainer.classList.remove('hidden');
-            return;
-        }
-        const filtrados = todosLosVideos.filter(v =>
-            v.title.toLowerCase().includes(query) ||
-            v.desc.toLowerCase().includes(query) ||
-            (v.tags && v.tags.some(t => t.toLowerCase().includes(query)))
-        );
-        cardsContainer.classList.add('hidden');
-        searchResults.classList.remove('hidden');
-        searchResults.innerHTML = filtrados.length > 0
-            ? generarTarjetas(filtrados)
-            : `<div class="col-span-full text-center p-8 text-slate-400" role="status"><i data-lucide="search-x" class="w-12 h-12 mx-auto mb-3 opacity-50" aria-hidden="true"></i><p>No encontramos tutoriales para "<strong>${query}</strong>"</p></div>`;
-        lucide.createIcons();
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length < 2) {
+                searchResults.classList.add('hidden');
+                searchResults.classList.remove('grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'gap-4');
+                cardsContainer.classList.remove('hidden');
+                return;
+            }
+            const filtrados = todosLosVideos.filter(v =>
+                v.title.toLowerCase().includes(query) ||
+                v.desc.toLowerCase().includes(query) ||
+                (v.tags && v.tags.some(t => t.toLowerCase().includes(query)))
+            );
+            cardsContainer.classList.add('hidden');
+            searchResults.classList.remove('hidden');
+            searchResults.classList.add('grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'gap-4');
+            searchResults.innerHTML = filtrados.length > 0
+                ? generarTarjetas(filtrados)
+                : `<div class="col-span-full text-center p-10 text-slate-400" role="status">
+                    <i data-lucide="search-x" class="w-12 h-12 mx-auto mb-3 opacity-40" aria-hidden="true"></i>
+                    <p class="font-bold text-white mb-1">Sin resultados para "<strong>${query}</strong>"</p>
+                    <p class="text-sm text-slate-500 mb-4">Prueba con otras palabras:</p>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        ${['quiz','tarea','calificar','pleno','libro web','richmond','primer paso'].map(s =>
+                          `<button onclick="document.getElementById('global-search').value='${s}';document.getElementById('global-search').dispatchEvent(new Event('input'))"
+                              class="text-xs bg-white/5 hover:bg-indigo-600/30 border border-white/10 hover:border-indigo-400 text-slate-300 px-3 py-1 rounded-full transition">${s}</button>`
+                        ).join('')}
+                    </div>
+                  </div>`;
+            lucide.createIcons();
+        }, 250);
     });
 }
 
@@ -604,24 +709,31 @@ function initSectionSearch() {
     const content  = document.getElementById('section-content');
     if (!input) return;
 
+    let debounceTimer = null;
+
     input.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().trim();
-        if (query.length < 2) {
-            results.classList.add('hidden');
-            content.style.display = '';
-            return;
-        }
-        const filtrados = seccionActualVideos.filter(v =>
-            v.title.toLowerCase().includes(query) ||
-            v.desc.toLowerCase().includes(query) ||
-            (v.tags && v.tags.some(t => t.toLowerCase().includes(query)))
-        );
-        content.style.display = 'none';
-        results.classList.remove('hidden');
-        results.innerHTML = filtrados.length > 0
-            ? generarTarjetas(filtrados)
-            : `<div class="col-span-full text-center p-8 text-slate-400" role="status"><i data-lucide="search-x" class="w-10 h-10 mx-auto mb-3 opacity-50" aria-hidden="true"></i><p>Sin resultados para "<strong>${query}</strong>" en esta sección.</p></div>`;
-        lucide.createIcons();
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length < 2) {
+                results.classList.add('hidden');
+                results.classList.remove('grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'gap-4');
+                content.style.display = '';
+                return;
+            }
+            const filtrados = seccionActualVideos.filter(v =>
+                v.title.toLowerCase().includes(query) ||
+                v.desc.toLowerCase().includes(query) ||
+                (v.tags && v.tags.some(t => t.toLowerCase().includes(query)))
+            );
+            content.style.display = 'none';
+            results.classList.remove('hidden');
+            results.classList.add('grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'gap-4');
+            results.innerHTML = filtrados.length > 0
+                ? generarTarjetas(filtrados)
+                : `<div class="col-span-full text-center p-8 text-slate-400" role="status"><i data-lucide="search-x" class="w-10 h-10 mx-auto mb-3 opacity-50" aria-hidden="true"></i><p>Sin resultados para "<strong>${query}</strong>" en esta sección.</p></div>`;
+            lucide.createIcons();
+        }, 250);
     });
 }
 
@@ -634,8 +746,9 @@ const generarTarjetas = (videos) => {
         const visto = vistos.includes(v.id);
         return `
         <button onclick="openVideoModal('${v.id}')"
+            data-vid-id="${v.id}"
             class="relative w-full flex bg-white/5 border border-white/10 p-3 rounded-2xl hover:bg-white/10 transition group text-left items-center shadow-sm cyber-hover ${visto ? 'video-visto' : ''}"
-            aria-label="Ver tutorial: ${v.title}">
+            aria-label="Ver tutorial: ${v.title}${visto ? ' — ya visto' : ''}">
             <div class="relative w-24 h-14 shrink-0 mr-4 rounded-lg overflow-hidden border border-white/10 bg-black" aria-hidden="true">
                 <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
@@ -675,7 +788,6 @@ function openRoleSelection(sectionId) {
         loadFEContent();
         return;
     }
-    resetSectionSearch();
     sectionContent.innerHTML = `
         <div class="flex items-center gap-4 mb-6">
             <i data-lucide="${data.icon}" class="w-10 h-10 ${data.color} drop-shadow-[0_0_15px_currentColor]" aria-hidden="true"></i>
@@ -968,8 +1080,16 @@ window.cerrarCoachBot = function() {
     if (m) { m.classList.add('hidden'); m.classList.remove('flex'); }
 };
 
-// Mantener toggleChat como alias para compatibilidad con bot.js
-window.toggleChat = window.abrirCoachBot;
+// toggleChat — alias semánticamente correcto: abre si está cerrado, cierra si está abierto
+window.toggleChat = function() {
+    const m = document.getElementById('coachbot-modal');
+    if (!m) return;
+    if (m.classList.contains('hidden')) {
+        window.abrirCoachBot();
+    } else {
+        window.cerrarCoachBot();
+    }
+};
 
 /* ============================================================
    MODAL VIDEO
@@ -1002,7 +1122,7 @@ window.openVideoModal = function(ytId, titulo = '') {
     if (lowBW)      { lowBW.classList.add('hidden'); lowBW.classList.remove('flex'); }
     if (fallback)   fallback.classList.remove('hidden');
 
-    iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`;
+    iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
     if (extLink) extLink.href = url;
     if (ytLink)  ytLink.href  = url;
 
@@ -1010,15 +1130,9 @@ window.openVideoModal = function(ytId, titulo = '') {
     const errYtLink = document.getElementById('video-error-yt-link');
     if (errYtLink) errYtLink.href = url;
 
-    // Timeout: si en 8s el iframe no comunica carga, mostrar error
+    // Arrancar detección real de errores vía postMessage
     clearTimeout(window._iframeTimeout);
-    window._iframeTimeout = setTimeout(() => {
-        // Solo mostrar error si el modal sigue abierto
-        if (!modal.classList.contains('hidden')) {
-            // No forzamos el error automáticamente porque los iframes de YouTube
-            // cargan asíncronamente. El error manual (onerror) lo maneja mostrarErrorVideo().
-        }
-    }, 8000);
+    if (typeof window._iniciarTimeoutYT === 'function') window._iniciarTimeoutYT();
 
     // Botón marcar visto
     const btnVisto = document.getElementById('btn-marcar-visto');
@@ -1035,7 +1149,7 @@ window.openVideoModal = function(ytId, titulo = '') {
     }
 
     modal.classList.remove('hidden');
-    modal.classList.add('flex');
+    modal.style.display = 'flex';
     modal.focus();
     actualizarUIRating(ytId);
 };
@@ -1048,30 +1162,78 @@ window.mostrarErrorVideo = function() {
     }
 };
 
-// Los iframes de YouTube no disparan onerror de forma confiable.
-// En cambio, detectamos si el iframe cargó la página de bloqueo
-// comprobando el título del documento interno (solo funciona same-origin,
-// pero al menos el onerror del atributo captura fallos de red directos).
-window.detectarErrorIframe = function(iframe) {
-    try {
-        // Si YouTube bloquea el embed, el src sigue cargando pero podemos
-        // leer si el contenido está vacío solo en same-origin.
-        // Para cross-origin solo podemos confiar en el evento error del elemento.
-    } catch(e) {
-        mostrarErrorVideo();
-    }
-};
+/* ─── Detección real de errores de iframe YouTube ──────────────
+   YouTube IFrame API envía mensajes postMessage con info de estado.
+   Escuchamos dos señales:
+   1. onError desde la YouTube Player API (embed con enablejsapi=1)
+   2. Timeout de seguridad: si en 15s el iframe no envía ningún
+      mensaje de estado, asumimos bloqueo de red/corporativo.
+   Esto reemplaza el onerror inline que nunca se dispara en iframes.
+─────────────────────────────────────────────────────────────── */
+(function initYouTubeErrorDetection() {
+    let ytMessageReceived = false;
+    let ytTimeoutHandle   = null;
+
+    window.addEventListener('message', function(event) {
+        // Solo mensajes de YouTube
+        if (!event.origin.includes('youtube.com')) return;
+
+        try {
+            const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+            if (!data || !data.event) return;
+
+            // Marcar que el iframe está comunicando (embed cargó correctamente)
+            if (data.event === 'onReady' || data.event === 'infoDelivery') {
+                ytMessageReceived = true;
+                clearTimeout(ytTimeoutHandle);
+            }
+
+            // Error de reproducción (video privado, eliminado, no disponible en región)
+            if (data.event === 'onError') {
+                clearTimeout(ytTimeoutHandle);
+                // Códigos conocidos: 2=parámetro inválido, 5=error HTML5, 100=no encontrado,
+                // 101/150=reproducción no permitida en embeds
+                const errorCode = data.info;
+                console.warn('[Coach Virtual] YouTube error code:', errorCode);
+                window.mostrarErrorVideo();
+            }
+        } catch (_) { /* JSON malformado — ignorar */ }
+    });
+
+    // Exponer función para que openVideoModal arranque el timeout por video
+    window._iniciarTimeoutYT = function() {
+        ytMessageReceived = false;
+        clearTimeout(ytTimeoutHandle);
+        ytTimeoutHandle = setTimeout(function() {
+            // Si no recibimos ningún mensaje de YouTube en 12s, mostrar fallback
+            if (!ytMessageReceived) {
+                const modal = document.getElementById('video-modal');
+                if (modal && !modal.classList.contains('hidden')) {
+                    console.warn('[Coach Virtual] Iframe YouTube sin respuesta — posible bloqueo de red.');
+                    window.mostrarErrorVideo();
+                }
+            }
+        }, 12000);
+    };
+
+    // Limpiar timeout al cerrar el modal
+    window._limpiarTimeoutYT = function() {
+        clearTimeout(ytTimeoutHandle);
+        ytMessageReceived = false;
+    };
+})();
 
 window.closeVideoModal = function() {
-    modal.classList.remove('flex');
+    modal.style.display = '';
     modal.classList.add('hidden');
+    modal.classList.remove('flex');
     iframe.src = '';
     clearTimeout(window._iframeTimeout);
+    if (typeof window._limpiarTimeoutYT === 'function') window._limpiarTimeoutYT();
     videoActualId = null;
     if (prevFocus) { prevFocus.focus(); prevFocus = null; }
     actualizarUIProgreso();
     actualizarContadores();
-    // Limpiar feedback de rating
     const feedback = document.getElementById('rating-feedback');
     if (feedback) feedback.textContent = '';
 };
@@ -1159,11 +1321,14 @@ const RUTAS = {
         {
             id: 'ruta-est-pleno',
             titulo: 'Presentar evaluaciones en Pleno',
-            descripcion: 'Aprende a presentar tus pruebas sin estrés',
+            descripcion: 'Desde ingresar a la plataforma hasta terminar tu prueba sin estrés',
             color: 'blue',
             icono: 'file-check',
             pasos: [
-                { id: '_oDKSoJItHo', titulo: 'Responde una evaluación',      desc: 'Paso a paso en Pleno' },
+                { id: '9oKz6MQgDsk', titulo: 'Entra a la plataforma',           desc: 'Ingreso y navegación básica para estudiantes' },
+                { id: 'XugiPvcc20g', titulo: 'Conoce cómo responder tareas',    desc: 'Entiende el flujo de entrega antes de la prueba' },
+                { id: '_oDKSoJItHo', titulo: 'Responde tu evaluación en Pleno', desc: 'Paso a paso durante la prueba formal' },
+                { id: 'RjS2b5h-UqY', titulo: 'Consulta tus resultados',         desc: 'Dónde ver tus notas y retroalimentación' },
             ]
         },
         {
@@ -1411,12 +1576,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ============================================================
    DASHBOARD ADMIN — Ctrl + Shift + A
+   Protegido con PIN (configurable). Por defecto: 1234
+   Cambia DASHBOARD_PIN antes de producción.
    ============================================================ */
-const SECCION_VIDEOS_MAP = {
-    'Conocimientos': [...videosGenerales, ...videosActividades],
-    'Progreso':      videosProgreso,
-    'Ingles':        videosIngles
-};
+const DASHBOARD_PIN = '1234';  // ← Cambia este PIN antes de desplegar
+let _dashPinVerificado = false;
 
 document.addEventListener('keydown', e => {
     if (e.ctrlKey && e.shiftKey && e.key === 'A') {
@@ -1424,17 +1588,107 @@ document.addEventListener('keydown', e => {
         const dash = document.getElementById('dashboard-modal');
         if (!dash) return;
         if (dash.classList.contains('hidden')) {
-            renderDashboard();
-            dash.classList.remove('hidden');
-            dash.focus();
-            lucide.createIcons();
+            if (_dashPinVerificado) {
+                renderDashboard();
+                dash.classList.remove('hidden');
+                lucide.createIcons();
+                dash.focus();
+            } else {
+                solicitarPinDashboard(() => {
+                    renderDashboard();
+                    dash.classList.remove('hidden');
+                    lucide.createIcons();
+                    dash.focus();
+                });
+            }
         } else {
             cerrarDashboard();
         }
     }
 });
 
+function solicitarPinDashboard(onSuccess) {
+    // Crear el modal de PIN inline
+    let pinModal = document.getElementById('pin-modal');
+    if (!pinModal) {
+        pinModal = document.createElement('div');
+        pinModal.id = 'pin-modal';
+        pinModal.className = 'fixed inset-0 z-[400] bg-black/80 backdrop-blur-md flex items-center justify-center p-4';
+        pinModal.setAttribute('role', 'dialog');
+        pinModal.setAttribute('aria-label', 'Acceso al dashboard de administración');
+        pinModal.innerHTML = `
+            <div class="glass-panel w-full max-w-xs rounded-2xl border border-indigo-500/20 shadow-2xl p-6 flex flex-col gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-indigo-500/15 flex items-center justify-center shrink-0">
+                        <i data-lucide="lock" class="w-5 h-5 text-indigo-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-white font-black text-sm">Acceso restringido</p>
+                        <p class="text-slate-400 text-xs">Ingresa el PIN de administrador</p>
+                    </div>
+                </div>
+                <input id="pin-input" type="password" inputmode="numeric" maxlength="6" placeholder="PIN"
+                    class="w-full glass-panel text-white text-center text-xl font-black tracking-[0.5em] placeholder-slate-600 rounded-xl py-3 px-4 outline-none border border-white/20 focus:border-indigo-500 transition-all"
+                    aria-label="PIN de administrador">
+                <p id="pin-error" class="text-red-400 text-xs text-center hidden">PIN incorrecto. Intenta de nuevo.</p>
+                <div class="flex gap-3">
+                    <button id="pin-cancel" class="flex-1 text-slate-400 hover:text-white text-sm font-bold py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition">
+                        Cancelar
+                    </button>
+                    <button id="pin-submit" class="flex-1 text-white text-sm font-black py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 transition">
+                        Entrar
+                    </button>
+                </div>
+            </div>`;
+        document.body.appendChild(pinModal);
+        lucide.createIcons();
+    }
+
+    pinModal.classList.remove('hidden');
+    const input = document.getElementById('pin-input');
+    const errorEl = document.getElementById('pin-error');
+    input.value = '';
+    errorEl.classList.add('hidden');
+    setTimeout(() => input.focus(), 50);
+
+    const cerrarPin = () => pinModal.classList.add('hidden');
+
+    const verificar = () => {
+        if (input.value === DASHBOARD_PIN) {
+            _dashPinVerificado = true;
+            cerrarPin();
+            onSuccess();
+        } else {
+            errorEl.classList.remove('hidden');
+            input.value = '';
+            input.focus();
+            // Reset verificado si alguien intenta con PIN incorrecto
+            _dashPinVerificado = false;
+        }
+    };
+
+    document.getElementById('pin-submit').onclick = verificar;
+    document.getElementById('pin-cancel').onclick  = cerrarPin;
+    input.onkeydown = e => { if (e.key === 'Enter') verificar(); };
+}
+
+/* ============================================================
+   MAPA DE VIDEOS POR SECCIÓN — usado por el dashboard.
+   Se define aquí (después de todas las variables de video)
+   para que esté disponible cuando renderDashboard() lo consuma.
+   FE se incluye para mostrar su progreso en el dashboard,
+   aunque no cuenta para el progreso global del usuario.
+   ============================================================ */
+const SECCION_VIDEOS_MAP = {
+    'Conocimientos': [...videosGenerales, ...videosActividades],
+    'Progreso':      videosProgreso,
+    'Ingles':        videosIngles,
+    'FE':            videosFE
+};
+
+
 window.cerrarDashboard = function() {
+    _dashPinVerificado = false; // requiere PIN de nuevo en próxima apertura
     const m = document.getElementById('dashboard-modal');
     if (m) m.classList.add('hidden');
 };
@@ -1444,12 +1698,10 @@ function renderDashboard() {
     const ratings = getRatings();
     const total   = todosLosVideos.length;
 
-    // Aviso GA4
+    // Aviso GA4 — usa el flag explícito definido en el <head>
     const aviso = document.getElementById('dash-ga-aviso');
     if (aviso) {
-        const ok = typeof gtag !== 'undefined' &&
-            !document.querySelector('script[src*="googletagmanager"]')?.src.includes('G-XXXXXXXXXX');
-        aviso.classList.toggle('hidden', ok);
+        aviso.classList.toggle('hidden', !!window.GA4_ACTIVO);
     }
 
     // KPIs
@@ -1556,10 +1808,15 @@ window.exportarDatos = function() {
 };
 
 window.limpiarDatosLocales = function() {
-    if (!confirm('¿Borrar TODOS los datos locales? (vistos, ratings y progreso)')) return;
-    localStorage.removeItem('cv_vistos');
-    localStorage.removeItem('cv_ratings');
-    actualizarUIProgreso();
-    actualizarContadores();
-    renderDashboard();
+    confirmar({
+        titulo: '¿Borrar TODOS los datos locales?',
+        desc:   'Se eliminarán vistos, ratings y progreso de este dispositivo. No se puede deshacer.',
+        onOk() {
+            localStorage.removeItem('cv_vistos');
+            localStorage.removeItem('cv_ratings');
+            actualizarUIProgreso();
+            actualizarContadores();
+            renderDashboard();
+        }
+    });
 };

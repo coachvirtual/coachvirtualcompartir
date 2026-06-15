@@ -393,11 +393,68 @@ const KEYWORD_INDEX = {
     'contraseña': 'no_encontrado', 'password': 'no_encontrado', 'lento': 'no_encontrado'
 };
 
+/* ─── Memoria de conversación ligera ───────────────────────────
+   Guarda el último topic resuelto y las últimas palabras clave.
+   Permite resolver pronombres y referencias implícitas:
+   "cómo creo una tarea" → [topic: docente_tarea]
+   "y cómo la califico"  → "califico" no hace match, pero el
+                           contexto es docente → toma pleno_doc_calificar
+──────────────────────────────────────────────────────────────── */
+const botMemoria = {
+    ultimoTopic: null,
+    ultimaSeccion: null,  // 'conocimientos' | 'progreso' | 'ingles' | 'fe'
+    ultimoRol: null,      // 'docente' | 'estudiante'
+
+    setTopic(topic) {
+        this.ultimoTopic = topic;
+        // Inferir sección del topic
+        if (/pleno|progreso/.test(topic))    this.ultimaSeccion = 'progreso';
+        else if (/ingles|richmond/.test(topic)) this.ultimaSeccion = 'ingles';
+        else if (/fe_|creo/.test(topic))     this.ultimaSeccion = 'fe';
+        else if (/conocimiento|quiz|actividad|tarea|asignar/.test(topic)) this.ultimaSeccion = 'conocimientos';
+        // Inferir rol
+        if (/docente|prof/.test(topic))      this.ultimoRol = 'docente';
+        else if (/est_/.test(topic))         this.ultimoRol = 'estudiante';
+    },
+
+    resolverConContexto(topic) {
+        // Si ya tenemos un topic, devolver tal cual
+        if (topic) {
+            this.setTopic(topic);
+            return topic;
+        }
+        // Sin match de keyword — intentar resolver con contexto previo
+        return null;
+    }
+};
+
 function searchByKeyword(q) {
     q = q.toLowerCase().trim();
+
+    // Palabras de continuación que solos no hacen match pero con contexto sí
+    const pronombresVacios = /^(y |también |también |tambien |además |ademas |pero |ahora |como |cómo )/;
+    const esReferencial = pronombresVacios.test(q) || q.length < 5;
+
     for (const [kw, topic] of Object.entries(KEYWORD_INDEX)) {
-        if (q.includes(kw)) return topic;
+        if (q.includes(kw)) {
+            botMemoria.setTopic(topic);
+            return topic;
+        }
     }
+
+    // Sin match directo — si la pregunta parece referencial y tenemos contexto previo,
+    // guiar al usuario hacia el área de su última sección/rol
+    if (esReferencial && botMemoria.ultimaSeccion) {
+        const fallbackPorContexto = {
+            'progreso':      'progreso_docente',
+            'conocimientos': botMemoria.ultimoRol === 'estudiante' ? 'est_conocimientos' : 'prof_conocimientos',
+            'ingles':        botMemoria.ultimoRol === 'estudiante' ? 'ingles_estudiante' : 'ingles_docente',
+            'fe':            'fe_docente'
+        };
+        const topicContextual = fallbackPorContexto[botMemoria.ultimaSeccion];
+        if (topicContextual) return topicContextual;
+    }
+
     return null;
 }
 
@@ -408,6 +465,9 @@ const chatContainer = document.getElementById('chat-msgs');
 
 window.initBot = function initBot() {
     chatContainer.innerHTML = '';
+    botMemoria.ultimoTopic   = null;
+    botMemoria.ultimaSeccion = null;
+    botMemoria.ultimoRol     = null;
     renderBotResponse("inicio");
 }
 
@@ -439,13 +499,15 @@ function renderBotResponse(topicId) {
     botMsg.setAttribute('role', 'article');
     botMsg.innerHTML = formattedText + optionsHTML;
     chatContainer.appendChild(botMsg);
-    lucide.createIcons();
+    // Scope a solo el nuevo elemento — evita recorrer todo el DOM en cada mensaje
+    lucide.createIcons({ nameAttr: 'data-lucide', attrs: {}, nodes: [botMsg] });
     requestAnimationFrame(() => botMsg.classList.remove('translate-y-2', 'opacity-0'));
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
 window.handleUserClick = function handleUserClick(label, targetTopic) {
     appendUserMsg(label.replace(/◀ .*/, 'Atrás'));
+    botMemoria.setTopic(targetTopic);
     showTypingAndRespond(targetTopic);
 }
 
