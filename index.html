@@ -10,25 +10,48 @@
     <link rel="stylesheet" href="css/style.css">
 
     <!-- ============ GOOGLE ANALYTICS GA4 ============
-         Reemplaza G-XXXXXXXXXX con tu Measurement ID real
-         de Google Analytics 4 (Admin → Data Streams → Web)
+         INSTRUCCIONES: Reemplaza el valor de GA4_MEASUREMENT_ID
+         con tu Measurement ID real (formato: G-XXXXXXXXXX).
+         Obténlo en: GA4 → Admin → Data Streams → Web → Measurement ID
+         Si el ID no está configurado, GA4 NO se carga (sin errores silenciosos).
     ================================================= -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
+        // ── CONFIGURACIÓN GA4 ──────────────────────────────────
+        // Coloca aquí tu Measurement ID real. Ej: 'G-ABC1234567'
+        var GA4_MEASUREMENT_ID = '';   // ← REEMPLAZAR antes de producción
+
         window.dataLayer = window.dataLayer || [];
         function gtag(){ dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX', {
-            page_title: 'Coach Virtual Compartir',
-            send_page_view: true
-        });
+
+        if (GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== '') {
+            // Carga dinámica del script solo cuando el ID es válido
+            var gaScript = document.createElement('script');
+            gaScript.async = true;
+            gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
+            document.head.appendChild(gaScript);
+
+            gaScript.onload = function() {
+                gtag('js', new Date());
+                gtag('config', GA4_MEASUREMENT_ID, {
+                    page_title: 'Coach Virtual Compartir',
+                    send_page_view: true
+                });
+            };
+        } else {
+            // GA4 no configurado — modo silencioso, sin errores de consola
+            console.info('[Coach Virtual] GA4 no configurado. Asigna GA4_MEASUREMENT_ID para activar analytics.');
+        }
 
         // Helper global para eventos personalizados
+        // Funciona con o sin GA4 configurado (no rompe nada si GA4 está ausente)
         window.trackEvent = function(eventName, params) {
-            if (typeof gtag !== 'undefined') {
+            if (typeof gtag !== 'undefined' && GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== '') {
                 gtag('event', eventName, params);
             }
         };
+
+        // Exponer estado de GA4 para que el dashboard lo detecte correctamente
+        window.GA4_ACTIVO = !!(GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== '');
     </script>
 </head>
 <body class="min-h-screen w-screen relative flex flex-col items-center overflow-x-hidden overflow-y-auto bg-[#0f172a]">
@@ -44,17 +67,20 @@
                 <img src="assets/logo-compartir.png" alt="Santillana Compartir - Tu aliado en transformación educativa" class="h-full w-auto object-contain drop-shadow-xl">
             </div>
             <nav class="flex items-center gap-2 md:gap-3" aria-label="Accesos rápidos">
+                <!-- Coach Bot: label siempre visible — es la función principal de la app -->
                 <button onclick="abrirCoachBot()"
-                    class="glass-panel text-indigo-300 hover:text-white px-3 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold hover:bg-indigo-600/30 transition border border-indigo-500/30 hover:border-indigo-400 flex items-center gap-1.5 cyber-hover"
+                    class="glass-panel text-indigo-300 hover:text-white px-3 py-1.5 rounded-full text-[11px] font-bold hover:bg-indigo-600/30 transition border border-indigo-500/30 hover:border-indigo-400 flex items-center gap-1.5 cyber-hover"
                     aria-label="Abrir Coach Bot" aria-haspopup="dialog">
-                    <i data-lucide="bot" class="w-3.5 h-3.5" aria-hidden="true"></i>
-                    <span class="hidden sm:inline">Coach Bot</span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" aria-hidden="true"></span>
+                    <i data-lucide="bot" class="w-3.5 h-3.5 shrink-0" aria-hidden="true"></i>
+                    <span>Coach Bot</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shrink-0" aria-hidden="true"></span>
                 </button>
-                <a href="https://identity.santillanaconnect.com/login/?client_id=neds_client_compartir_colombia_pro&next=/connect/authorize%3Fresponse_type%3Dcode%26client_id%3Dneds_client_compartir_colombia_pro%26scope%3Dopenid%2Bprofile%2Bemail%2Brole%2Bexternal.info%2Bneds%252Ffull_access%26state%3DYzfvYEoCqjmlrdcFVEN5kfmqFbe_qg3LJY53ntRCi3A%253D%26redirect_uri%3Dhttps%253A%252F%252Fedi-compartir-co.stn-neds.com%252Fts%252Flogin%252Foauth2%252Fcode%252Fcompartirco%26code_challenge_method%3DS256%26nonce%3D0-MrxVEyQ6y0krvWzZ7mTyV__4MU0xYLR-2Vs2bc5vw%26code_challenge%3Dg9TAvRe_fHA5OSV3XOk7HJ_EY8wFDNrKN4kyIeOu5dY" target="_blank" rel="noopener noreferrer"
-                    class="glass-panel text-white px-3 sm:px-5 py-1.5 rounded-full text-[10px] sm:text-xs font-bold hover:bg-white/10 transition border border-white/20 cyber-hover flex items-center gap-1.5">
-                    <i data-lucide="log-in" class="w-3.5 h-3.5" aria-hidden="true"></i>
-                    Volver a Edi Santillana
+                <!-- "Volver a Edi": en mobile solo ícono con tooltip; en sm+ muestra el texto -->
+                <a href="https://edi-compartir-co.stn-neds.com" target="_blank" rel="noopener noreferrer"
+                    class="glass-panel text-white px-2.5 sm:px-4 py-1.5 rounded-full text-[11px] font-bold hover:bg-white/10 transition border border-white/20 cyber-hover flex items-center gap-1.5"
+                    aria-label="Volver a Edi Santillana" title="Volver a Edi Santillana">
+                    <i data-lucide="log-in" class="w-3.5 h-3.5 shrink-0" aria-hidden="true"></i>
+                    <span class="hidden sm:inline">Edi Santillana</span>
                 </a>
             </nav>
         </div>
@@ -63,17 +89,23 @@
     <!-- ==================== MENÚ PRINCIPAL ==================== -->
     <main id="main-menu" class="text-center z-10 w-full max-w-6xl px-4 transition-all duration-500 transform scale-100 opacity-100 flex flex-col items-center pb-28 md:pb-16" style="padding-top: 0;">
 
-        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-3 uppercase drop-shadow-lg tracking-tight">Bienvenido a tu coach virtual</h1>
-        <p class="text-slate-400 text-sm mb-8">Tutoriales de uso para la plataforma Santillana Compartir</p>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-2 uppercase drop-shadow-lg tracking-tight">
+            Aprende a usar<br>
+            <span class="bg-gradient-to-r from-pink-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">Compartir</span> en minutos
+        </h1>
+        <p class="text-slate-300 text-sm md:text-base mb-2 max-w-xl">
+            Tutoriales cortos y directos para docentes y estudiantes. Elige tu plataforma y empieza ahora.
+        </p>
+        <p class="text-slate-500 text-xs mb-8">54 tutoriales · Conocimientos · Progreso · Inglés · FE</p>
 
         <!-- PROGRESO -->
-        <div id="progreso-banner" class="hidden w-full max-w-2xl mb-6 glass-panel rounded-2xl p-4 border border-indigo-500/30 flex items-center gap-4">
+        <div id="progreso-banner" class="hidden w-full max-w-2xl mb-6 glass-panel rounded-2xl p-4 border border-indigo-500/30 items-center gap-4">
             <div class="w-12 h-12 shrink-0 relative">
                 <svg class="w-12 h-12 -rotate-90" viewBox="0 0 36 36" aria-hidden="true">
                     <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(99,102,241,0.2)" stroke-width="3"/>
                     <circle id="progreso-circulo" cx="18" cy="18" r="15.9" fill="none" stroke="#6366f1" stroke-width="3" stroke-dasharray="0 100" stroke-linecap="round" class="transition-all duration-700"/>
                 </svg>
-                <span id="progreso-pct" class="absolute inset-0 flex items-center justify-center text-[10px] font-black text-indigo-300" aria-label="Porcentaje de progreso">0%</span>
+                <span id="progreso-pct" class="absolute inset-0 flex items-center justify-center text-[11px] font-black text-indigo-300" aria-label="Porcentaje de progreso">0%</span>
             </div>
             <div class="flex-1 text-left">
                 <p class="text-white font-bold text-sm">Tu progreso de aprendizaje</p>
@@ -90,40 +122,93 @@
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none" aria-hidden="true">
                 <i data-lucide="search" class="w-5 h-5 text-slate-400 group-focus-within:text-indigo-400 transition-colors"></i>
             </div>
-            <input type="search" id="global-search" placeholder="¿Qué necesitas aprender hoy? (Ej: quiz, pleno, tareas...)" aria-label="Buscar tutoriales"
+            <input type="search" id="global-search" placeholder="Busca en todos los tutoriales (Ej: quiz, tareas, libro web...)" aria-label="Buscar en todos los tutoriales"
                 class="w-full glass-panel text-white placeholder-slate-400 rounded-full py-3 pl-12 pr-4 outline-none border border-white/20 focus:border-indigo-500/70 focus:ring-2 focus:ring-indigo-500/30 transition-all cyber-glow">
         </div>
 
         <!-- RESULTADOS BÚSQUEDA -->
-        <div id="search-results" class="hidden w-full max-w-5xl mx-auto mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+        <div id="search-results" class="hidden w-full max-w-5xl mx-auto mb-10"
             role="region" aria-label="Resultados de búsqueda" aria-live="polite"></div>
 
         <!-- TARJETAS -->
-        <div id="cards-container" class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-5xl mx-auto w-full items-stretch justify-items-center transition-all duration-500">
-            <div id="card-Conocimientos" class="card group relative w-full overflow-hidden flex justify-center items-center cursor-pointer rounded-[2rem] border-pink-500/30 hover:border-pink-400 shadow-[0_0_15px_rgba(236,72,153,0.1)] hover:shadow-[0_0_30px_rgba(236,72,153,0.3)]"
-                onclick="openRoleSelection('Conocimientos')" role="button" tabindex="0" aria-label="Compartir Conocimientos"
+        <!-- Grid: 2 cols en mobile/tablet, 4 en desktop (lg+) — evita aplastamiento en ~768px -->
+        <div id="cards-container" class="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 max-w-5xl mx-auto w-full items-stretch justify-items-center transition-all duration-500">
+
+            <!-- Conocimientos -->
+            <div id="card-Conocimientos"
+                class="card group relative w-full overflow-hidden flex flex-col justify-end cursor-pointer rounded-[2rem] border border-pink-500/30 hover:border-pink-400 shadow-[0_0_15px_rgba(236,72,153,0.1)] hover:shadow-[0_0_30px_rgba(236,72,153,0.3)]"
+                onclick="openRoleSelection('Conocimientos')" role="button" tabindex="0"
+                aria-label="Compartir Conocimientos — 30 tutoriales para Docentes y Estudiantes"
                 onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('Conocimientos')}">
-                <img src="assets/5.png" alt="Compartir Conocimientos" class="w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
-                <div id="badge-Conocimientos" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-pink-500 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(236,72,153,0.7)] animate-pulse-slow"></div>
+                <img src="assets/5.png" alt="" role="presentation" class="absolute inset-0 w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+                <div class="relative z-10 p-3 pb-4">
+                    <div class="flex items-center gap-1 mb-1.5 flex-wrap">
+                        <span class="text-[11px] font-black uppercase tracking-wider bg-pink-500/80 text-white px-1.5 py-0.5 rounded-full">Docente</span>
+                        <span class="text-[11px] font-black uppercase tracking-wider bg-white/20 text-white px-1.5 py-0.5 rounded-full">Estudiante</span>
+                    </div>
+                    <p class="text-white font-black text-xs leading-tight drop-shadow">Conocimientos</p>
+                    <p class="text-white/60 text-xs mt-0.5">30 tutoriales</p>
+                </div>
+                <div id="badge-Conocimientos" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-pink-500 text-white text-xs font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(236,72,153,0.7)] animate-pulse-slow"></div>
             </div>
-            <div id="card-Progreso" class="card group relative w-full overflow-hidden flex justify-center items-center cursor-pointer rounded-[2rem] border-blue-500/30 hover:border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]"
-                onclick="openRoleSelection('Progreso')" role="button" tabindex="0" aria-label="Compartir Progreso"
+
+            <!-- Progreso -->
+            <div id="card-Progreso"
+                class="card group relative w-full overflow-hidden flex flex-col justify-end cursor-pointer rounded-[2rem] border border-blue-500/30 hover:border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]"
+                onclick="openRoleSelection('Progreso')" role="button" tabindex="0"
+                aria-label="Compartir Progreso Pleno — 12 tutoriales para Docentes y Estudiantes"
                 onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('Progreso')}">
-                <img src="assets/6.png" alt="Compartir Progreso" class="w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
-                <div id="badge-Progreso" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-blue-500 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(59,130,246,0.7)] animate-pulse-slow"></div>
+                <img src="assets/6.png" alt="" role="presentation" class="absolute inset-0 w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+                <div class="relative z-10 p-3 pb-4">
+                    <div class="flex items-center gap-1 mb-1.5 flex-wrap">
+                        <span class="text-[11px] font-black uppercase tracking-wider bg-blue-500/80 text-white px-1.5 py-0.5 rounded-full">Docente</span>
+                        <span class="text-[11px] font-black uppercase tracking-wider bg-white/20 text-white px-1.5 py-0.5 rounded-full">Estudiante</span>
+                    </div>
+                    <p class="text-white font-black text-xs leading-tight drop-shadow">Progreso · Pleno</p>
+                    <p class="text-white/60 text-xs mt-0.5">12 tutoriales</p>
+                </div>
+                <div id="badge-Progreso" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-blue-500 text-white text-xs font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(59,130,246,0.7)] animate-pulse-slow"></div>
             </div>
-            <div id="card-Ingles" class="card group relative w-full overflow-hidden flex justify-center items-center cursor-pointer rounded-[2rem] border-emerald-500/30 hover:border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]"
-                onclick="openRoleSelection('Ingles')" role="button" tabindex="0" aria-label="Compartir Inglés"
+
+            <!-- Inglés -->
+            <div id="card-Ingles"
+                class="card group relative w-full overflow-hidden flex flex-col justify-end cursor-pointer rounded-[2rem] border border-emerald-500/30 hover:border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]"
+                onclick="openRoleSelection('Ingles')" role="button" tabindex="0"
+                aria-label="Compartir Inglés Richmond Studio — 10 tutoriales para Docentes y Estudiantes"
                 onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('Ingles')}">
-                <img src="assets/7.png" alt="Compartir Inglés - Richmond Studio" class="w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
-                <div id="badge-Ingles" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-emerald-500 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(16,185,129,0.7)] animate-pulse-slow"></div>
+                <img src="assets/7.png" alt="" role="presentation" class="absolute inset-0 w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+                <div class="relative z-10 p-3 pb-4">
+                    <div class="flex items-center gap-1 mb-1.5 flex-wrap">
+                        <span class="text-[11px] font-black uppercase tracking-wider bg-emerald-500/80 text-white px-1.5 py-0.5 rounded-full">Docente</span>
+                        <span class="text-[11px] font-black uppercase tracking-wider bg-white/20 text-white px-1.5 py-0.5 rounded-full">Estudiante</span>
+                    </div>
+                    <p class="text-white font-black text-xs leading-tight drop-shadow">Inglés · Richmond</p>
+                    <p class="text-white/60 text-xs mt-0.5">10 tutoriales</p>
+                </div>
+                <div id="badge-Ingles" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-emerald-500 text-white text-xs font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(16,185,129,0.7)] animate-pulse-slow"></div>
             </div>
-            <div id="card-FE" class="card group relative w-full overflow-hidden flex justify-center items-center cursor-pointer rounded-[2rem] border-cyan-500/30 hover:border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_30px_rgba(6,182,212,0.3)]"
-                onclick="openRoleSelection('FE')" role="button" tabindex="0" aria-label="Compartir FE - CREO"
+
+            <!-- FE / CREO -->
+            <div id="card-FE"
+                class="card group relative w-full overflow-hidden flex flex-col justify-end cursor-pointer rounded-[2rem] border border-cyan-500/30 hover:border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_30px_rgba(6,182,212,0.3)]"
+                onclick="openRoleSelection('FE')" role="button" tabindex="0"
+                aria-label="Compartir FE CREO — 2 tutoriales solo para Docentes"
                 onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('FE')}">
-                <img src="assets/8.png" alt="Compartir FE - CREO" class="w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
-                <div id="badge-FE" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-cyan-500 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(6,182,212,0.7)] animate-pulse-slow"></div>
+                <img src="assets/8.png" alt="" role="presentation" class="absolute inset-0 w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+                <div class="relative z-10 p-3 pb-4">
+                    <div class="flex items-center gap-1 mb-1.5">
+                        <span class="text-[11px] font-black uppercase tracking-wider bg-cyan-500/80 text-white px-1.5 py-0.5 rounded-full">Docente</span>
+                    </div>
+                    <p class="text-white font-black text-xs leading-tight drop-shadow">FE · CREO</p>
+                    <p class="text-white/60 text-xs mt-0.5">2 tutoriales</p>
+                </div>
+                <div id="badge-FE" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-cyan-500 text-white text-xs font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(6,182,212,0.7)] animate-pulse-slow"></div>
             </div>
+
         </div>
 
     </main>
@@ -140,11 +225,12 @@
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none" aria-hidden="true">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
                 </div>
-                <input type="search" id="section-search" placeholder="Buscar en esta sección..." aria-label="Buscar en esta sección"
+                <input type="search" id="section-search" placeholder="Buscar solo en esta sección..." aria-label="Buscar dentro de esta sección"
                     class="w-full glass-panel text-white placeholder-slate-400 rounded-full py-2 pl-10 pr-4 outline-none border border-white/20 focus:border-indigo-500/70 transition-all text-sm">
+                <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-[10px] text-slate-600 font-bold hidden sm:flex">esta sección</span>
             </div>
         </div>
-        <div id="section-search-results" class="hidden w-full mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" aria-live="polite"></div>
+        <div id="section-search-results" class="hidden w-full mb-6" aria-live="polite"></div>
         <div id="section-content" class="w-full glass-panel p-6 sm:p-8 md:p-12 rounded-[2rem] text-white flex flex-col cyber-glow-panel"></div>
     </section>
 
@@ -185,19 +271,26 @@
     </div>
 
     <!-- ==================== MODAL VIDEO ==================== -->
-    <div id="video-modal" class="hidden fixed inset-0 z-[100] bg-black/95 backdrop-blur-lg p-4 items-center justify-center"
+    <!-- En mobile ocupa toda la pantalla. En desktop se contiene en max-w-5xl -->
+    <div id="video-modal" class="hidden fixed inset-0 z-[100] bg-black/98 backdrop-blur-lg items-center justify-center"
         role="dialog" aria-modal="true" aria-label="Reproductor de video tutorial" tabindex="-1">
-        <div class="relative w-full max-w-5xl flex flex-col gap-3">
-            <div class="flex justify-between items-center w-full">
-                <p id="modal-titulo" class="text-white font-bold text-sm truncate pr-4 opacity-70"></p>
-                <button onclick="closeVideoModal()" class="bg-white/10 hover:bg-red-500 text-white p-2.5 rounded-full transition-all border border-white/20 shrink-0" aria-label="Cerrar video">
-                    <i data-lucide="x" class="w-6 h-6" aria-hidden="true"></i>
+        <!-- Contenedor adaptativo: pantalla completa en mobile, centrado en desktop -->
+        <div class="relative w-full h-full md:h-auto md:max-w-5xl md:mx-auto flex flex-col gap-0 md:gap-3 md:p-4">
+            <!-- Barra superior: título + cerrar -->
+            <div class="flex justify-between items-center w-full px-3 py-2 md:px-0 md:py-0 shrink-0">
+                <p id="modal-titulo" class="text-white font-bold text-xs md:text-sm truncate pr-3 opacity-70"></p>
+                <button onclick="closeVideoModal()" class="bg-white/10 hover:bg-red-500 text-white p-2 md:p-2.5 rounded-full transition-all border border-white/20 shrink-0" aria-label="Cerrar video">
+                    <i data-lucide="x" class="w-5 h-5 md:w-6 md:h-6" aria-hidden="true"></i>
                 </button>
             </div>
-            <!-- Player normal -->
-            <div id="modal-player-wrap" class="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(79,70,229,0.3)] border border-white/10">
-                <iframe id="modal-iframe" class="w-full h-full" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen title="Video tutorial Santillana Compartir"
-                    onload="detectarErrorIframe(this)" onerror="mostrarErrorVideo()"></iframe>
+            <!-- Player: ocupa todo el alto disponible en mobile -->
+            <div id="modal-player-wrap" class="relative w-full flex-1 md:flex-none md:aspect-video bg-black md:rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(79,70,229,0.3)] md:border md:border-white/10"
+                style="min-height: 0;">
+                <iframe id="modal-iframe" class="w-full h-full" src="" frameborder="0"
+                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                    allowfullscreen
+                    webkit-playsinline playsinline
+                    title="Video tutorial Santillana Compartir"></iframe>
                 <!-- Capa de error de video -->
                 <div id="video-error-layer" class="hidden absolute inset-0 flex flex-col items-center justify-center gap-4 bg-[#0a0f1e] text-white p-6 text-center">
                     <i data-lucide="video-off" class="w-12 h-12 text-slate-500" aria-hidden="true"></i>
@@ -210,7 +303,7 @@
                 </div>
             </div>
             <!-- Modo baja conexión -->
-            <div id="modal-lowbandwidth" class="hidden flex-col items-center gap-3 py-4">
+            <div id="modal-lowbandwidth" class="hidden flex-col items-center gap-3 py-4 shrink-0">
                 <div class="flex items-center gap-2 text-amber-400 text-sm font-bold">
                     <i data-lucide="wifi-off" class="w-4 h-4" aria-hidden="true"></i> Modo baja conexión activo
                 </div>
@@ -220,36 +313,31 @@
                 </a>
                 <p class="text-slate-500 text-xs text-center">Puedes reducir la calidad en YouTube para ahorrar datos</p>
             </div>
-            <div id="modal-fallback" class="text-center">
+            <!-- Controles inferiores — compactos en mobile -->
+            <div class="flex flex-row items-center justify-between gap-2 px-3 py-2 md:px-0 md:flex-row md:justify-center md:gap-4 shrink-0 flex-wrap">
+                <!-- Abrir en YouTube -->
                 <a id="modal-external-link" href="#" target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 text-xs text-slate-400 hover:text-white transition bg-white/5 px-4 py-2 rounded-full border border-white/10 hover:border-white/30">
-                    <i data-lucide="external-link" class="w-4 h-4" aria-hidden="true"></i> ¿No carga el video? Ábrelo en YouTube
+                    class="inline-flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-white transition bg-white/5 px-3 py-1.5 rounded-full border border-white/10 hover:border-white/30">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5" aria-hidden="true"></i> YouTube
                 </a>
-            </div>
-            <!-- Marcar como visto -->
-            <div class="flex justify-center">
+                <!-- Marcar como visto -->
                 <button id="btn-marcar-visto" onclick="marcarVisto()"
-                    class="flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-green-400 transition bg-white/5 hover:bg-green-500/10 px-5 py-2 rounded-full border border-white/10 hover:border-green-500/30">
-                    <i data-lucide="check-circle" class="w-4 h-4" aria-hidden="true"></i> Marcar como visto
+                    class="flex items-center gap-1.5 text-[11px] font-bold text-slate-300 hover:text-green-400 transition bg-white/5 hover:bg-green-500/10 px-4 py-1.5 rounded-full border border-white/10 hover:border-green-500/30">
+                    <i data-lucide="check-circle" class="w-3.5 h-3.5" aria-hidden="true"></i> Marcar visto
                 </button>
-            </div>
-            <!-- Rating 👍 👎 -->
-            <div id="rating-wrap" class="flex flex-col items-center gap-2">
-                <p class="text-slate-500 text-[11px] font-bold uppercase tracking-widest">¿Te fue útil este tutorial?</p>
-                <div class="flex items-center gap-3" role="group" aria-label="Califica este tutorial">
-                    <button id="btn-like" onclick="ratingVoto('like')"
-                        class="rating-btn flex items-center gap-2 text-sm font-black text-slate-300 hover:text-green-400 bg-white/5 hover:bg-green-500/10 border border-white/10 hover:border-green-500/30 px-4 py-2 rounded-full transition-all"
-                        aria-label="Me fue útil">
-                        👍 <span id="count-like" class="text-xs opacity-60">0</span>
-                    </button>
-                    <div class="w-px h-5 bg-white/10" aria-hidden="true"></div>
-                    <button id="btn-dislike" onclick="ratingVoto('dislike')"
-                        class="rating-btn flex items-center gap-2 text-sm font-black text-slate-300 hover:text-red-400 bg-white/5 hover:bg-red-500/10 border border-white/10 hover:border-red-500/30 px-4 py-2 rounded-full transition-all"
-                        aria-label="No me fue útil">
-                        👎 <span id="count-dislike" class="text-xs opacity-60">0</span>
-                    </button>
+                <!-- Rating -->
+                <div id="rating-wrap" class="flex items-center gap-2">
+                    <p class="text-slate-600 text-[10px] hidden md:block">¿Útil?</p>
+                    <div class="flex items-center gap-2" role="group" aria-label="Califica este tutorial">
+                        <button id="btn-like" onclick="ratingVoto('like')"
+                            class="rating-btn flex items-center text-sm font-black text-slate-300 hover:text-green-400 bg-white/5 hover:bg-green-500/10 border border-white/10 hover:border-green-500/30 px-3 py-1.5 rounded-full transition-all"
+                            aria-label="Me fue útil">👍</button>
+                        <button id="btn-dislike" onclick="ratingVoto('dislike')"
+                            class="rating-btn flex items-center text-sm font-black text-slate-300 hover:text-red-400 bg-white/5 hover:bg-red-500/10 border border-white/10 hover:border-red-500/30 px-3 py-1.5 rounded-full transition-all"
+                            aria-label="No me fue útil">👎</button>
+                    </div>
+                    <p id="rating-feedback" class="text-[10px] text-slate-500 italic hidden md:block"></p>
                 </div>
-                <p id="rating-feedback" class="text-[11px] text-slate-500 italic h-4"></p>
             </div>
         </div>
     </div>
@@ -266,7 +354,7 @@
                     </div>
                     <div>
                         <h2 class="text-white font-black text-base">Coach Bot</h2>
-                        <p class="text-[9px] text-green-400 font-bold uppercase tracking-widest flex items-center gap-1">
+                        <p class="text-[11px] text-green-400 font-bold uppercase tracking-widest flex items-center gap-1">
                             <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" aria-hidden="true"></span> En línea
                         </p>
                     </div>
@@ -311,7 +399,7 @@
                             <i data-lucide="bar-chart-2" class="w-4 h-4 text-white" aria-hidden="true"></i>
                         </div>
                         <h2 class="text-white font-black text-2xl tracking-tight">Dashboard Analítico</h2>
-                        <span class="text-[10px] font-black uppercase tracking-widest bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded-full">Admin</span>
+                        <span class="text-[11px] font-black uppercase tracking-widest bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded-full">Admin</span>
                     </div>
                     <p class="text-slate-500 text-xs ml-11">Coach Virtual · Santillana Compartir</p>
                 </div>
@@ -439,6 +527,30 @@
                 Activar/cerrar dashboard: <kbd class="bg-white/10 px-2 py-0.5 rounded text-slate-400">Ctrl</kbd> + <kbd class="bg-white/10 px-2 py-0.5 rounded text-slate-400">Shift</kbd> + <kbd class="bg-white/10 px-2 py-0.5 rounded text-slate-400">A</kbd>
             </p>
 
+        </div>
+    </div>
+
+    <!-- ==================== MODAL CONFIRMACIÓN (reemplaza confirm() nativo) ==================== -->
+    <div id="confirm-modal" class="hidden fixed inset-0 z-[300] bg-black/70 backdrop-blur-md flex items-center justify-center p-4"
+        role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-desc" tabindex="-1">
+        <div class="glass-panel w-full max-w-sm rounded-2xl border border-white/10 shadow-2xl p-6 flex flex-col gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-red-500/15 flex items-center justify-center shrink-0">
+                    <i data-lucide="alert-triangle" class="w-5 h-5 text-red-400" aria-hidden="true"></i>
+                </div>
+                <div>
+                    <p id="confirm-title" class="text-white font-black text-sm"></p>
+                    <p id="confirm-desc"  class="text-slate-400 text-xs mt-0.5"></p>
+                </div>
+            </div>
+            <div class="flex gap-3 justify-end">
+                <button id="confirm-cancel" class="text-slate-400 hover:text-white text-sm font-bold px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition">
+                    Cancelar
+                </button>
+                <button id="confirm-ok" class="text-white text-sm font-black px-5 py-2 rounded-xl bg-red-500 hover:bg-red-400 transition shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+                    Confirmar
+                </button>
+            </div>
         </div>
     </div>
 
