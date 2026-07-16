@@ -1122,7 +1122,23 @@ window.openVideoModal = function(ytId, titulo = '') {
     if (lowBW)      { lowBW.classList.add('hidden'); lowBW.classList.remove('flex'); }
     if (fallback)   fallback.classList.remove('hidden');
 
-    iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
+    if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+        // Player real ya inicializado — reutilizarlo (no tocar iframe.src)
+        try {
+            ytPlayer.loadVideoById(ytId);
+        } catch (e) {
+            console.warn('[Coach Virtual] loadVideoById falló, recargando iframe manualmente', e);
+            ytPlayer = null;
+            iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
+            crearOActualizarPlayer(ytId);
+        }
+    } else {
+        // Primera vez (o la API de YouTube todavía no cargó): fallback visual
+        // inmediato por src + enlazamos el YT.Player real en cuanto esté lista.
+        iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
+        crearOActualizarPlayer(ytId);
+    }
+
     if (extLink) extLink.href = url;
     if (ytLink)  ytLink.href  = url;
 
@@ -1130,7 +1146,7 @@ window.openVideoModal = function(ytId, titulo = '') {
     const errYtLink = document.getElementById('video-error-yt-link');
     if (errYtLink) errYtLink.href = url;
 
-    // Arrancar detección real de errores vía postMessage
+    // Arrancar detección real de errores (basada en eventos reales del YT.Player)
     clearTimeout(window._iframeTimeout);
     if (typeof window._iniciarTimeoutYT === 'function') window._iniciarTimeoutYT();
 
@@ -1162,72 +1178,118 @@ window.mostrarErrorVideo = function() {
     }
 };
 
-/* ─── Detección real de errores de iframe YouTube ──────────────
-   YouTube IFrame API envía mensajes postMessage con info de estado.
-   Escuchamos dos señales:
-   1. onError desde la YouTube Player API (embed con enablejsapi=1)
-   2. Timeout de seguridad: si en 15s el iframe no envía ningún
-      mensaje de estado, asumimos bloqueo de red/corporativo.
-   Esto reemplaza el onerror inline que nunca se dispara en iframes.
+/* ─── Integración real con la YouTube IFrame Player API ─────────
+   ANTES: el código solo ponía enablejsapi=1 en la URL y escuchaba
+   postMessage "a pelo", asumiendo que YouTube mandaría onReady/
+   infoDelivery espontáneamente. Eso NO está garantizado: sin
+   inicializar la API oficial (YT.Player), el handshake de postMessage
+   muchas veces no se completa (bloqueadores de anuncios, políticas
+   de cookies de terceros, orígenes no exactos, etc.), aunque el
+   video se esté reproduciendo perfectamente por debajo. Resultado:
+   a los 12s el timeout de "seguridad" disparaba un falso error que
+   tapaba el reproductor — pareciendo que el video "se bloqueaba".
+
+   AHORA: cargamos la API oficial (ver <script> en index.html) y
+   creamos un YT.Player real sobre el <iframe id="modal-iframe">
+   existente. Así los eventos onReady/onError/onStateChange son
+   100% reales y confiables.
 ─────────────────────────────────────────────────────────────── */
-(function initYouTubeErrorDetection() {
-    let ytMessageReceived = false;
-    let ytTimeoutHandle   = null;
+let ytPlayer          = null;   // instancia YT.Player reutilizada entre videos
+let ytApiReady        = false;  // true cuando window.onYouTubeIframeAPIReady ya se ejecutó
+let ytPendingVideoId  = null;   // video pedido antes de que la API estuviera lista
+let ytComunicando     = false;  // true si el player ya confirmó comunicación real
+let ytTimeoutHandle   = null;
 
-    window.addEventListener('message', function(event) {
-        // Solo mensajes de YouTube
-        if (!event.origin.includes('youtube.com')) return;
+// Callback global que la API de YouTube invoca automáticamente al cargar
+window.onYouTubeIframeAPIReady = function() {
+    ytApiReady = true;
+    if (ytPendingVideoId) {
+        crearOActualizarPlayer(ytPendingVideoId);
+        ytPendingVideoId = null;
+    }
+};
 
+function crearOActualizarPlayer(ytId) {
+    if (!ytApiReady || typeof YT === 'undefined' || !YT.Player) {
+        // La API todavía no cargó: el iframe ya tiene el video por src
+        // (fallback visual inmediato) y lo enlazamos en cuanto esté lista.
+        ytPendingVideoId = ytId;
+        return;
+    }
+    if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+        // Reutilizamos el player ya inicializado — evita recrear el iframe
         try {
-            const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
-            if (!data || !data.event) return;
+            ytPlayer.loadVideoById(ytId);
+        } catch (e) {
+            console.warn('[Coach Virtual] loadVideoById falló, reinicializando player…', e);
+            ytPlayer = null;
+            crearOActualizarPlayer(ytId);
+        }
+        return;
+    }
+    // Primera vez: enlazar la API sobre el <iframe id="modal-iframe"> ya existente
+    ytPlayer = new YT.Player('modal-iframe', {
+        events: {
+            onReady:       onYtPlayerReady,
+            onStateChange: onYtPlayerStateChange,
+            onError:       onYtPlayerError
+        }
+    });
+}
 
-            // Marcar que el iframe está comunicando (embed cargó correctamente)
-            if (data.event === 'onReady' || data.event === 'infoDelivery') {
-                ytMessageReceived = true;
-                clearTimeout(ytTimeoutHandle);
-            }
+function marcarIframeComunicando() {
+    ytComunicando = true;
+    clearTimeout(ytTimeoutHandle);
+}
 
-            // Error de reproducción (video privado, eliminado, no disponible en región)
-            if (data.event === 'onError') {
-                clearTimeout(ytTimeoutHandle);
-                // Códigos conocidos: 2=parámetro inválido, 5=error HTML5, 100=no encontrado,
-                // 101/150=reproducción no permitida en embeds
-                const errorCode = data.info;
-                console.warn('[Coach Virtual] YouTube error code:', errorCode);
+function onYtPlayerReady() {
+    marcarIframeComunicando();
+}
+
+function onYtPlayerStateChange() {
+    // Cualquier cambio de estado real (buffering, reproduciendo, pausado…)
+    // confirma que la comunicación con el reproductor funciona.
+    marcarIframeComunicando();
+}
+
+function onYtPlayerError(event) {
+    // Códigos conocidos: 2=parámetro inválido, 5=error HTML5, 100=no encontrado,
+    // 101/150=reproducción no permitida en embeds
+    console.warn('[Coach Virtual] YouTube error code:', event && event.data);
+    window.mostrarErrorVideo();
+}
+
+// Expone la función para que openVideoModal arranque el timeout de seguridad por video
+window._iniciarTimeoutYT = function() {
+    ytComunicando = false;
+    clearTimeout(ytTimeoutHandle);
+    ytTimeoutHandle = setTimeout(function() {
+        // Si el player real nunca confirmó comunicación en 12s, sí es un bloqueo genuino
+        if (!ytComunicando) {
+            const modal = document.getElementById('video-modal');
+            if (modal && !modal.classList.contains('hidden')) {
+                console.warn('[Coach Virtual] Player YouTube sin respuesta — posible bloqueo de red.');
                 window.mostrarErrorVideo();
             }
-        } catch (_) { /* JSON malformado — ignorar */ }
-    });
+        }
+    }, 12000);
+};
 
-    // Exponer función para que openVideoModal arranque el timeout por video
-    window._iniciarTimeoutYT = function() {
-        ytMessageReceived = false;
-        clearTimeout(ytTimeoutHandle);
-        ytTimeoutHandle = setTimeout(function() {
-            // Si no recibimos ningún mensaje de YouTube en 12s, mostrar fallback
-            if (!ytMessageReceived) {
-                const modal = document.getElementById('video-modal');
-                if (modal && !modal.classList.contains('hidden')) {
-                    console.warn('[Coach Virtual] Iframe YouTube sin respuesta — posible bloqueo de red.');
-                    window.mostrarErrorVideo();
-                }
-            }
-        }, 12000);
-    };
-
-    // Limpiar timeout al cerrar el modal
-    window._limpiarTimeoutYT = function() {
-        clearTimeout(ytTimeoutHandle);
-        ytMessageReceived = false;
-    };
-})();
+// Limpiar timeout al cerrar el modal
+window._limpiarTimeoutYT = function() {
+    clearTimeout(ytTimeoutHandle);
+    ytComunicando = false;
+};
 
 window.closeVideoModal = function() {
     modal.style.display = '';
     modal.classList.add('hidden');
     modal.classList.remove('flex');
-    iframe.src = '';
+    if (ytPlayer && typeof ytPlayer.stopVideo === 'function') {
+        try { ytPlayer.stopVideo(); } catch (e) { iframe.src = ''; }
+    } else {
+        iframe.src = '';
+    }
     clearTimeout(window._iframeTimeout);
     if (typeof window._limpiarTimeoutYT === 'function') window._limpiarTimeoutYT();
     videoActualId = null;
