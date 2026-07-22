@@ -44,7 +44,9 @@ body { margin: 0; background-color: #0f172a; }
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 6%;               /* marco glaseado un poco mayor que la imagen (simétrico) */
 }
+.card > img { border-radius: 0.5rem; }
 .card:hover { transform: translateY(-8px); background: rgba(30, 41, 59, 0.6); }
 .card:focus-visible { outline: 2px solid rgba(99,102,241,0.8); outline-offset: 3px; transform: translateY(-4px); }
 
