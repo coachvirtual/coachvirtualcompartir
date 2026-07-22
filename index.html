@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coach Virtual - Santillana Compartir</title>
+    <link rel="icon" type="image/png" href="assets/logo-compartir.png">
+    <link rel="apple-touch-icon" href="assets/logo-compartir.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
@@ -18,7 +20,7 @@
     <script>
         // ── CONFIGURACIÓN GA4 ──────────────────────────────────
         // Coloca aquí tu Measurement ID real. Ej: 'G-ABC1234567'
-        var GA4_MEASUREMENT_ID = '';   // ← REEMPLAZAR antes de producción
+        var GA4_MEASUREMENT_ID = 'G-TJZ873BKJP';   // Proyecto Firebase: app-finanzas-leo
 
         window.dataLayer = window.dataLayer || [];
         function gtag(){ dataLayer.push(arguments); }
@@ -53,6 +55,42 @@
         // Exponer estado de GA4 para que el dashboard lo detecte correctamente
         window.GA4_ACTIVO = !!(GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== '');
     </script>
+
+    <!-- ============ CONTADOR DE VISITAS (Firebase Firestore) ============
+         El contador usa Cloud Firestore (no necesita databaseURL).
+         PASOS PENDIENTES en la Consola de Firebase (proyecto app-finanzas-leo):
+         1) Compilación → Firestore Database → Crear base de datos
+            (modo producción, cualquier ubicación).
+         2) En la pestaña "Reglas" de Firestore, pega estas reglas
+            (dejan abierto SOLO el documento del contador):
+
+              rules_version = '2';
+              service cloud.firestore {
+                match /databases/{database}/documents {
+                  match /estadisticas/contadorVisitas {
+                    allow read, write: if true;
+                  }
+                  match /{document=**} {
+                    allow read, write: if false;
+                  }
+                }
+              }
+
+         Si la config queda vacía o Firestore no existe, el contador
+         simplemente NO se muestra (sin errores en consola).
+    ================================================================= -->
+    <script>
+        // ── CONFIGURACIÓN FIREBASE (valores públicos del SDK web) ──
+        window.FIREBASE_CONFIG = {
+            apiKey:            "AIzaSyAm8ipS9nOYREIGL4NUtK-WAjCXl_UjhoE",
+            authDomain:        "app-finanzas-leo.firebaseapp.com",
+            projectId:         "app-finanzas-leo",
+            storageBucket:     "app-finanzas-leo.firebasestorage.app",
+            messagingSenderId: "924046498910",
+            appId:             "1:924046498910:web:6339d019e82a1feaef28cf",
+            measurementId:     "G-TJZ873BKJP"
+        };
+    </script>
 </head>
 <body class="min-h-screen w-screen relative flex flex-col items-center overflow-x-hidden overflow-y-auto bg-[#0f172a]">
 
@@ -67,6 +105,13 @@
                 <img src="assets/logo-compartir.png" alt="Santillana Compartir - Tu aliado en transformación educativa" class="h-full w-auto object-contain drop-shadow-xl">
             </div>
             <nav class="flex items-center gap-2 md:gap-3" aria-label="Accesos rápidos">
+                <!-- Contador global de visitas (Firebase). Oculto hasta tener valor. -->
+                <div id="contador-visitas"
+                    class="hidden glass-panel text-slate-300 px-2.5 md:px-3 py-1.5 rounded-full text-[11px] font-bold border border-white/15 flex items-center gap-1.5 cyber-hover"
+                    title="Veces que se ha abierto la página" aria-label="Contador de visitas">
+                    <i data-lucide="eye" class="w-3.5 h-3.5 shrink-0 text-indigo-300" aria-hidden="true"></i>
+                    <span id="contador-visitas-num" class="tabular-nums">—</span>
+                </div>
                 <!-- Coach Bot: label siempre visible — es la función principal de la app -->
                 <button onclick="abrirCoachBot()"
                     class="glass-panel text-indigo-300 hover:text-white px-3 py-1.5 rounded-full text-[11px] font-bold hover:bg-indigo-600/30 transition border border-indigo-500/30 hover:border-indigo-400 flex items-center gap-1.5 cyber-hover"
@@ -89,14 +134,9 @@
     <!-- ==================== MENÚ PRINCIPAL ==================== -->
     <main id="main-menu" class="text-center z-10 w-full max-w-6xl px-4 transition-all duration-500 transform scale-100 opacity-100 flex flex-col items-center pb-28 md:pb-16" style="padding-top: 0;">
 
-        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-2 uppercase drop-shadow-lg tracking-tight">
-            Aprende a usar<br>
-            <span class="bg-gradient-to-r from-pink-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">Compartir</span> en minutos
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 uppercase drop-shadow-lg tracking-tight">
+            Coach Virtual <span class="bg-gradient-to-r from-pink-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">Compartir</span>
         </h1>
-        <p class="text-slate-300 text-sm md:text-base mb-2 max-w-xl">
-            Tutoriales cortos y directos para docentes y estudiantes. Elige tu plataforma y empieza ahora.
-        </p>
-        <p class="text-slate-500 text-xs mb-8">54 tutoriales · Conocimientos · Progreso · Inglés · FE</p>
 
         <!-- PROGRESO -->
         <div id="progreso-banner" class="hidden w-full max-w-2xl mb-6 glass-panel rounded-2xl p-4 border border-indigo-500/30 items-center gap-4">
@@ -136,77 +176,38 @@
 
             <!-- Conocimientos -->
             <div id="card-Conocimientos"
-                class="card group relative w-full overflow-hidden flex flex-col justify-end cursor-pointer rounded-[2rem] border border-pink-500/30 hover:border-pink-400 shadow-[0_0_15px_rgba(236,72,153,0.1)] hover:shadow-[0_0_30px_rgba(236,72,153,0.3)]"
+                class="card group relative w-full overflow-hidden cursor-pointer rounded-[1.5rem] shadow-[0_0_15px_rgba(236,72,153,0.12)] hover:shadow-[0_0_35px_rgba(236,72,153,0.45)]"
                 onclick="openRoleSelection('Conocimientos')" role="button" tabindex="0"
                 aria-label="Compartir Conocimientos — 30 tutoriales para Docentes y Estudiantes"
                 onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('Conocimientos')}">
-                <img src="assets/5.png" alt="" role="presentation" class="absolute inset-0 w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
-                <div class="relative z-10 p-3 pb-4">
-                    <div class="flex items-center gap-1 mb-1.5 flex-wrap">
-                        <span class="text-[11px] font-black uppercase tracking-wider bg-pink-500/80 text-white px-1.5 py-0.5 rounded-full">Docente</span>
-                        <span class="text-[11px] font-black uppercase tracking-wider bg-white/20 text-white px-1.5 py-0.5 rounded-full">Estudiante</span>
-                    </div>
-                    <p class="text-white font-black text-xs leading-tight drop-shadow">Conocimientos</p>
-                    <p class="text-white/60 text-xs mt-0.5">30 tutoriales</p>
-                </div>
-                <div id="badge-Conocimientos" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-pink-500 text-white text-xs font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(236,72,153,0.7)] animate-pulse-slow"></div>
+                <img src="assets/5.png" alt="Compartir Conocimientos" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]">
             </div>
 
             <!-- Progreso -->
             <div id="card-Progreso"
-                class="card group relative w-full overflow-hidden flex flex-col justify-end cursor-pointer rounded-[2rem] border border-blue-500/30 hover:border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]"
+                class="card group relative w-full overflow-hidden cursor-pointer rounded-[1.5rem] shadow-[0_0_15px_rgba(59,130,246,0.12)] hover:shadow-[0_0_35px_rgba(59,130,246,0.45)]"
                 onclick="openRoleSelection('Progreso')" role="button" tabindex="0"
                 aria-label="Compartir Progreso Pleno — 12 tutoriales para Docentes y Estudiantes"
                 onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('Progreso')}">
-                <img src="assets/6.png" alt="" role="presentation" class="absolute inset-0 w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
-                <div class="relative z-10 p-3 pb-4">
-                    <div class="flex items-center gap-1 mb-1.5 flex-wrap">
-                        <span class="text-[11px] font-black uppercase tracking-wider bg-blue-500/80 text-white px-1.5 py-0.5 rounded-full">Docente</span>
-                        <span class="text-[11px] font-black uppercase tracking-wider bg-white/20 text-white px-1.5 py-0.5 rounded-full">Estudiante</span>
-                    </div>
-                    <p class="text-white font-black text-xs leading-tight drop-shadow">Progreso · Pleno</p>
-                    <p class="text-white/60 text-xs mt-0.5">12 tutoriales</p>
-                </div>
-                <div id="badge-Progreso" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-blue-500 text-white text-xs font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(59,130,246,0.7)] animate-pulse-slow"></div>
+                <img src="assets/6.png" alt="Compartir Progreso · Pleno" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]">
             </div>
 
             <!-- Inglés -->
             <div id="card-Ingles"
-                class="card group relative w-full overflow-hidden flex flex-col justify-end cursor-pointer rounded-[2rem] border border-emerald-500/30 hover:border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]"
+                class="card group relative w-full overflow-hidden cursor-pointer rounded-[1.5rem] shadow-[0_0_15px_rgba(16,185,129,0.12)] hover:shadow-[0_0_35px_rgba(16,185,129,0.45)]"
                 onclick="openRoleSelection('Ingles')" role="button" tabindex="0"
                 aria-label="Compartir Inglés Richmond Studio — 10 tutoriales para Docentes y Estudiantes"
                 onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('Ingles')}">
-                <img src="assets/7.png" alt="" role="presentation" class="absolute inset-0 w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
-                <div class="relative z-10 p-3 pb-4">
-                    <div class="flex items-center gap-1 mb-1.5 flex-wrap">
-                        <span class="text-[11px] font-black uppercase tracking-wider bg-emerald-500/80 text-white px-1.5 py-0.5 rounded-full">Docente</span>
-                        <span class="text-[11px] font-black uppercase tracking-wider bg-white/20 text-white px-1.5 py-0.5 rounded-full">Estudiante</span>
-                    </div>
-                    <p class="text-white font-black text-xs leading-tight drop-shadow">Inglés · Richmond</p>
-                    <p class="text-white/60 text-xs mt-0.5">10 tutoriales</p>
-                </div>
-                <div id="badge-Ingles" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-emerald-500 text-white text-xs font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(16,185,129,0.7)] animate-pulse-slow"></div>
+                <img src="assets/7.png" alt="Compartir Inglés · Richmond" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]">
             </div>
 
             <!-- FE / CREO -->
             <div id="card-FE"
-                class="card group relative w-full overflow-hidden flex flex-col justify-end cursor-pointer rounded-[2rem] border border-cyan-500/30 hover:border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_30px_rgba(6,182,212,0.3)]"
+                class="card group relative w-full overflow-hidden cursor-pointer rounded-[1.5rem] shadow-[0_0_15px_rgba(6,182,212,0.12)] hover:shadow-[0_0_35px_rgba(6,182,212,0.45)]"
                 onclick="openRoleSelection('FE')" role="button" tabindex="0"
                 aria-label="Compartir FE CREO — 2 tutoriales solo para Docentes"
                 onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('FE')}">
-                <img src="assets/8.png" alt="" role="presentation" class="absolute inset-0 w-full h-full object-cover scale-[1.15] transition-transform duration-500 group-hover:scale-[1.22]">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
-                <div class="relative z-10 p-3 pb-4">
-                    <div class="flex items-center gap-1 mb-1.5">
-                        <span class="text-[11px] font-black uppercase tracking-wider bg-cyan-500/80 text-white px-1.5 py-0.5 rounded-full">Docente</span>
-                    </div>
-                    <p class="text-white font-black text-xs leading-tight drop-shadow">FE · CREO</p>
-                    <p class="text-white/60 text-xs mt-0.5">2 tutoriales</p>
-                </div>
-                <div id="badge-FE" class="card-badge hidden absolute top-3 right-3 flex items-center gap-1 bg-cyan-500 text-white text-xs font-black px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(6,182,212,0.7)] animate-pulse-slow"></div>
+                <img src="assets/8.png" alt="Compartir FE · CREO" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]">
             </div>
 
         </div>
@@ -387,6 +388,7 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="js/main.js"></script>
     <script src="js/bot.js"></script>
+    <script src="js/contador.js"></script>
 
     <!-- ==================== DASHBOARD ADMIN ==================== -->
     <!-- Activar con: Ctrl + Shift + A  (solo equipo Santillana)  -->

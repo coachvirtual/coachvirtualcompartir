@@ -827,70 +827,155 @@ function openRoleSelection(sectionId) {
     }, 400);
 }
 
-function loadFilteredContent(sectionId, role) {
-    const data    = SECTION_DATA[sectionId];
-    const rolKey  = role === 'Docente' ? 'docente' : 'estudiante';
-    resetSectionSearch();
-    let contentHTML = '';
+/* ────────────────────────────────────────────────────────────
+   VISTA DE SECCIÓN — todos los tutoriales en orden, divididos en
+   subsecciones colapsables (cada una con su propio botón).
+   ──────────────────────────────────────────────────────────── */
+let seccionActualCtx           = null;            // { sectionId, role }
+const gruposAbiertos           = new Set();       // panelIds actualmente abiertos (persistente)
+const seccionesInicializadas   = new Set();       // "sectionId-role" ya inicializadas
 
-    // ── Determinar vídeos de la sección ───────────────────────
+// Devuelve los grupos (subsecciones) ordenados de una sección + rol
+function construirGruposSeccion(sectionId, role) {
     if (sectionId === 'Conocimientos') {
         const vGen = videosGenerales.filter(v => v.rol === role || v.rol === 'Ambos');
-        const vAct = role === 'Docente' ? videosActividades : [];
-        seccionActualVideos = [...vGen, ...vAct];
-    } else if (sectionId === 'Progreso') {
-        seccionActualVideos = videosProgreso.filter(v => v.rol === role || v.rol === 'Ambos');
-    } else {
-        seccionActualVideos = [
-            ...videosIngles.filter(v => v.rol === 'Ambos'),
-            ...videosIngles.filter(v => v.rol === role)
-        ];
+        const grupos = [];
+        if (vGen.length) grupos.push({ titulo: 'Generales y Gestión', icon: 'book-open', videos: vGen });
+        if (role === 'Docente' && videosActividades.length)
+            grupos.push({ titulo: 'Actividades Interactivas y Quizzes', icon: 'puzzle', videos: videosActividades });
+        return grupos;
     }
-
-    // ── Ruta recomendada para esta sección + rol ──────────────
-    const rutaSeccion = {
-        Conocimientos: { docente: ['ruta-doc-conocimientos', 'ruta-doc-quizzes'], estudiante: ['ruta-est-inicio'] },
-        Progreso:      { docente: ['ruta-doc-pleno'],                              estudiante: ['ruta-est-pleno'] },
-        Ingles:        { docente: ['ruta-doc-richmond'],                           estudiante: ['ruta-est-richmond'] }
-    };
-    const rutaIds = (rutaSeccion[sectionId] || {})[rolKey] || [];
-    const rutasDeSeccion = (RUTAS[rolKey] || []).filter(r => rutaIds.includes(r.id));
-
-    if (rutasDeSeccion.length) {
-        contentHTML += `
-        <div class="mb-10">
-            <h3 class="font-black text-white text-lg mb-4 flex items-center gap-2">
-                <i data-lucide="map" class="${data.color} w-5 h-5 drop-shadow-[0_0_8px_currentColor]" aria-hidden="true"></i>
-                Ruta de aprendizaje recomendada
-            </h3>
-            <div class="flex flex-col gap-4">
-                ${rutasDeSeccion.map(r => renderRutaInline(r, data)).join('')}
-            </div>
-        </div>
-        <div class="w-full h-px bg-white/10 mb-8"></div>`;
-    }
-
-    // ── Grupos de vídeos ──────────────────────────────────────
-    contentHTML += `<p class="text-slate-300 mb-6 text-sm">Todos los tutoriales para <strong>${role === 'Estudiante' ? 'Estudiantes y Padres de familia' : 'Docentes'}</strong>.</p>`;
-
-    if (sectionId === 'Conocimientos') {
-        const vGen = videosGenerales.filter(v => v.rol === role || v.rol === 'Ambos');
-        const vAct = role === 'Docente' ? videosActividades : [];
-        if (vGen.length) contentHTML += grupoHTML('book-open', data.color, 'Generales y Gestión', vGen, data.theme);
-        if (vAct.length) contentHTML += grupoHTML('puzzle', data.color, 'Actividades Interactivas y Quizzes', vAct, data.theme);
-    } else if (sectionId === 'Progreso') {
+    if (sectionId === 'Progreso') {
         const vProg = videosProgreso.filter(v => v.rol === role || v.rol === 'Ambos');
-        contentHTML += vProg.length
-            ? grupoHTML('trending-up', data.color, 'Evaluaciones en Pleno', vProg, data.theme)
-            : '<p class="text-slate-400 italic">No hay tutoriales para este perfil aún.</p>';
-    } else {
-        const vComun = videosIngles.filter(v => v.rol === 'Ambos');
-        const vRol   = videosIngles.filter(v => v.rol === role);
-        if (vComun.length) contentHTML += grupoHTML('users', data.color, 'Para todos', vComun, data.theme);
-        if (vRol.length)   contentHTML += grupoHTML(
-            role === 'Docente' ? 'graduation-cap' : 'backpack', data.color,
-            `Exclusivos para ${role === 'Docente' ? 'Docentes' : 'Estudiantes'}`, vRol, data.theme);
+        return vProg.length ? [{ titulo: 'Evaluaciones en Pleno', icon: 'trending-up', videos: vProg }] : [];
     }
+    // Inglés (Richmond)
+    const vComun = videosIngles.filter(v => v.rol === 'Ambos');
+    const vRol   = videosIngles.filter(v => v.rol === role);
+    const grupos = [];
+    if (vComun.length) grupos.push({ titulo: 'Para todos', icon: 'users', videos: vComun });
+    if (vRol.length)   grupos.push({
+        titulo: role === 'Docente' ? 'Exclusivos para Docentes' : 'Exclusivos para Estudiantes',
+        icon:   role === 'Docente' ? 'graduation-cap' : 'backpack',
+        videos: vRol
+    });
+    return grupos;
+}
+
+// Alterna un grupo colapsable (sin re-renderizar toda la sección)
+window.toggleGrupo = function(id, btn) {
+    const body = document.getElementById(id);
+    if (!body) return;
+    const oculto = body.classList.toggle('hidden');
+    if (oculto) gruposAbiertos.delete(id); else gruposAbiertos.add(id);
+    if (btn) {
+        btn.setAttribute('aria-expanded', String(!oculto));
+        const chev = btn.querySelector('[data-chevron]');
+        if (chev) chev.classList.toggle('rotate-180', !oculto);
+    }
+};
+
+// Genera el HTML de los grupos colapsables ordenados
+function renderGruposOrdenados(sectionId, role, data) {
+    const grupos = construirGruposSeccion(sectionId, role);
+    if (!grupos.length) return '<p class="text-slate-400 italic">No hay tutoriales para este perfil aún.</p>';
+
+    // La primera subsección se abre por defecto la primera vez que se entra
+    const ctxKey = `${sectionId}-${role}`;
+    if (!seccionesInicializadas.has(ctxKey)) {
+        seccionesInicializadas.add(ctxKey);
+        gruposAbiertos.add(`grp-${sectionId}-${role}-0`);
+    }
+
+    const vistos = getVistos();
+    const color  = data.theme;
+    // Siguiente video sin ver en toda la sección (resalte "actual")
+    const nextId = (grupos.flatMap(g => g.videos).find(v => !vistos.includes(v.id)) || {}).id;
+
+    return grupos.map((g, gi) => {
+        const panelId     = `grp-${sectionId}-${role}-${gi}`;
+        const abierto     = gruposAbiertos.has(panelId);
+        const total       = g.videos.length;
+        const completados = g.videos.filter(v => vistos.includes(v.id)).length;
+        const pct         = total ? Math.round((completados / total) * 100) : 0;
+
+        const pasos = g.videos.map((v, i) => {
+            const visto    = vistos.includes(v.id);
+            const esActual = v.id === nextId;
+            return `
+            <div class="ruta-paso ${visto ? 'completado' : ''} ${esActual ? 'actual' : ''}">
+                <button onclick="openVideoModal('${v.id}')"
+                    class="flex items-center gap-3 w-full text-left hover:bg-white/5 rounded-xl p-2 transition group">
+                    <div class="paso-num w-8 h-8 shrink-0 rounded-full border flex items-center justify-center text-xs font-black
+                        ${visto    ? 'bg-green-500/20 border-green-500/50 text-green-400' :
+                          esActual ? `bg-${color}-500/20 border-${color}-500/60 text-${color}-400` :
+                                     'bg-white/5 border-white/20 text-slate-500'}">
+                        ${visto ? '✓' : (i + 1)}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="paso-titulo text-sm font-bold text-white truncate group-hover:text-${color}-300 transition">${v.title}</p>
+                        <p class="text-[11px] text-slate-500 line-clamp-1">${v.desc}</p>
+                    </div>
+                    <i data-lucide="${visto ? 'check-circle-2' : esActual ? 'play-circle' : 'circle'}"
+                        class="w-4 h-4 shrink-0 ${visto ? 'text-green-500' : esActual ? `text-${color}-400` : 'text-slate-700'}" aria-hidden="true"></i>
+                </button>
+                ${i < g.videos.length - 1 ? '<div class="ruta-linea h-3 ml-6"></div>' : ''}
+            </div>`;
+        }).join('');
+
+        return `
+        <div class="glass-panel rounded-2xl border border-${color}-500/20 overflow-hidden">
+            <button type="button" class="w-full px-5 py-4 flex items-center justify-between gap-3 hover:bg-white/5 transition"
+                aria-expanded="${abierto}" aria-controls="${panelId}" onclick="toggleGrupo('${panelId}', this)">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-9 h-9 shrink-0 bg-${color}-500/20 rounded-xl flex items-center justify-center">
+                        <i data-lucide="${g.icon}" class="w-4 h-4 text-${color}-400" aria-hidden="true"></i>
+                    </div>
+                    <div class="text-left min-w-0">
+                        <h4 class="text-white font-black text-sm truncate">${g.titulo}</h4>
+                        <p class="text-slate-500 text-xs">${completados}/${total} completados · ${total} tutoriales</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                    <div class="hidden sm:flex items-center gap-2">
+                        <div class="w-16 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                            <div class="h-full bg-${color}-500 rounded-full transition-all duration-500" style="width:${pct}%"></div>
+                        </div>
+                        <span class="text-${color}-400 text-xs font-black min-w-[32px] text-right">${pct}%</span>
+                    </div>
+                    <i data-lucide="chevron-down" data-chevron class="w-5 h-5 text-slate-400 transition-transform ${abierto ? 'rotate-180' : ''}" aria-hidden="true"></i>
+                </div>
+            </button>
+            <div id="${panelId}" class="${abierto ? '' : 'hidden'} px-4 pb-4 pt-1 border-t border-white/5">${pasos}</div>
+        </div>`;
+    }).join('');
+}
+
+// Re-renderiza solo los grupos de la sección activa (preserva abierto/cerrado)
+function refrescarSeccionActual() {
+    if (!seccionActualCtx) return;
+    const cont = document.getElementById('grupos-container');
+    if (!cont) return;
+    const { sectionId, role } = seccionActualCtx;
+    cont.innerHTML = renderGruposOrdenados(sectionId, role, SECTION_DATA[sectionId]);
+    lucide.createIcons();
+}
+
+function loadFilteredContent(sectionId, role) {
+    const data = SECTION_DATA[sectionId];
+    resetSectionSearch();
+
+    const grupos = construirGruposSeccion(sectionId, role);
+    seccionActualVideos = grupos.flatMap(g => g.videos);
+    seccionActualCtx = { sectionId, role };
+
+    const contentHTML = `
+        <div class="mb-3 flex items-center gap-2">
+            <i data-lucide="map" class="${data.color} w-5 h-5 drop-shadow-[0_0_8px_currentColor]" aria-hidden="true"></i>
+            <h3 class="font-black text-white text-lg">Ruta de aprendizaje</h3>
+        </div>
+        <p class="text-slate-400 mb-6 text-sm">Todos los tutoriales para <strong>${role === 'Estudiante' ? 'Estudiantes y Padres de familia' : 'Docentes'}</strong>, en orden. Toca cada bloque para abrirlo o cerrarlo.</p>
+        <div id="grupos-container" class="flex flex-col gap-4">${renderGruposOrdenados(sectionId, role, data)}</div>`;
 
     // ── Render final ──────────────────────────────────────────
     sectionContent.style.opacity = 0;
@@ -1608,25 +1693,13 @@ document.addEventListener('keydown', e => {
     }
 });
 
-// Actualizar rutas cuando se marca un video como visto
+// Actualizar la vista de sección cuando se marca un video como visto
 const _origMarcarVistoRutas = window.marcarVisto;
 window.marcarVisto = function() {
     _origMarcarVistoRutas();
-    // Refrescar rutas inline dentro de la sección activa
-    document.querySelectorAll('[id^="inline-ruta-"]').forEach(el => {
-        const rutaId = el.id.replace('inline-ruta-', '');
-        // Buscar en todas las rutas
-        const ruta = [...(RUTAS.docente || []), ...(RUTAS.estudiante || [])].find(r => r.id === rutaId);
-        if (ruta) {
-            const seccion = Object.values(SECTION_DATA).find(s =>
-                ['Conocimientos','Progreso','Ingles'].some(k =>
-                    document.getElementById('section-content')?.innerHTML.includes(s.title)
-                )
-            ) || Object.values(SECTION_DATA)[0];
-            el.outerHTML = renderRutaInline(ruta, seccion);
-            lucide.createIcons();
-        }
-    });
+    // Refrescar los grupos ordenados de la sección activa (preserva
+    // qué subsecciones están abiertas y actualiza progreso/resalte).
+    refrescarSeccionActual();
 };
 
 /* ============================================================
