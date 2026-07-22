@@ -1104,6 +1104,39 @@ const fallback     = document.getElementById('modal-fallback');
 const modalTitulo  = document.getElementById('modal-titulo');
 let   prevFocus    = null;
 
+/* ─── Modo baja conexión ────────────────────────────────────────
+   Cuando está activo, los videos no se incrustan: se ofrece verlos
+   directamente en YouTube (ahorra datos). Antes esta función se
+   llamaba pero NO estaba definida, así que activar el modo lanzaba
+   un ReferenceError y no hacía nada. */
+let modoLentoActivo = false;
+
+function aplicarModoLento(activar) {
+    modoLentoActivo = !!activar;
+    try {
+        if (modoLentoActivo) localStorage.setItem('cv_modo_lento', '1');
+        else                 localStorage.removeItem('cv_modo_lento');
+    } catch (_) {}
+
+    // Si el modal de video está abierto, refrescar su estado inmediatamente
+    const vm = document.getElementById('video-modal');
+    if (vm && !vm.classList.contains('hidden') && videoActualId) {
+        window.openVideoModal(videoActualId);
+    }
+}
+window.aplicarModoLento = aplicarModoLento;
+
+// Permite desactivar el modo desde el panel de baja conexión
+window.desactivarModoLento = function() {
+    aplicarModoLento(false);
+    mostrarToast('Modo baja conexión desactivado', 'success');
+};
+
+// Restaurar preferencia guardada al cargar
+try {
+    if (localStorage.getItem('cv_modo_lento') === '1') modoLentoActivo = true;
+} catch (_) {}
+
 window.openVideoModal = function(ytId, titulo = '') {
     if (!ytId) return;
     videoActualId = ytId;
@@ -1118,37 +1151,49 @@ window.openVideoModal = function(ytId, titulo = '') {
     // Resetear capa de error
     const errLayer = document.getElementById('video-error-layer');
     if (errLayer) errLayer.classList.add('hidden');
-    if (playerWrap) playerWrap.classList.remove('hidden');
-    if (lowBW)      { lowBW.classList.add('hidden'); lowBW.classList.remove('flex'); }
-    if (fallback)   fallback.classList.remove('hidden');
 
-    if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
-        // Player real ya inicializado — reutilizarlo (no tocar iframe.src)
-        try {
-            ytPlayer.loadVideoById(ytId);
-        } catch (e) {
-            console.warn('[Coach Virtual] loadVideoById falló, recargando iframe manualmente', e);
-            ytPlayer = null;
-            iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
-            crearOActualizarPlayer(ytId);
-        }
-    } else {
-        // Primera vez (o la API de YouTube todavía no cargó): fallback visual
-        // inmediato por src + enlazamos el YT.Player real en cuanto esté lista.
-        iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
-        crearOActualizarPlayer(ytId);
-    }
-
+    // Enlaces a YouTube (válidos en cualquier modo)
     if (extLink) extLink.href = url;
     if (ytLink)  ytLink.href  = url;
-
-    // Link de error apunta al mismo video
     const errYtLink = document.getElementById('video-error-yt-link');
     if (errYtLink) errYtLink.href = url;
 
-    // Arrancar detección real de errores (basada en eventos reales del YT.Player)
-    clearTimeout(window._iframeTimeout);
-    if (typeof window._iniciarTimeoutYT === 'function') window._iniciarTimeoutYT();
+    if (modoLentoActivo) {
+        // Modo baja conexión: no incrustamos el reproductor; ofrecemos ver en
+        // YouTube para ahorrar datos. Detenemos cualquier reproducción previa.
+        if (playerWrap) playerWrap.classList.add('hidden');
+        if (fallback)   fallback.classList.add('hidden');
+        if (lowBW)      { lowBW.classList.remove('hidden'); lowBW.classList.add('flex'); }
+        if (ytPlayer && typeof ytPlayer.stopVideo === 'function') {
+            try { ytPlayer.stopVideo(); } catch (_) {}
+        }
+        clearTimeout(window._iframeTimeout);
+        if (typeof window._limpiarTimeoutYT === 'function') window._limpiarTimeoutYT();
+    } else {
+        if (playerWrap) playerWrap.classList.remove('hidden');
+        if (lowBW)      { lowBW.classList.add('hidden'); lowBW.classList.remove('flex'); }
+        if (fallback)   fallback.classList.remove('hidden');
+
+        if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+            // Player ya inicializado — reutilizarlo cargando el nuevo video
+            try {
+                ytPlayer.loadVideoById(ytId);
+            } catch (e) {
+                console.warn('[Coach Virtual] loadVideoById falló, reinicializando player', e);
+                try { ytPlayer.destroy(); } catch (_) {}
+                ytPlayer = null;
+                crearOActualizarPlayer(ytId);
+            }
+        } else {
+            // Primera vez (o la API de YouTube aún no cargó): dejamos que la
+            // API oficial cree y controle el reproductor por completo.
+            crearOActualizarPlayer(ytId);
+        }
+
+        // Arrancar detección real de errores (basada en eventos reales del YT.Player)
+        clearTimeout(window._iframeTimeout);
+        if (typeof window._iniciarTimeoutYT === 'function') window._iniciarTimeoutYT();
+    }
 
     // Botón marcar visto
     const btnVisto = document.getElementById('btn-marcar-visto');
@@ -1209,10 +1254,25 @@ window.onYouTubeIframeAPIReady = function() {
     }
 };
 
+// Garantiza que exista el contenedor <div id="modal-iframe"> dentro del
+// wrapper del player (la API lo reemplaza por su iframe; si el player fue
+// destruido hay que recrearlo antes de instanciar uno nuevo).
+function asegurarContenedorPlayer() {
+    let el = document.getElementById('modal-iframe');
+    if (!el) {
+        const wrap = document.getElementById('modal-player-wrap');
+        el = document.createElement('div');
+        el.id = 'modal-iframe';
+        el.className = 'w-full h-full';
+        wrap.insertBefore(el, wrap.firstChild); // antes de la capa de error
+    }
+    return el;
+}
+
 function crearOActualizarPlayer(ytId) {
     if (!ytApiReady || typeof YT === 'undefined' || !YT.Player) {
-        // La API todavía no cargó: el iframe ya tiene el video por src
-        // (fallback visual inmediato) y lo enlazamos en cuanto esté lista.
+        // La API todavía no cargó: recordamos el video y lo creamos en
+        // cuanto onYouTubeIframeAPIReady se dispare.
         ytPendingVideoId = ytId;
         return;
     }
@@ -1222,13 +1282,28 @@ function crearOActualizarPlayer(ytId) {
             ytPlayer.loadVideoById(ytId);
         } catch (e) {
             console.warn('[Coach Virtual] loadVideoById falló, reinicializando player…', e);
+            try { ytPlayer.destroy(); } catch (_) {}
             ytPlayer = null;
             crearOActualizarPlayer(ytId);
         }
         return;
     }
-    // Primera vez: enlazar la API sobre el <iframe id="modal-iframe"> ya existente
+    // Primera vez: la API oficial crea y controla el reproductor sobre el
+    // contenedor <div id="modal-iframe">. Al pasarle el videoId y los
+    // playerVars directamente, el handshake postMessage es fiable y los
+    // eventos onReady/onStateChange/onError son 100% reales.
+    asegurarContenedorPlayer();
     ytPlayer = new YT.Player('modal-iframe', {
+        width: '100%',
+        height: '100%',
+        videoId: ytId,
+        playerVars: {
+            autoplay:       1,
+            rel:            0,
+            playsinline:    1,
+            modestbranding: 1,
+            origin:         location.origin
+        },
         events: {
             onReady:       onYtPlayerReady,
             onStateChange: onYtPlayerStateChange,
