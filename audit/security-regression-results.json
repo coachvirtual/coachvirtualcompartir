@@ -1,0 +1,22 @@
+{
+  "scope": "Local browser only; external requests intercepted",
+  "passed": [
+    "Global search displays attack markup as plain text",
+    "Section search displays attack markup as plain text",
+    "Hostile ratings and toast messages cannot execute markup",
+    "Malformed progress recovers and duplicate/unknown IDs are discarded",
+    "Valid progress survives reload",
+    "Marking videos and switching votes preserve their normal behavior",
+    "Local statistics open without a misleading administrator PIN",
+    "Analytics disabled by default; search events contain no free text",
+    "Counter obtains App Check token and increments exactly once per page load",
+    "Compiled CSS and pinned local icons load successfully"
+  ],
+  "pageErrors": [],
+  "externalHostsRequested": [
+    "fonts.googleapis.com",
+    "www.youtube.com",
+    "www.gstatic.com",
+    "img.youtube.com"
+  ]
+}

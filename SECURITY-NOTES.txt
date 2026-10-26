@@ -1,0 +1,43 @@
+Estado de la actualización de seguridad
+
+La página conserva los tutoriales de YouTube, el progreso y los votos locales,
+y el contador global de visitas. No se habilitó facturación.
+
+Aplicado en Firebase:
+- Firestore solo permite consultar el contador existente y aumentarlo en +1.
+- Se rechazan borrados, creación de documentos, campos extra y cambios arbitrarios.
+- Se solicitó restringir la clave web a coachvirtual.github.io y las tres APIs usadas.
+- Se registró el proveedor reCAPTCHA Enterprise de App Check para coachvirtual.github.io.
+
+Preparado en estos archivos:
+- Corrección de XSS en los dos buscadores y los mensajes de notificación.
+- Validación de IDs, progreso y votos locales.
+- Sustitución del PIN de administración por estadísticas explícitamente locales.
+- Analítica desactivada por defecto; ningún evento de búsqueda contiene texto libre.
+- Tailwind compilado y Lucide fijado y servido localmente.
+- Contador que obtiene un token App Check antes del incremento atómico.
+
+Orden de publicación y verificación:
+1. Publicar index.html, js/, css/ y assets/ en coachvirtual/coachvirtualcompartir.
+2. Verificar que el contador obtiene un token válido de App Check en el dominio real.
+3. Exigir App Check para Cloud Firestore. No hacerlo antes de publicar el frontend.
+4. Verificar que las restricciones de la clave se han propagado y las APIs están activas.
+
+Exigir App Check en Firebase Console > App Check > Cloud Firestore únicamente
+después de comprobar el contador en el dominio publicado.
+
+Para repetir las pruebas del navegador: npm ci, npm run build, npm run check
+y npm run test:security. La configuración utiliza Microsoft Edge instalado.
+Para las reglas, ejecutar audit/firestore-rules.test.cjs dentro del emulador.
+
+Pruebas ejecutadas:
+- Compilación de CSS y comprobación de sintaxis de los tres scripts.
+- Diez comprobaciones de regresión del navegador, sin errores JavaScript.
+- Reglas verificadas en el emulador de Firestore, sin escrituras de prueba en producción.
+
+Límites:
+App Check reduce solicitudes de clientes no verificados; no garantiza visitantes
+humanos ni impide toda automatización. Cada carga válida de la página suma una
+visita, incluidas las recargas. Se mantienen las cuotas del plan gratuito.
+La clave web de Firebase y la clave de sitio reCAPTCHA son identificadores públicos.
+La alerta de GitHub no se ha cerrado automáticamente.

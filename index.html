@@ -6,8 +6,8 @@
     <title>Coach Virtual - Santillana Compartir</title>
     <link rel="icon" type="image/png" href="assets/coach-bot-icon.png">
     <link rel="apple-touch-icon" href="assets/coach-bot-icon.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/tailwind.css">
+    <script src="js/vendor/lucide-0.468.0.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
@@ -20,12 +20,13 @@
     <script>
         // ── CONFIGURACIÓN GA4 ──────────────────────────────────
         // Coloca aquí tu Measurement ID real. Ej: 'G-ABC1234567'
+        var ANALYTICS_ENABLED = false; // Habilitar solo después de resolver el consentimiento.
         var GA4_MEASUREMENT_ID = 'G-TJZ873BKJP';   // Proyecto Firebase: app-finanzas-leo
 
         window.dataLayer = window.dataLayer || [];
         function gtag(){ dataLayer.push(arguments); }
 
-        if (GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== '') {
+        if (ANALYTICS_ENABLED && /^G-[A-Z0-9]+$/.test(GA4_MEASUREMENT_ID)) {
             // Carga dinámica del script solo cuando el ID es válido
             var gaScript = document.createElement('script');
             gaScript.async = true;
@@ -41,45 +42,26 @@
             };
         } else {
             // GA4 no configurado — modo silencioso, sin errores de consola
-            console.info('[Coach Virtual] GA4 no configurado. Asigna GA4_MEASUREMENT_ID para activar analytics.');
+            console.info('[Coach Virtual] Analítica desactivada.');
         }
 
         // Helper global para eventos personalizados
         // Funciona con o sin GA4 configurado (no rompe nada si GA4 está ausente)
         window.trackEvent = function(eventName, params) {
-            if (typeof gtag !== 'undefined' && GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== '') {
+            if (window.GA4_ACTIVO && typeof gtag !== 'undefined') {
                 gtag('event', eventName, params);
             }
         };
 
         // Exponer estado de GA4 para que el dashboard lo detecte correctamente
-        window.GA4_ACTIVO = !!(GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== '');
+        window.GA4_ACTIVO = !!(ANALYTICS_ENABLED && /^G-[A-Z0-9]+$/.test(GA4_MEASUREMENT_ID));
     </script>
 
-    <!-- ============ CONTADOR DE VISITAS (Firebase Firestore) ============
-         El contador usa Cloud Firestore (no necesita databaseURL).
-         PASOS PENDIENTES en la Consola de Firebase (proyecto app-finanzas-leo):
-         1) Compilación → Firestore Database → Crear base de datos
-            (modo producción, cualquier ubicación).
-         2) En la pestaña "Reglas" de Firestore, pega estas reglas
-            (dejan abierto SOLO el documento del contador):
-
-              rules_version = '2';
-              service cloud.firestore {
-                match /databases/{database}/documents {
-                  match /estadisticas/contadorVisitas {
-                    allow read, write: if true;
-                  }
-                  match /{document=**} {
-                    allow read, write: if false;
-                  }
-                }
-              }
-
-         Si la config queda vacía o Firestore no existe, el contador
-         simplemente NO se muestra (sin errores en consola).
-    ================================================================= -->
+    <!-- Contador de visitas: reglas de incremento +1 en firestore.rules.
+         Exigir App Check para Cloud Firestore antes de completar la publicación.
+         Sin clave de App Check solo se consulta el total histórico. -->
     <script>
+        window.COUNTER_APP_CHECK_SITE_KEY = '6LeCXwIuAAAAAF2IzBAIXLT6dDGaK_kINe21Nh_v';
         // ── CONFIGURACIÓN FIREBASE (valores públicos del SDK web) ──
         window.FIREBASE_CONFIG = {
             apiKey:            "AIzaSyAm8ipS9nOYREIGL4NUtK-WAjCXl_UjhoE",
@@ -390,8 +372,8 @@
     <script src="js/bot.js"></script>
     <script src="js/contador.js"></script>
 
-    <!-- ==================== DASHBOARD ADMIN ==================== -->
-    <!-- Activar con: Ctrl + Shift + A  (solo equipo Santillana)  -->
+    <!-- ==================== ESTADÍSTICAS LOCALES ==================== -->
+    <!-- Activar con: Ctrl + Shift + A  (datos de este navegador)  -->
     <div id="dashboard-modal"
         class="hidden fixed inset-0 z-[200] bg-[#080e1e]/95 backdrop-blur-xl overflow-y-auto"
         role="dialog" aria-modal="true" aria-label="Dashboard de analítica" tabindex="-1">
@@ -405,8 +387,8 @@
                         <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
                             <i data-lucide="bar-chart-2" class="w-4 h-4 text-white" aria-hidden="true"></i>
                         </div>
-                        <h2 class="text-white font-black text-2xl tracking-tight">Dashboard Analítico</h2>
-                        <span class="text-[11px] font-black uppercase tracking-widest bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded-full">Admin</span>
+                        <h2 class="text-white font-black text-2xl tracking-tight">Estadísticas de este navegador</h2>
+                        <span class="text-[11px] font-black uppercase tracking-widest bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded-full">Local</span>
                     </div>
                     <p class="text-slate-500 text-xs ml-11">Coach Virtual · Santillana Compartir</p>
                 </div>
@@ -419,8 +401,8 @@
             <div id="dash-ga-aviso" class="hidden mb-6 bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-3">
                 <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" aria-hidden="true"></i>
                 <div>
-                    <p class="text-amber-300 font-bold text-sm">Google Analytics no está configurado</p>
-                    <p class="text-slate-400 text-xs mt-1">Reemplaza <code class="bg-white/10 px-1 rounded">G-XXXXXXXXXX</code> con tu Measurement ID real en el <code class="bg-white/10 px-1 rounded">&lt;head&gt;</code> del index.html. Los datos locales (localStorage) sí están disponibles.</p>
+                    <p class="text-amber-300 font-bold text-sm">Google Analytics está desactivado</p>
+                    <p class="text-slate-400 text-xs mt-1">Solo se muestran datos guardados en este navegador.</p>
                 </div>
             </div>
 
@@ -464,7 +446,7 @@
                     <i data-lucide="trending-up" class="w-4 h-4 text-indigo-400" aria-hidden="true"></i>
                     Google Analytics 4 — Métricas en tiempo real
                 </h3>
-                <p class="text-slate-400 text-xs mb-5">Los siguientes eventos se envían automáticamente a GA4 cuando el usuario interactúa con la plataforma.</p>
+                <p class="text-slate-400 text-xs mb-5">Estos eventos solo se envían si la analítica está habilitada. El texto de las búsquedas no se transmite.</p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
                     <div class="bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-3">
@@ -485,7 +467,7 @@
                     </div>
                     <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3">
                         <p class="text-emerald-300 font-black text-xs uppercase tracking-wider mb-1">busqueda</p>
-                        <p class="text-slate-400 text-xs">Cada búsqueda en el buscador global. Incluye: <code class="text-emerald-300">termino</code> y número de resultados.</p>
+                        <p class="text-slate-400 text-xs">Incluye únicamente el número de resultados, sin el texto buscado.</p>
                     </div>
                     <div class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3">
                         <p class="text-amber-300 font-black text-xs uppercase tracking-wider mb-1">problema_flujo</p>
@@ -561,5 +543,10 @@
         </div>
     </div>
 
+    <footer class="w-full text-center text-xs text-slate-400 px-4 py-4">
+        Protección del contador mediante reCAPTCHA. Se aplican la
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="underline">Política de Privacidad</a>
+        y los <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" class="underline">Términos de Google</a>.
+    </footer>
 </body>
 </html>

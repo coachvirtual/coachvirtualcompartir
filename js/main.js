@@ -31,7 +31,13 @@ function mostrarToast(mensaje, tipo = 'info', duracion = 3500) {
     toast.className = `fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-[500] flex items-center gap-3 px-5 py-3 rounded-2xl border backdrop-blur-md shadow-2xl text-sm font-bold transition-all duration-300 opacity-0 translate-y-4 ${colores[tipo] || colores.info}`;
     toast.setAttribute('role', 'status');
     toast.setAttribute('aria-live', 'polite');
-    toast.innerHTML = `<i data-lucide="${iconos[tipo] || 'info'}" class="w-4 h-4 shrink-0" aria-hidden="true"></i><span>${mensaje}</span>`;
+    const icono = document.createElement('i');
+    icono.setAttribute('data-lucide', iconos[tipo] || 'info');
+    icono.className = 'w-4 h-4 shrink-0';
+    icono.setAttribute('aria-hidden', 'true');
+    const texto = document.createElement('span');
+    texto.textContent = mensaje;
+    toast.append(icono, texto);
     document.body.appendChild(toast);
     lucide.createIcons({ nodes: [toast] });
 
@@ -169,7 +175,19 @@ function initProgreso() {
 }
 
 function getVistos() {
-    try { return JSON.parse(localStorage.getItem('cv_vistos') || '[]'); } catch { return []; }
+    try {
+        const datos = JSON.parse(localStorage.getItem('cv_vistos') || '[]');
+        if (!Array.isArray(datos)) return [];
+        const idsValidos = new Set(todosLosVideos.map(v => v.id));
+        return [...new Set(datos.filter(id => typeof id === 'string' && idsValidos.has(id)))];
+    } catch { return []; }
+}
+
+// Solo se usa en nodos de texto HTML, nunca en JavaScript o atributos.
+function escaparHTML(texto) {
+    return String(texto).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
 }
 
 /* ─── Actualiza la clase video-visto en la tarjeta visible sin reconstruir el grid ─── */
@@ -186,7 +204,7 @@ function actualizarTarjetaVista(ytId) {
 }
 
 function marcarVisto() {
-    if (!videoActualId) return;
+    if (!todosLosVideos.some(v => v.id === videoActualId)) return;
     const vistos = getVistos();
     if (!vistos.includes(videoActualId)) {
         vistos.push(videoActualId);
@@ -209,7 +227,21 @@ function marcarVisto() {
    Guardado: cv_ratings = { [ytId]: { like: N, dislike: N, miVoto: 'like'|'dislike'|null } }
    ============================================================ */
 function getRatings() {
-    try { return JSON.parse(localStorage.getItem('cv_ratings') || '{}'); } catch { return {}; }
+    const ratings = Object.create(null);
+    try {
+        const datos = JSON.parse(localStorage.getItem('cv_ratings') || '{}');
+        if (!datos || typeof datos !== 'object' || Array.isArray(datos)) return ratings;
+        for (const { id } of todosLosVideos) {
+            if (!Object.hasOwn(datos, id)) continue;
+            const entrada = datos[id];
+            if (!entrada || typeof entrada !== 'object' || Array.isArray(entrada)) continue;
+            if (![null, 'like', 'dislike'].includes(entrada.miVoto)) continue;
+            // Cada navegador registra un voto por video, no un contador global.
+            const miVoto = entrada.miVoto;
+            ratings[id] = { like: miVoto === 'like' ? 1 : 0, dislike: miVoto === 'dislike' ? 1 : 0, miVoto };
+        }
+    } catch { /* JSON inválido o almacenamiento no disponible: usar valores vacíos. */ }
+    return ratings;
 }
 
 function actualizarUIRating(ytId) {
@@ -238,7 +270,7 @@ function actualizarUIRating(ytId) {
 }
 
 window.ratingVoto = function(tipo) {
-    if (!videoActualId) return;
+    if (!['like', 'dislike'].includes(tipo) || !todosLosVideos.some(v => v.id === videoActualId)) return;
     const ratings = getRatings();
     const data    = ratings[videoActualId] || { like: 0, dislike: 0, miVoto: null };
     const anterior = data.miVoto;
@@ -686,7 +718,7 @@ function initSearch() {
                 ? generarTarjetas(filtrados)
                 : `<div class="col-span-full text-center p-10 text-slate-400" role="status">
                     <i data-lucide="search-x" class="w-12 h-12 mx-auto mb-3 opacity-40" aria-hidden="true"></i>
-                    <p class="font-bold text-white mb-1">Sin resultados para "<strong>${query}</strong>"</p>
+                    <p class="font-bold text-white mb-1">Sin resultados para "<strong>${escaparHTML(query)}</strong>"</p>
                     <p class="text-sm text-slate-500 mb-4">Prueba con otras palabras:</p>
                     <div class="flex flex-wrap justify-center gap-2">
                         ${['quiz','tarea','calificar','pleno','libro web','richmond','primer paso'].map(s =>
@@ -731,7 +763,7 @@ function initSectionSearch() {
             results.classList.add('grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'gap-4');
             results.innerHTML = filtrados.length > 0
                 ? generarTarjetas(filtrados)
-                : `<div class="col-span-full text-center p-8 text-slate-400" role="status"><i data-lucide="search-x" class="w-10 h-10 mx-auto mb-3 opacity-50" aria-hidden="true"></i><p>Sin resultados para "<strong>${query}</strong>" en esta sección.</p></div>`;
+                : `<div class="col-span-full text-center p-8 text-slate-400" role="status"><i data-lucide="search-x" class="w-10 h-10 mx-auto mb-3 opacity-50" aria-hidden="true"></i><p>Sin resultados para "<strong>${escaparHTML(query)}</strong>" en esta sección.</p></div>`;
             lucide.createIcons();
         }, 250);
     });
@@ -1717,8 +1749,9 @@ function trackVideoCompletado(ytId, titulo) {
 function trackSeccionAbierta(seccion, rol) {
     window.trackEvent('seccion_abierta', { seccion, rol, event_category: 'navegacion' });
 }
-function trackBusqueda(termino, resultados) {
-    window.trackEvent('busqueda', { termino, resultados, event_category: 'busqueda' });
+function trackBusqueda(resultados) {
+    // No transmitir texto libre: podría contener nombres, correos o contraseñas.
+    window.trackEvent('busqueda', { resultados, event_category: 'busqueda' });
 }
 function trackRating(ytId, titulo, tipo) {
     window.trackEvent('rating_voto', { video_id: ytId, video_title: titulo, tipo, event_category: 'rating' });
@@ -1777,110 +1810,29 @@ document.addEventListener('DOMContentLoaded', () => {
                         v.title.toLowerCase().includes(q.toLowerCase()) ||
                         (v.tags && v.tags.some(tag => tag.includes(q.toLowerCase())))
                     ).length;
-                    trackBusqueda(q, n);
+                    trackBusqueda(n);
                 }, 800);
             }
         });
     }
 });
 
-/* ============================================================
-   DASHBOARD ADMIN — Ctrl + Shift + A
-   Protegido con PIN (configurable). Por defecto: 1234
-   Cambia DASHBOARD_PIN antes de producción.
-   ============================================================ */
-const DASHBOARD_PIN = '1234';  // ← Cambia este PIN antes de desplegar
-let _dashPinVerificado = false;
-
+/* Estadísticas del navegador actual. No es un panel administrativo. */
 document.addEventListener('keydown', e => {
-    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
         e.preventDefault();
         const dash = document.getElementById('dashboard-modal');
         if (!dash) return;
         if (dash.classList.contains('hidden')) {
-            if (_dashPinVerificado) {
-                renderDashboard();
-                dash.classList.remove('hidden');
-                lucide.createIcons();
-                dash.focus();
-            } else {
-                solicitarPinDashboard(() => {
-                    renderDashboard();
-                    dash.classList.remove('hidden');
-                    lucide.createIcons();
-                    dash.focus();
-                });
-            }
+            renderDashboard();
+            dash.classList.remove('hidden');
+            lucide.createIcons();
+            dash.focus();
         } else {
             cerrarDashboard();
         }
     }
 });
-
-function solicitarPinDashboard(onSuccess) {
-    // Crear el modal de PIN inline
-    let pinModal = document.getElementById('pin-modal');
-    if (!pinModal) {
-        pinModal = document.createElement('div');
-        pinModal.id = 'pin-modal';
-        pinModal.className = 'fixed inset-0 z-[400] bg-black/80 backdrop-blur-md flex items-center justify-center p-4';
-        pinModal.setAttribute('role', 'dialog');
-        pinModal.setAttribute('aria-label', 'Acceso al dashboard de administración');
-        pinModal.innerHTML = `
-            <div class="glass-panel w-full max-w-xs rounded-2xl border border-indigo-500/20 shadow-2xl p-6 flex flex-col gap-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-indigo-500/15 flex items-center justify-center shrink-0">
-                        <i data-lucide="lock" class="w-5 h-5 text-indigo-400"></i>
-                    </div>
-                    <div>
-                        <p class="text-white font-black text-sm">Acceso restringido</p>
-                        <p class="text-slate-400 text-xs">Ingresa el PIN de administrador</p>
-                    </div>
-                </div>
-                <input id="pin-input" type="password" inputmode="numeric" maxlength="6" placeholder="PIN"
-                    class="w-full glass-panel text-white text-center text-xl font-black tracking-[0.5em] placeholder-slate-600 rounded-xl py-3 px-4 outline-none border border-white/20 focus:border-indigo-500 transition-all"
-                    aria-label="PIN de administrador">
-                <p id="pin-error" class="text-red-400 text-xs text-center hidden">PIN incorrecto. Intenta de nuevo.</p>
-                <div class="flex gap-3">
-                    <button id="pin-cancel" class="flex-1 text-slate-400 hover:text-white text-sm font-bold py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition">
-                        Cancelar
-                    </button>
-                    <button id="pin-submit" class="flex-1 text-white text-sm font-black py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 transition">
-                        Entrar
-                    </button>
-                </div>
-            </div>`;
-        document.body.appendChild(pinModal);
-        lucide.createIcons();
-    }
-
-    pinModal.classList.remove('hidden');
-    const input = document.getElementById('pin-input');
-    const errorEl = document.getElementById('pin-error');
-    input.value = '';
-    errorEl.classList.add('hidden');
-    setTimeout(() => input.focus(), 50);
-
-    const cerrarPin = () => pinModal.classList.add('hidden');
-
-    const verificar = () => {
-        if (input.value === DASHBOARD_PIN) {
-            _dashPinVerificado = true;
-            cerrarPin();
-            onSuccess();
-        } else {
-            errorEl.classList.remove('hidden');
-            input.value = '';
-            input.focus();
-            // Reset verificado si alguien intenta con PIN incorrecto
-            _dashPinVerificado = false;
-        }
-    };
-
-    document.getElementById('pin-submit').onclick = verificar;
-    document.getElementById('pin-cancel').onclick  = cerrarPin;
-    input.onkeydown = e => { if (e.key === 'Enter') verificar(); };
-}
 
 /* ============================================================
    MAPA DE VIDEOS POR SECCIÓN — usado por el dashboard.
@@ -1898,7 +1850,6 @@ const SECCION_VIDEOS_MAP = {
 
 
 window.cerrarDashboard = function() {
-    _dashPinVerificado = false; // requiere PIN de nuevo en próxima apertura
     const m = document.getElementById('dashboard-modal');
     if (m) m.classList.add('hidden');
 };
@@ -1967,7 +1918,7 @@ function renderDashboard() {
                 return `<div class="flex items-center gap-3 p-2 rounded-xl">
                     <span class="text-lg">${r.miVoto==='like'?'👍':'👎'}</span>
                     <div class="min-w-0 flex-1">
-                        <p class="text-white text-xs font-bold truncate">${v?v.title:id}</p>
+                        <p class="text-white text-xs font-bold truncate">${escaparHTML(v?v.title:id)}</p>
                         <div class="flex gap-3 mt-0.5">
                             <span class="text-[10px] text-green-400">👍 ${r.like||0}</span>
                             <span class="text-[10px] text-red-400">👎 ${r.dislike||0}</span>

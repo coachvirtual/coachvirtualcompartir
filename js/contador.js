@@ -1,13 +1,14 @@
 /* ============================================================
    CONTADOR GLOBAL DE VISITAS — Firebase Cloud Firestore
    ------------------------------------------------------------
-   Suma +1 cada vez que se abre o recarga la página y muestra el
-   total acumulado (compartido entre TODOS los visitantes) en la
+   Registra una visita con App Check y muestra el total acumulado en la
    píldora #contador-visitas, junto al botón de Coach Bot.
 
    Documento usado: colección "estadisticas" → doc "contadorVisitas",
    campo "total". Requiere que Firestore esté creado y con reglas que
-   permitan leer/incrementar ese documento (ver index.html).
+   permitan exclusivamente incrementos de +1 (ver firestore.rules).
+   App Check debe estar configurado y exigido para Cloud Firestore.
+   Sin la clave de App Check, solo se consulta el histórico.
 
    Si FIREBASE_CONFIG está incompleto, el contador no se muestra y
    no genera errores en consola (modo silencioso, igual que GA4).
@@ -22,6 +23,7 @@
     var FIREBASE_VERSION = '12.12.0';
     var COLECCION = 'estadisticas';
     var DOCUMENTO = 'contadorVisitas';
+    var appCheckKey = window.COUNTER_APP_CHECK_SITE_KEY || '';
 
     function formatear(n) {
         try { return Number(n).toLocaleString('es-CO'); }
@@ -60,6 +62,9 @@
     cargarScript(base + 'firebase-app-compat.js')
         .then(function () { return cargarScript(base + 'firebase-firestore-compat.js'); })
         .then(function () {
+            return appCheckKey ? cargarScript(base + 'firebase-app-check-compat.js') : undefined;
+        })
+        .then(function () {
             if (!window.firebase || !firebase.initializeApp) {
                 throw new Error('SDK de Firebase no disponible');
             }
@@ -68,16 +73,19 @@
             }
             var db  = firebase.firestore();
             var ref = db.collection(COLECCION).doc(DOCUMENTO);
-            // Incremento atómico del servidor (crea el campo si no existe).
-            return ref.set(
-                { total: firebase.firestore.FieldValue.increment(1) },
-                { merge: true }
-            ).then(function () {
-                return ref.get();
-            });
+            if (!appCheckKey) return ref.get();
+            var appCheck = firebase.appCheck();
+            appCheck.activate(new firebase.appCheck.ReCaptchaEnterpriseProvider(appCheckKey), true);
+            // No escribir si el proveedor no ha emitido un token de App Check.
+            return appCheck.getToken(false).then(function () {
+                return ref.update({ total: firebase.firestore.FieldValue.increment(1) });
+            }).catch(function (err) {
+                console.warn('[Coach Virtual] No se registró la visita:', err && err.message);
+            }).then(function () { return ref.get(); });
         })
         .then(function (snap) {
-            var valor = (snap && snap.exists && snap.data()) ? (snap.data().total || 0) : 0;
+            var valor = (snap && snap.exists && snap.data()) ? snap.data().total : 0;
+            if (!Number.isSafeInteger(valor) || valor < 0) return;
             mostrar(valor);
         })
         .catch(function (err) {

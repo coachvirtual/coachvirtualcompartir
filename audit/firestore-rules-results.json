@@ -1,0 +1,9 @@
+{
+  "passed": [
+    "Public get and atomic increment +1 allowed",
+    "Resets, decrements, larger jumps and invalid types rejected",
+    "Extra fields, deletes, other documents and collection listing rejected",
+    "Clients cannot recreate a missing counter"
+  ],
+  "note": "App Check enforcement is configured in Firebase, not evaluated by the rules emulator."
+}

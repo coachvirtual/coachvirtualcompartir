@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /estadisticas/contadorVisitas {
+      allow get: if true;
+      // App Check debe exigirse en la consola de Firebase para este servicio.
+      // Los clientes solo pueden aumentar el contador existente en una unidad.
+      allow update: if request.resource.data.keys().hasOnly(['total'])
+        && resource.data.total is int
+        && resource.data.total >= 0
+        && request.resource.data.total is int
+        && request.resource.data.total == resource.data.total + 1
+        && request.resource.data.total <= 9007199254740991;
+      allow list, create, delete: if false;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

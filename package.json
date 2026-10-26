@@ -1,0 +1,17 @@
+{
+  "name": "coach-virtual-compartir",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -c tailwind.config.cjs -i css/tailwind.input.css -o css/tailwind.css --minify",
+    "check": "node --check js/main.js && node --check js/bot.js && node --check js/contador.js",
+    "test:security": "node audit/security-regression.cjs"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "4.0.1",
+    "firebase": "11.10.0",
+    "lucide": "0.468.0",
+    "playwright": "1.62.1",
+    "tailwindcss": "3.4.17"
+  }
+}
