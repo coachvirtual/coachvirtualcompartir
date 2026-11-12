@@ -102,13 +102,7 @@ h2{font-size:clamp(30px,4.2vw,50px);font-weight:800;letter-spacing:-.01em}
 
 /* PROGRAMA / MANIFIESTO */
 .programa{background:var(--crema)}
-.prog-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center}
-.manif{background:var(--navy);color:#fff;border-radius:var(--r);padding:clamp(28px,4vw,52px);position:relative;overflow:hidden}
-.manif blockquote{font:700 clamp(24px,2.6vw,34px)/1.22 'Montserrat';color:#fff}
-.manif blockquote em{font-style:normal;color:var(--amarillo)}
-.manif p{color:#D5DAEE;margin-top:18px}
-.manif .sello{display:inline-block;margin-top:22px;font:800 13px 'Montserrat';letter-spacing:.12em;text-transform:uppercase;color:var(--navy);background:var(--verde);padding:8px 14px;border-radius:999px}
-.manif img{position:absolute;right:-18px;bottom:-24px;width:150px;opacity:.95}
+.prog-grid{display:grid;grid-template-columns:minmax(0,1fr);max-width:1080px;margin-inline:auto;}
 .pilares{display:grid;gap:16px;margin-top:28px}
 .pilar{display:flex;gap:16px;align-items:flex-start;background:#fff;border-radius:18px;padding:18px 20px;box-shadow:var(--sombra)}
 .pilar h3{font-size:18px;margin-bottom:4px}
@@ -180,7 +174,6 @@ h2{font-size:clamp(30px,4.2vw,50px);font-weight:800;letter-spacing:-.01em}
 .nv .gr span{background:rgba(255,255,255,.85);color:var(--navy);font:800 15px 'Montserrat';padding:6px 11px;border-radius:10px}
 .nv .bar{position:absolute;left:0;bottom:0;height:8px;background:rgba(5,11,43,.25)}
 .nv:nth-child(4) .bar{background:var(--amarillo)}
-.nv-flow{display:flex;justify-content:space-between;font:700 14px 'Montserrat';color:var(--gris);margin:14px 4px 0}
 .arq{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(24px,3vw,44px);margin-top:clamp(36px,5vw,60px);align-items:center}
 .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .stat{background:#fff;border-radius:18px;padding:20px;box-shadow:var(--sombra);display:flex;gap:16px;align-items:center}
@@ -260,9 +253,6 @@ h2{font-size:clamp(30px,4.2vw,50px);font-weight:800;letter-spacing:-.01em}
 .cierre h2{font-size:clamp(32px,4.6vw,56px)}
 .cierre p{font-size:clamp(17px,1.5vw,20px);color:var(--navy);margin:16px auto 0;max-width:680px}
 .cierre .ctas{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:28px}
-.firma{display:flex;align-items:center;justify-content:center;gap:clamp(18px,3vw,40px);flex-wrap:wrap;padding:26px var(--pad);background:var(--navy)}
-.firma img{height:44px;width:auto}
-.firma .robo{height:64px}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
@@ -311,7 +301,7 @@ button,a{touch-action:manipulation;}
 .tab,.sims button,.fase-ctrl button,.qa button{min-height:44px;}
 .btn{min-height:48px;}
 @media(min-width:1600px){.sec{padding-inline:max(64px,calc((100% - 1440px)/2));}}
-@media(max-width:860px){.hero-grid,.prog-grid,.hab-wrap,.arq,.panel.on,.ley{min-width:0;}.hero-art{min-height:340px;}.sec{--pad:clamp(16px,4vw,32px);}.tab{font-size:14px;padding-right:14px;}.eyebrow{letter-spacing:.06em;}.manif blockquote{font-size:clamp(22px,3vw,30px);}}
+@media(max-width:860px){.hero-grid,.prog-grid,.hab-wrap,.arq,.panel.on,.ley{min-width:0;}.hero-art{min-height:340px;}.sec{--pad:clamp(16px,4vw,32px);}.tab{font-size:14px;padding-right:14px;}.eyebrow{letter-spacing:.06em;}}
 @media(max-width:620px){.hero h1{font-size:clamp(28px,7.5vw,38px);}.hero-art{max-width:360px;min-height:300px;}.hero .datos{gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));}.hero-grid>div{min-width:0;}.dato b{overflow-wrap:break-word;}.dato{padding:14px 12px;}.dato b{font-size:19px;}.dato span{font-size:13px;}.tabs{gap:8px;}.tab{font-size:13px;}.fase .nom{font-size:13px;}.eyebrow{font-size:11px;}.btn{font-size:14px;padding:14px 20px;}.pcard{left:28%;width:64%;}.chipf.c1{right:0;top:51%;}.chipf.c2{left:0;bottom:15%;}}
 @media(hover:none){.btn:hover,.rol:hover,.fase:hover .num{transform:none;}}
 </style>
@@ -374,7 +364,7 @@ button,a{touch-action:manipulation;}
   </div>
 </section>
 
-<!-- 3. PROGRAMA + MANIFIESTO -->
+<!-- 3. PROGRAMA -->
 <section class="sec programa" id="programa" aria-labelledby="t-prog">
   <div class="prog-grid">
     <div class="rv">
@@ -386,13 +376,6 @@ button,a{touch-action:manipulation;}
         <div class="pilar"><div class="ico ve"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/></svg></div><div><h3>STEAM de verdad, no un accesorio</h3><p>No se trata de sumar dispositivos al aula. Ciencia, tecnología, ingeniería, arte y matemáticas se integran en cada experiencia.</p></div></div>
         <div class="pilar"><div class="ico ro"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg></div><div><h3>El error también enseña</h3><p>Los estudiantes enfrentan desafíos, experimentan, identifican y corrigen errores, y reflexionan sobre su propio proceso.</p></div></div>
       </div>
-    </div>
-    <div class="manif rv">
-      <blockquote>La tecnología es el medio. <em>El estudiante es el centro.</em></blockquote>
-      <p>En Robótica SET-XXI nadie viene a mirar un robot: vienen a construirlo. Cada proyecto parte de un problema de su entorno, inspirado en los Objetivos de Desarrollo Sostenible, y termina con un prototipo que funciona y un equipo que aprendió a pensar junto.</p>
-      <p>Así formamos lo que nos mueve en UNOi: personas que entienden la tecnología, la usan con criterio y la ponen al servicio de los demás.</p>
-      <span class="sello">Formamos seres humanos plenos</span>
-      <img src="assets/robotica/427b22e840c4ee1e.webp" alt="" aria-hidden="true">
     </div>
   </div>
 </section>
@@ -491,9 +474,7 @@ button,a{touch-action:manipulation;}
     <div class="nv rv"><span class="n">Nivel 3</span><h3>Investigador</h3><div class="gr"><span>6°</span><span>7°</span><span>8°</span></div><div class="bar" style="width:75%"></div></div>
     <div class="nv rv"><span class="n">Nivel 4</span><h3>Experto</h3><div class="gr"><span>9°</span><span>10°</span><span>11°</span></div><div class="bar" style="width:100%"></div></div>
   </div>
-  <div class="nv-flow" aria-hidden="true"><span>Más exploración</span><span>Más complejidad y autonomía →</span></div>
-
-  <div class="arq">
+<div class="arq">
     <div class="rv">
       <h3 style="font-size:clamp(22px,2.2vw,28px);margin-bottom:16px">Un año escolar con ritmo claro</h3>
       <div class="stats">
@@ -676,11 +657,6 @@ button,a{touch-action:manipulation;}
   </div>
 </section>
 </main>
-
-<footer class="firma">
-  <img class="robo" src="assets/robotica/56e54e19093f0c91.webp" alt="Robótica SET-XXI">
-  <img src="assets/robotica/1bd9e7f4dddb5be0.webp" alt="UNOi">
-</footer>
 
 <script>
 const IMG={"bot_girl3": "assets/robotica/4f71b903bc5063d4.webp", "bot_jet": "assets/robotica/d7e7a330379886d3.webp", "bot_paint": "assets/robotica/b1af977a0c6f0d43.webp", "bot_point": "assets/robotica/6a8d01f66fd7d91d.webp", "bot_visor": "assets/robotica/93a7de470653c9ce.webp", "bot_yellow": "assets/robotica/c54e57da764289fc.webp", "microbit": "assets/robotica/98f2daa63f91a1e8.webp", "tinkercad": "assets/robotica/d0d6a7e53574e8fa.webp", "wokwi": "assets/robotica/7e20eda2198ee374.webp"};
