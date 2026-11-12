@@ -1,0 +1,69 @@
+{
+  "date": "2026-11-12",
+  "scope": "Coach Bot publicado en https://coachvirtual.github.io/coachvirtualcompartir/",
+  "baseline": {
+    "topics": 55,
+    "keywords": 52,
+    "missingMenuTargets": 0,
+    "unknownVideoIds": 0
+  },
+  "findings": [
+    {
+      "issue": "Robótica tenía solo una descripción y no respondía consultas libres sobre el programa.",
+      "resolution": "Base de temas sobre niveles, tiempos, metodología, seis fases, roles, habilidades, materiales, cajas, simuladores, formación, evaluación, currículo y eventos."
+    },
+    {
+      "issue": "Fe tenía una respuesta general y no ofrecía documentos dentro del chat.",
+      "resolution": "Temas sobre CREO, pilares, recursos, familias, formación, pastoral, Pacto Educativo Global, acceso, tutoriales y tres enlaces a documentos."
+    },
+    {
+      "issue": "Coincidencias por subcadena: profesor se interpretaba como Fe.",
+      "resolution": "Normalización de acentos, límites de palabras y reglas de intención específicas."
+    },
+    {
+      "issue": "El primer término coincidente desviaba consultas y no distinguía crear una tarea del nombre CREO.",
+      "resolution": "Prioridad de programa, intención y contexto; separación de CREO como marca y crear como verbo."
+    },
+    {
+      "issue": "Los menús de estudiantes y familias no incluían Fe ni Robótica.",
+      "resolution": "Acceso desde inicio, docentes, estudiantes, familias y preguntas frecuentes."
+    },
+    {
+      "issue": "Respuestas sin fuentes y URL antigua de EDI en algunos pasos.",
+      "resolution": "Referencias verificadas, vínculos compartidos con el catálogo de la app y URL actual de EDI."
+    }
+  ],
+  "updated": {
+    "topics": 100,
+    "supplementalTopics": 47,
+    "engine": "Motor local de intenciones y base curada; sin API generativa ni búsqueda en internet durante las consultas.",
+    "resources": "Los videos y documentos se resuelven desde el mismo catálogo que la sección Fe/Robótica."
+  },
+  "sources": [
+    "robotica.html (contenido completo extraído de la página suministrada por el usuario)",
+    "https://sistemacreo.com/",
+    "https://sistemacreo.com/sistema-creo/",
+    "https://sistemacreo.com/consultoria-y-formacion/",
+    "https://sistemacreo.com/pacto-educativo-global/",
+    "https://www.cancilleria.gov.co/normograma/compilacion/docs/ley_2626_2026.htm",
+    "Catálogo local de dos videos y tres documentos de Compartir Fe"
+  ],
+  "verification": {
+    "intentTests": "audit/coachbot-intent-results.json",
+    "browserTests": "audit/coachbot-browser-results.json",
+    "securityTests": "audit/security-regression-results.json",
+    "intentCasesPassed": 111,
+    "browserViewports": [
+      "320×740",
+      "820×1180",
+      "1366×768"
+    ],
+    "securityChecksPassed": 10
+  },
+  "limitations": [
+    "Los tres PDF de SharePoint devolvieron HTTP 403 durante la auditoría. Se enlazan, pero no se afirma conocer su contenido interno.",
+    "No se transcribieron los videos: el bot los ofrece con los títulos y descripciones del catálogo, sin inventar pasos internos.",
+    "Tarifas, licencias, calendarios, inventarios exactos y requisitos técnicos institucionales no están confirmados; se deriva al colegio o asesor.",
+    "Las pruebas de pantalla se realizaron en navegador emulado, no en dispositivos físicos."
+  ]
+}

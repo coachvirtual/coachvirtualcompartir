@@ -9,6 +9,7 @@ const BOT_DATA = {
             { label: "🎯 Quiero aprender — soy Docente",              topic: "menu_profesor" },
             { label: "🎒 Quiero aprender — soy Estudiante o Padre",   topic: "menu_estudiante" },
             { label: "❓ Tengo una duda o problema",                   topic: "tengo_duda" },
+            { label: "🧩 Robótica y Fe — Suplementales", topic: "suplementales_bot" },
             { label: "📋 Preguntas frecuentes",                        topic: "faq_bot" }
         ]
     },
@@ -39,6 +40,8 @@ const BOT_DATA = {
             { label: "Compartir Conocimientos",                        topic: "est_conocimientos" },
             { label: "Compartir Progreso (Pleno)",                     topic: "progreso_estudiante" },
             { label: "Inglés — Richmond Studio",                       topic: "ingles_estudiante" },
+            { label: "Compartir Fe — CREO", topic: "fe_docente" },
+            { label: "Compartir Robótica — SET-XXI", topic: "robotica" },
             { label: "◀ Volver",                                       topic: "tengo_duda" }
         ]
     },
@@ -54,6 +57,7 @@ const BOT_DATA = {
             { label: "¿Cómo creo un quiz o actividad?",                topic: "quiz_base" },
             { label: "¿Cómo creo una evaluación en Pleno?",            topic: "pleno_doc_crear" },
             { label: "¿Cómo ingreso a Richmond Studio?",               topic: "richmond_ingreso" },
+            { label: "¿Qué es Compartir Robótica / SET-XXI?", topic: "robotica" },
             { label: "¿Qué es Compartir FE / CREO?",                   topic: "fe_docente" },
             { label: "◀ Volver",                                       topic: "inicio" }
         ]
@@ -77,6 +81,8 @@ const BOT_DATA = {
             { label: "Compartir Conocimientos",                        topic: "est_conocimientos" },
             { label: "Compartir Progreso (Pleno)",                     topic: "progreso_estudiante" },
             { label: "Inglés — Richmond Studio",                       topic: "ingles_estudiante" },
+            { label: "Compartir Fe — CREO", topic: "fe_docente" },
+            { label: "Compartir Robótica — SET-XXI", topic: "robotica" },
             { label: "◀ Cambiar perfil",                               topic: "inicio" }
         ]
     },
@@ -115,7 +121,7 @@ const BOT_DATA = {
         ]
     },
     "docente_inicio": {
-        text: "**Primeros pasos en Compartir Conocimientos**\n\n1. Ingresa a edi.santillanacompartir.com.co.\n2. Arriba a la derecha: Biblioteca, Tareas, Calendario y Notificaciones.\n3. En el centro verás tus clases.\n4. Al entrar a una clase, 4 pestañas:\n  • **Programa:** Módulos y Aprendizajes Nucleares.\n  • **Recursos del aula:** Apoyo docente.\n  • **Panel:** Tablero de publicaciones.\n  • **Calificaciones:** Rejilla de control.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('Bv_FinX79vk')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        text: "**Primeros pasos en Compartir Conocimientos**\n\n1. Ingresa a https://edi-compartir-co.stn-neds.com.\n2. Arriba a la derecha: Biblioteca, Tareas, Calendario y Notificaciones.\n3. En el centro verás tus clases.\n4. Al entrar a una clase, 4 pestañas:\n  • **Programa:** Módulos y Aprendizajes Nucleares.\n  • **Recursos del aula:** Apoyo docente.\n  • **Panel:** Tablero de publicaciones.\n  • **Calificaciones:** Rejilla de control.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('Bv_FinX79vk')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "prof_gestion" }]
     },
     "docente_tarea": {
@@ -147,7 +153,7 @@ const BOT_DATA = {
         ]
     },
     "est_inicio": {
-        text: "**Primeros pasos — Estudiante**\n\n1. Ingresa a edi.santillanacompartir.com.co.\n2. Selecciona Compartir Conocimientos.\n3. Arriba a la derecha: Tareas, Calendario, Notificaciones.\n4. Entra a tu clase y verás:\n  • **Programa:** actividades.\n  • **Recursos:** Flipbook.\n  • **Panel:** avisos del profe.\n  • **Calificaciones:** tus notas.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('9oKz6MQgDsk')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        text: "**Primeros pasos — Estudiante**\n\n1. Ingresa a https://edi-compartir-co.stn-neds.com.\n2. Selecciona Compartir Conocimientos.\n3. Arriba a la derecha: Tareas, Calendario, Notificaciones.\n4. Entra a tu clase y verás:\n  • **Programa:** actividades.\n  • **Recursos:** Flipbook.\n  • **Panel:** avisos del profe.\n  • **Calificaciones:** tus notas.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('9oKz6MQgDsk')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [{ label: "◀ Volver", topic: "est_conocimientos" }]
     },
     "est_tareas": {
@@ -227,7 +233,7 @@ const BOT_DATA = {
         ]
     },
     "richmond_ingreso": {
-        text: "**Ingresar a Richmond Studio**\n\n• **Via Santillana Connect:** ingresa y busca Richmond Studio.\n• **Via EDI Santillana:** ingresa a edi.santillanacompartir.com.co y localiza el acceso.\n\n▶️ Connect: <a href=\"#\" onclick=\"openVideoModal('P9ohgrwD_zs')\" class=\"underline text-emerald-400\">Ver Video</a> | EDI: <a href=\"#\" onclick=\"openVideoModal('wyxu3QD9WX8')\" class=\"underline text-emerald-400\">Ver Video</a>",
+        text: "**Ingresar a Richmond Studio**\n\n• **Via Santillana Connect:** ingresa y busca Richmond Studio.\n• **Via EDI Santillana:** ingresa a https://edi-compartir-co.stn-neds.com y localiza el acceso.\n\n▶️ Connect: <a href=\"#\" onclick=\"openVideoModal('P9ohgrwD_zs')\" class=\"underline text-emerald-400\">Ver Video</a> | EDI: <a href=\"#\" onclick=\"openVideoModal('wyxu3QD9WX8')\" class=\"underline text-emerald-400\">Ver Video</a>",
         options: [
             { label: "◀ Volver (Docente)",     topic: "ingles_docente" },
             { label: "◀ Volver (Estudiante)",  topic: "ingles_estudiante" }
@@ -358,7 +364,7 @@ const BOT_DATA = {
 
     // ── NO ENCONTRADO ─────────────────────────────────────────
     "no_encontrado": {
-        text: "Hmm, no encontré un tutorial exacto para eso 🤔\n\nIntenta con palabras como: **quiz**, **tarea**, **pleno**, **richmond**, **sopa**, **rúbrica**, **markbook**, **libro**...\n\n¿Quieres ir al menú principal?",
+        text: "Hmm, no encontré un tutorial exacto para eso 🤔\n\nIntenta con palabras como: **quiz**, **tarea**, **pleno**, **richmond**, **sopa**, **rúbrica**, **markbook**, **libro**, **robótica** o **CREO**...\n\n¿Quieres ir al menú principal?",
         options: [
             { label: "Ir al menú",                              topic: "inicio" },
             { label: "Soy Docente 🍎",                          topic: "menu_profesor" },
@@ -366,6 +372,10 @@ const BOT_DATA = {
         ]
     }
 };
+
+// Keep the existing topics usable if a cached page has not loaded the program file yet.
+const PROGRAM_DATA = typeof BOT_PROGRAMAS === 'undefined' ? { topics: {}, sources: {} } : BOT_PROGRAMAS;
+Object.assign(BOT_DATA, PROGRAM_DATA.topics);
 
 /* ============================================================
    ÍNDICE DE BÚSQUEDA POR TEXTO LIBRE
@@ -394,8 +404,7 @@ const KEYWORD_INDEX = {
     // Estudiante
     'libro': 'est_libroweb', 'biblioteca': 'est_biblioteca', 'responder': 'est_tareas',
     // FE / CREO
-    'creo': 'fe_docente', 'fe': 'fe_docente', 'malla': 'fe_docente',
-    'primaria': 'fe_docente', 'secundaria': 'fe_docente', 'valores': 'fe_docente',
+    // Robótica y Fe se resuelven por intención y contexto, nunca por subcadenas.
     // FAQ y problemas
     'contraseña': 'no_encontrado', 'password': 'no_encontrado', 'lento': 'no_encontrado'
 };
@@ -409,61 +418,151 @@ const KEYWORD_INDEX = {
 ──────────────────────────────────────────────────────────────── */
 const botMemoria = {
     ultimoTopic: null,
-    ultimaSeccion: null,  // 'conocimientos' | 'progreso' | 'ingles' | 'fe'
-    ultimoRol: null,      // 'docente' | 'estudiante'
-
+    ultimaSeccion: null,
+    ultimoRol: null,
     setTopic(topic) {
         this.ultimoTopic = topic;
-        // Inferir sección del topic
-        if (/pleno|progreso/.test(topic))    this.ultimaSeccion = 'progreso';
+        if (topic === 'inicio' || topic === 'suplementales_bot' || topic === 'programas_comparar' || topic === 'programa_aclarar') this.ultimaSeccion = null;
+        else if (topic.startsWith('robotica')) this.ultimaSeccion = 'robotica';
+        else if (topic.startsWith('fe_')) this.ultimaSeccion = 'fe';
+        else if (/pleno|progreso/.test(topic)) this.ultimaSeccion = 'progreso';
         else if (/ingles|richmond/.test(topic)) this.ultimaSeccion = 'ingles';
-        else if (/fe_|creo/.test(topic))     this.ultimaSeccion = 'fe';
-        else if (/conocimiento|quiz|actividad|tarea|asignar/.test(topic)) this.ultimaSeccion = 'conocimientos';
-        // Inferir rol
-        if (/docente|prof/.test(topic))      this.ultimoRol = 'docente';
-        else if (/est_/.test(topic))         this.ultimoRol = 'estudiante';
-    },
-
-    resolverConContexto(topic) {
-        // Si ya tenemos un topic, devolver tal cual
-        if (topic) {
-            this.setTopic(topic);
-            return topic;
-        }
-        // Sin match de keyword — intentar resolver con contexto previo
-        return null;
+        else if (/^(docente_|est_|prof_|quiz_|cat_|q_)/.test(topic)) this.ultimaSeccion = 'conocimientos';
+        else if (/^menu_|^duda_/.test(topic)) this.ultimaSeccion = null;
+        if (/docente|profesor|^prof_/.test(topic)) this.ultimoRol = 'docente';
+        else if (/estudiante|^est_|pleno_est_|richmond_est_/.test(topic)) this.ultimoRol = 'estudiante';
     }
 };
 
-function searchByKeyword(q) {
-    q = q.toLowerCase().trim();
+function normalizarConsulta(text) {
+    return String(text).slice(0, 1500).normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, ' ');
+}
 
-    // Palabras de continuación que solos no hacen match pero con contexto sí
-    const pronombresVacios = /^(y |también |también |tambien |además |ademas |pero |ahora |como |cómo )/;
-    const esReferencial = pronombresVacios.test(q) || q.length < 5;
+// Specific questions take priority over a program name or a generic word such as "libro".
+const PROGRAM_INTENTS = {
+    robotica: [
+        [/\b(torneo|premios?|competencias? nacionales|competicion|competencia nacional|eventos?)\b/, 'robotica_eventos'],
+        [/\b(precios?|costos?|tarifas?|cuesta|cuestan|cotizacion|cotizar|licencias?|gratis|gratuito|pesa|peso|dimensiones|medidas|inventario|envio|suscripcion|fechas?|calendario|sin internet|sin conexion|offline|compatibilidad|compatible|requisitos|windows|android|ipad|iphone|descargar)\b|cuanto (?:vale|valen)/, 'robotica_sin_dato'],
+        [/\b(no funciona|falla|fallo|error|averia|reparar|soporte)\b/, 'robotica_soporte'],
+        [/\b(acceder|accedo|accede|acceso|entrar|ingresar|ingresa|ingreso|contrasena|usuario|credenciales|donde encuentro|donde esta|donde veo)\b/, 'robotica_acceso'],
+        [/\b(tinkercad)\b/, 'robotica_tinkercad'],
+        [/\b(wokwi)\b/, 'robotica_wokwi'],
+        [/\bmicro\s*(?:bit|bit s)\b/, 'robotica_microbit'],
+        [/\b(simulador|simuladores|simular|simulacion)\b/, 'robotica_simuladores'],
+        [/\b(cajas?|kits?|artefactos|repuestos?|reposicion|sensores?|motores?|ruedas?|cables?|placas?|componentes electronicos|primer ano|segundo ano|anos siguientes)\b/, 'robotica_cajas'],
+        [/\b(cartilla|bitacora|cuaderno)\b/, 'robotica_cartilla'],
+        [/\b(maestro maker)\b/, 'robotica_libro'],
+        [/\b(formacion|capacitacion|capacitar|acompanamiento|asesoria|rutas formativas|experto en robotica|especialistas?|experiencia del docente)\b|docente.*(?:experto|experiencia)|(?:necesito|necesita|debo).*ser experto/, 'robotica_formacion'],
+        [/\b(libro|libros|digital|fichas docentes|videotutoriales)\b/, 'robotica_libro'],
+        [/\b(evaluar|evaluacion|evalua|evaluo|evaluan|rubrica|rubricas|calificar|califico|calificacion|calificaciones|nota|notas|porcentaje)\b/, 'robotica_evaluacion'],
+        [/\b(fases?|pasos?|desafio|indaguemos|disenemos|construyamos|comuniquemos|evaluemos|etapas?)\b/, 'robotica_fases'],
+        [/\b(roles?|indagador|disenador|constructor|comunicador|equipo|equipos)\b/, 'robotica_roles'],
+        [/\b(malla|mallas|curriculo|curricular|curriculares|ley|2626|iste|men|estandares|norma|normativa|educacion digital)\b/, 'robotica_curriculo'],
+        [/\b(areas|matematicas|lenguaje|ciencias naturales|ciencias sociales|otras asignaturas)\b/, 'robotica_areas'],
+        [/\b(proyectos? por grado|cuantos proyectos|cuantas horas|cuantas semanas|cuantas sesiones|horas?|semanas?|duracion|tiempo|intensidad|sesiones?|sesion|semanal|asignatura|implementar|implementa|extracurricular)\b/, 'robotica_tiempos'],
+        [/\b(niveles?|grados?|transicion|explorador|practicante|investigador|experto|primaria|secundaria|edades|edad)\b|\b(?:[1-9]|10|11)\s+(?:primaria|secundaria)\b/, 'robotica_niveles'],
+        [/\b(cuantos|cuantas|horas?|semanas?|duracion|tiempo|intensidad|sesiones?|sesion|semanal|asignatura|implementar|implementa|extracurricular|curricular)\b/, 'robotica_tiempos'],
+        [/\b(habilidades|destrezas|aprenden|aprendizajes|autonomia|resiliencia|curiosidad|imaginacion|gestion de la informacion|pensamiento critico|resolucion|liderazgo|comunicacion|escucha|ciudadania|empatia|creatividad|innovacion|inteligencia artificial|internet de las cosas|mecatronica|programacion|programar|computacional|impresion 3d)\b/, 'robotica_habilidades'],
+        [/\b(metodologia|metodologias|steam|maker|ods|sostenible|servicio|colaborativo|como aprenden)\b/, 'robotica_metodologia'],
+        [/\b(materiales?|recursos?|componentes|incluye|incluyen|contiene|trae|recibe|necesita el colegio)\b/, 'robotica_componentes'],
+        [/\b(video|videos|ver en accion|instagram)\b/, 'robotica_video'],
+        [/\b(que es|en que consiste|proposito|objetivo|objetivos|informacion|resumen|hablame|conocer|programa)\b|^(?:compartir )?(?:robotica|set ?21|set ?xxi)$/, 'robotica']
+    ],
+    fe: [
+        [/\b(precios?|costos?|tarifas?|cuesta|cuestan|cotizacion|cotizar|licencias?|gratis|gratuito|suscripcion|calendario|fechas?|sin internet|sin conexion|offline|compatibilidad|requisitos)\b|cuanto (?:vale|valen)/, 'fe_sin_dato'],
+        [/\b(permiso|permisos|autorizacion|denegado|bloqueado|403|sharepoint|no abre|no puedo abrir|no descarga|no me deja)\b/, 'fe_acceso_documentos'],
+        [/\b(primaria)\b/, 'fe_primaria'],
+        [/\b(secundaria|bachillerato)\b/, 'fe_secundaria'],
+        [/\b(pensar y creer)\b/, 'fe_pensar_creer'],
+        [/\b(aprender con sentido)\b/, 'fe_aprender_sentido'],
+        [/\b(pacto|peg|casa comun|siete compromisos)\b/, 'fe_pacto'],
+        [/\b(pilares?|cinco pilares|proposito|objetivos?)\b/, 'fe_pilares'],
+        [/\b(familia|familias|padres?|madres?|hogar|celebrar|quince minutos|voz de la experiencia)\b/, 'fe_familias'],
+        [/\b(formacion|capacitacion|capacitar|rutas formativas|ciclos formativos|talleres|consultoria|acompanamiento|asesoria)\b/, 'fe_formacion'],
+        [/\b(contenidos globales|recursos globales)\b/, 'fe_contenidos'],
+        [/\b(conexiones|conexion|integracion|integrar|transversal|articular|relacionar)\b/, 'fe_conexiones'],
+        [/\b(mallas?|documentos?|pdf|descargar|planificacion|asignaturas?|grado|grados|curriculo|curricular|curriculares)\b/, 'fe_documentos'],
+        [/\b(tutorial|tutoriales|video|videos)\b/, 'fe_tutoriales'],
+        [/\b(acceso|acceder|accedo|accede|entrar|ingresar|ingresa|ingreso|usuario|contrasena|credenciales|donde encuentro|donde esta|donde veo|edi)\b/, 'fe_acceso'],
+        [/\b(pastoral|pastorales|evangelizacion)\b/, 'fe_pastoral'],
+        [/\b(evaluacion|evaluar|evalua|evaluo|calificar|calificacion|calificaciones|rubricas?|notas?)\b/, 'fe_evaluacion'],
+        [/\b(recursos|materiales|componentes|incluye|incluyen|contiene|ofrece|herramientas|libro|libros|digital|evaluacion|evaluar|calificar|socioemocional|religiosa|ingles|literatura|plan lector|itinerario|aprender)\b/, 'fe_recursos'],
+        [/\b(que es|en que consiste|hablame|programa|resumen|informacion|valores|catolico|catolica|jesus|evangelio)\b|^(?:compartir )?(?:fe|creo)$/, 'fe_docente']
+    ]
+};
 
-    for (const [kw, topic] of Object.entries(KEYWORD_INDEX)) {
-        if (q.includes(kw)) {
-            botMemoria.setTopic(topic);
-            return topic;
+function resolverPrograma(section, query) {
+    const intent = PROGRAM_INTENTS[section].find(([pattern]) => pattern.test(query));
+    const candidate = intent ? intent[1] : section === 'fe' ? 'fe_sin_dato' : 'robotica_sin_dato';
+    return BOT_DATA[candidate] ? candidate : section === 'fe' ? 'fe_docente' : 'robotica';
+}
+
+function searchByKeyword(text) {
+    const q = normalizarConsulta(text);
+    if (!q) return null;
+    const remember = topic => { if (topic) botMemoria.setTopic(topic); return topic; };
+    if (/^(hola|buenos dias|buenas tardes|buenas noches|inicio|menu|volver al inicio)$/.test(q)) return remember('inicio');
+    if (/^soy (?:un |una )?(?:docente|profesor|profesora|maestro|maestra)$/.test(q)) return remember('menu_profesor');
+    if (/^soy (?:un |una )?(?:estudiante|alumno|alumna|padre|madre|familiar)$/.test(q)) return remember('menu_estudiante');
+    const robotics = /\b(robotica|robot|robots|set\s*(?:21|xxi))\b/.test(q);
+    const crearActividad = /\bcreo\s+(?:(?:un|una|el|la|mi|mis|los|las|nuevo|nueva)\s+)*(?:tareas?|quiz|cuestionario|evaluacion|actividad|rubrica|material)\b/.test(q);
+    const fe = /\b(fe|pastoral|evangelio|catolica|catolico|jesus|peg)\b|pacto educativo/.test(q) || (!crearActividad && /\bcreo\b(?!\s+que\b)/.test(q));
+    if (robotics && fe) return remember('programas_comparar');
+    if (robotics) return remember(resolverPrograma('robotica', q));
+    if (fe) return remember(resolverPrograma('fe', q));
+    if (/\b(suplementales|suplementarios)\b/.test(q)) return remember('suplementales_bot');
+
+    // An explicit platform or task switches context instead of inheriting the previous program.
+    if (/\b(pleno|progreso)\b/.test(q)) {
+        if (/\b(responder|respondo|presentar|enviar)\b/.test(q)) return remember('pleno_est_responder');
+        if (/\b(rubricas?|calificar|califico|calificacion)\b/.test(q)) return remember('pleno_doc_calificar');
+        if (/\b(habilitar|reiniciar)\b/.test(q)) return remember('pleno_doc_reiniciar');
+        if (/\b(crear|creo|evaluacion|evaluaciones|banco)\b/.test(q)) return remember('pleno_doc_crear');
+        if (/\b(planificar|fechas|acceder|ingresar)\b/.test(q)) return remember('pleno_doc_planificar');
+        return remember(botMemoria.ultimoRol === 'estudiante' ? 'progreso_estudiante' : 'progreso_docente');
+    }
+    if (/\b(richmond|ingles|markbook|assignments|pending|isolution)\b/.test(q)) {
+        if (/\b(cookies|cache|limpiar)\b/.test(q)) return remember('richmond_cookies');
+        if (/\b(asignar|asigno|crear|creo)\b.*\b(tarea|tareas)\b/.test(q)) return remember('richmond_doc_tareas');
+        if (/\b(markbook|notas|calificaciones)\b/.test(q)) return remember('richmond_est_markbook');
+        if (/\b(assignments|asignaciones)\b/.test(q)) return remember('richmond_est_assignments');
+        if (/\b(pending|audios|calificar)\b/.test(q)) return remember('richmond_doc_calificar');
+        if (/\b(isolution)\b/.test(q)) return remember('richmond_doc_isolution');
+        if (/\b(ingresar|entrar|acceder|connect|edi|acceso)\b/.test(q)) return remember('richmond_ingreso');
+        return remember(botMemoria.ultimoRol === 'estudiante' ? 'ingles_estudiante' : 'ingles_docente');
+    }
+    if (/\b(responder|respondo|entregar|entrego|enviar)\b.*\b(tarea|tareas|actividad|actividades)\b/.test(q)) return remember('est_tareas');
+    if (/\b(crear|creo|hacer|asignar|asigno)\b.*\b(tarea|tareas)\b/.test(q)) return remember('docente_tarea');
+    if (crearActividad && /\b(quiz|cuestionario|actividad)\b/.test(q)) return remember('quiz_base');
+    if (crearActividad && /\bevaluacion\b/.test(q)) return remember('pleno_doc_crear');
+    if (crearActividad && /\brubrica\b/.test(q)) return remember('pleno_doc_calificar');
+
+    // Distinctive terms can identify a program without requiring its brand name.
+    if (/\b(tinkercad|wokwi|micro\s*bit|maestro maker|cartilla|simulador|simuladores|fases|artefactos|prototipo|prototipos|explorador|practicante|indagador|construyamos|indaguemos|disenemos|comuniquemos|evaluemos|mecatronica|steam|maker|cajas?)\b/.test(q)) return remember(resolverPrograma('robotica', q));
+    if (/\b(pensar y creer|aprender con sentido|pacto educativo|educacion religiosa escolar|escuela para padres|celebrar en familia|quince minutos|contenidos globales|recursos globales)\b/.test(q)) return remember(resolverPrograma('fe', q));
+    if (botMemoria.ultimaSeccion === 'robotica' || botMemoria.ultimaSeccion === 'fe') return remember(resolverPrograma(botMemoria.ultimaSeccion, q));
+    if (/\b(mallas?|primaria|secundaria|niveles?|formacion|familias?|pilares?|simuladores?|fases?|proyectos?)\b/.test(q)) return remember('programa_aclarar');
+
+    // Phrase boundaries prevent "fe" from matching "profesor" and similar substrings.
+    const entries = Object.entries(KEYWORD_INDEX).map(([kw, topic]) => [normalizarConsulta(kw), topic]).sort((a, b) => b[0].length - a[0].length);
+    const match = entries.find(([kw]) => {
+        const variants = [kw];
+        if (!kw.includes(' ')) {
+            if (/[aeiou]$/.test(kw)) variants.push(kw + 's');
+            else if (/[nr]$/.test(kw)) variants.push(kw + 'es');
+            if (kw.endsWith('s') && kw.length > 4) variants.push(kw.slice(0, -1));
         }
+        return variants.some(term => (' ' + q + ' ').includes(' ' + term + ' '));
+    });
+    if (match) return remember(match[1]);
+    if (/^(y |tambien |ademas |como )/.test(q)) {
+        const contexts = {progreso:'progreso_docente',conocimientos:botMemoria.ultimoRol === 'estudiante' ? 'est_conocimientos':'prof_conocimientos',ingles:botMemoria.ultimoRol === 'estudiante' ? 'ingles_estudiante':'ingles_docente'};
+        return remember(contexts[botMemoria.ultimaSeccion] || null);
     }
-
-    // Sin match directo — si la pregunta parece referencial y tenemos contexto previo,
-    // guiar al usuario hacia el área de su última sección/rol
-    if (esReferencial && botMemoria.ultimaSeccion) {
-        const fallbackPorContexto = {
-            'progreso':      'progreso_docente',
-            'conocimientos': botMemoria.ultimoRol === 'estudiante' ? 'est_conocimientos' : 'prof_conocimientos',
-            'ingles':        botMemoria.ultimoRol === 'estudiante' ? 'ingles_estudiante' : 'ingles_docente',
-            'fe':            'fe_docente'
-        };
-        const topicContextual = fallbackPorContexto[botMemoria.ultimaSeccion];
-        if (topicContextual) return topicContextual;
-    }
-
     return null;
 }
+
 
 /* ============================================================
    MOTOR DEL CHATBOT
@@ -478,35 +577,105 @@ window.initBot = function initBot() {
     renderBotResponse("inicio");
 }
 
-function renderBotResponse(topicId) {
-    const data = BOT_DATA[topicId];
-    if (!data) return;
+function crearEnlaceBot(label, href) {
+    const url = new URL(href, location.href);
+    if (url.protocol !== 'https:' && !(url.origin === location.origin && href.startsWith('robotica.html'))) return null;
+    const link = document.createElement('a');
+    link.href = url.href;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.className = 'bot-resource-link';
+    link.textContent = label;
+    return link;
+}
 
-    const formattedText = data.text
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>');
-
-    let optionsHTML = '';
-    if (data.options?.length) {
-        optionsHTML = `<div class="flex flex-col gap-2 mt-4 border-t border-white/10 pt-3" role="group" aria-label="Opciones">`;
-        data.options.forEach(opt => {
-            optionsHTML += `
-                <button onclick="handleUserClick('${opt.label.replace(/'/g,"\\'")}','${opt.topic}')"
-                    class="bg-slate-800/80 hover:bg-indigo-600 border border-indigo-500/30 py-2.5 px-4 rounded-xl text-[11px] font-bold transition-colors text-left flex justify-between items-center group cyber-hover"
-                    aria-label="${opt.label.replace(/◀ /, '')}">
-                    ${opt.label}
-                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
-                </button>`;
+function agregarRecursosBot(message, data) {
+    const resources = document.createElement('div');
+    resources.className = 'bot-resources';
+    const program = data.program;
+    if (program === 'Robotica' || program === 'FE') {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'bot-program-button';
+        button.textContent = program === 'Robotica' ? 'Abrir Compartir Robótica' : 'Abrir Compartir Fe';
+        button.addEventListener('click', () => {
+            window.cerrarCoachBot();
+            openRoleSelection(program);
         });
-        optionsHTML += `</div>`;
+        resources.appendChild(button);
     }
+    (data.videos || []).forEach(id => {
+        const video = typeof todosLosVideos !== 'undefined' && todosLosVideos.find(item => item.id === id);
+        if (!video) return;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'bot-resource-link';
+        button.textContent = 'Ver video: ' + video.title;
+        button.addEventListener('click', () => openVideoModal(id));
+        resources.appendChild(button);
+    });
+    (data.documents || []).forEach(index => {
+        const doc = typeof documentosFE !== 'undefined' && documentosFE[index];
+        if (!doc) return;
+        const link = crearEnlaceBot(doc.titulo, doc.link);
+        if (link) resources.appendChild(link);
+    });
+    (data.links || []).forEach(item => {
+        const link = crearEnlaceBot(item.label, item.url);
+        if (link) resources.appendChild(link);
+    });
+    if (resources.childElementCount) message.appendChild(resources);
+    const sources = (data.sources || []).map(key => PROGRAM_DATA.sources[key]).filter(Boolean);
+    if (sources.length) {
+        const sourceBox = document.createElement('div');
+        sourceBox.className = 'bot-sources';
+        const label = document.createElement('span');
+        label.textContent = 'Consultar fuentes:';
+        sourceBox.appendChild(label);
+        sources.forEach(source => {
+            const link = crearEnlaceBot(source.label, source.url);
+            if (link) sourceBox.appendChild(link);
+        });
+        message.appendChild(sourceBox);
+    }
+}
 
+function renderBotResponse(topicId) {
+    const data = BOT_DATA[topicId] || BOT_DATA.no_encontrado;
+    // Only curated knowledge may contain markup. User messages use textContent below.
+    const formattedText = data.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
     const botMsg = document.createElement('div');
-    botMsg.className = "self-start bg-slate-800/90 border border-indigo-500/20 text-white p-5 rounded-2xl rounded-tl-sm text-sm shadow-[0_0_20px_rgba(0,0,0,0.4)] mb-2 leading-relaxed transform transition-all translate-y-2 opacity-0 max-w-full";
+    botMsg.className = 'bot-message self-start bg-slate-800/90 border border-indigo-500/20 text-white p-5 rounded-2xl rounded-tl-sm text-sm shadow-[0_0_20px_rgba(0,0,0,0.4)] mb-2 leading-relaxed transform transition-all translate-y-2 opacity-0 max-w-full';
     botMsg.setAttribute('role', 'article');
-    botMsg.innerHTML = formattedText + optionsHTML;
+    botMsg.dataset.botTopic = topicId;
+    const body = document.createElement('div');
+    body.innerHTML = formattedText;
+    botMsg.appendChild(body);
+    agregarRecursosBot(botMsg, data);
+    if (data.options?.length) {
+        const options = document.createElement('div');
+        options.className = 'flex flex-col gap-2 mt-4 border-t border-white/10 pt-3';
+        options.setAttribute('role', 'group');
+        options.setAttribute('aria-label', 'Opciones');
+        data.options.forEach(opt => {
+            if (!BOT_DATA[opt.topic]) return;
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'bot-option bg-slate-800/80 hover:bg-indigo-600 border border-indigo-500/30 py-2.5 px-4 rounded-xl font-bold transition-colors text-left flex justify-between items-center group cyber-hover';
+            button.setAttribute('aria-label', opt.label.replace(/◀ /, ''));
+            const label = document.createElement('span');
+            label.textContent = opt.label;
+            const icon = document.createElement('i');
+            icon.setAttribute('data-lucide', 'chevron-right');
+            icon.setAttribute('aria-hidden', 'true');
+            icon.className = 'w-4 h-4 shrink-0';
+            button.append(label, icon);
+            button.addEventListener('click', () => handleUserClick(opt.label, opt.topic));
+            options.appendChild(button);
+        });
+        botMsg.appendChild(options);
+    }
     chatContainer.appendChild(botMsg);
-    // Scope a solo el nuevo elemento — evita recorrer todo el DOM en cada mensaje
     lucide.createIcons({ nameAttr: 'data-lucide', attrs: {}, nodes: [botMsg] });
     requestAnimationFrame(() => botMsg.classList.remove('translate-y-2', 'opacity-0'));
     chatContainer.scrollTop = chatContainer.scrollHeight;

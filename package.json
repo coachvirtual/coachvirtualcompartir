@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "build": "tailwindcss -c tailwind.config.cjs -i css/tailwind.input.css -o css/tailwind.css --minify",
-    "check": "node --check js/main.js && node --check js/bot.js && node --check js/contador.js",
-    "test:security": "node audit/security-regression.cjs"
+    "check": "node --check js/main.js && node --check js/bot-programas.js && node --check js/bot.js && node --check js/contador.js",
+    "test:security": "node audit/security-regression.cjs",
+    "test:bot": "node audit/coachbot-intents.test.cjs && node audit/coachbot-browser.test.cjs"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "4.0.1",
