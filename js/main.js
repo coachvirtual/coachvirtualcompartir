@@ -1162,14 +1162,15 @@ function loadRoboticaContent() {
 }
 
 window.addEventListener('message', event => {
-    const frame = document.getElementById('robotica-frame');
+    const isFE = event.data && typeof event.data === 'object' && ['compartir-fe-height', 'compartir-fe-scroll'].includes(event.data.type);
+    const frame = document.getElementById(isFE ? 'fe-frame' : 'robotica-frame');
     if (!frame || event.source !== frame.contentWindow || event.origin !== location.origin) return;
     const data = event.data;
     if (!data || typeof data !== 'object') return;
-    if (data.type === 'compartir-robotica-height' && Number.isFinite(data.height) && data.height > 0 && data.height < 100000) {
+    if (data.type === (isFE ? 'compartir-fe-height' : 'compartir-robotica-height') && Number.isFinite(data.height) && data.height > 0 && data.height < 100000) {
         frame.style.height = Math.ceil(data.height) + 'px';
     }
-    if (data.type === 'compartir-robotica-scroll' && Number.isFinite(data.top) && data.top >= 0) {
+    if (data.type === (isFE ? 'compartir-fe-scroll' : 'compartir-robotica-scroll') && Number.isFinite(data.top) && data.top >= 0) {
         const headerHeight = document.querySelector('header').offsetHeight;
         window.scrollTo({top: frame.getBoundingClientRect().top + window.scrollY + data.top - headerHeight - 16, behavior: 'instant'});
     }
@@ -1191,7 +1192,9 @@ function loadFEContent() {
             </div>
             <div class="w-full h-px bg-white/10 mb-8"></div>
 
-            <p class="text-slate-300 mb-8 text-sm">Recursos de integración entre <strong>Compartir</strong> y <strong>CREO</strong> para docentes.</p>
+            <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo.html?v=20261112" title="Explorador de Recursos Globales CREO 2026" loading="eager"></iframe>
+
+            <p class="text-slate-300 mb-8 text-sm">Tutoriales y documentos de apoyo de <strong>Compartir Fe</strong>.</p>
 
             <!-- VIDEOS -->
             <h3 class="font-black text-white text-lg mb-4 flex items-center gap-2">

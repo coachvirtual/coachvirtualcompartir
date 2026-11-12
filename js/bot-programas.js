@@ -529,7 +529,7 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_docente": {
-      "text": "**Compartir Fe — CREO**\n\nCompartir Fe reúne los tutoriales y materiales de integración de **CREO**, el sistema educativo católico de Santillana. Su propuesta relaciona el currículo con el Evangelio y la formación integral, e involucra a directivos, docentes, estudiantes y familias.\n\nEn esta app encontrarás **dos tutoriales y tres documentos de apoyo**. La disponibilidad de servicios del sistema CREO en cada colegio depende de su implementación.",
+      "text": "**Compartir Fe — CREO**\n\nCompartir Fe reúne los tutoriales y materiales de integración de **CREO**, el sistema educativo católico de Santillana. Su propuesta relaciona el currículo con el Evangelio y la formación integral, e involucra a directivos, docentes, estudiantes y familias.\n\nEn esta app encontrarás un **explorador de Recursos Globales CREO 2026**, organizado en cinco pilares y quince propuestas, además de **dos tutoriales y tres documentos de apoyo**. La disponibilidad de servicios del sistema CREO en cada colegio depende de su implementación.",
       "section": "fe",
       "sources": [
         "creo"
@@ -723,7 +723,7 @@ const BOT_PROGRAMAS = {
       "program": "FE"
     },
     "fe_contenidos": {
-      "text": "**Contenidos Globales CREO**\n\nEsta app incluye un tutorial de Contenidos Globales CREO y el documento **Recursos Globales CREO**. Úsalos como referencia para explorar y preparar el uso de esos contenidos.\n\nNo tengo el detalle interno del PDF confirmado para enumerar sus actividades.",
+      "text": "**Contenidos Globales CREO**\n\nEn **Compartir Fe** puedes explorar los **Recursos Globales CREO 2026**: catequesis de Comunión y Confirmación; celebraciones, talleres docentes y lectura en comunidad; Educación Religiosa Escolar y Plan Lector; servicio solidario, comunidades, retiros e itinerarios; y cuatro propuestas para las familias.\n\nEl explorador incluye búsqueda, orientaciones y capturas del documento. Para utilizar las actividades y descargables, ingresa a **EDI → Compartir Conocimientos → CREO Contenidos Globales**. También está disponible el tutorial.",
       "section": "fe",
       "sources": [],
       "videos": [
@@ -760,7 +760,7 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_documentos": {
-      "text": "**Documentos disponibles de Compartir Fe**\n\nAquí tienes los tres documentos enlazados en la app: **conexión curricular de Primaria, conexión curricular de Secundaria y Recursos Globales CREO**.\n\nSe abren en SharePoint y pueden solicitar permisos de tu cuenta institucional. Si no tienes acceso, pide autorización al responsable del material. No tengo su contenido interno confirmado para detallar actividades por grado o asignatura.",
+      "text": "**Documentos disponibles de Compartir Fe**\n\nAquí tienes los tres documentos enlazados en la app: **conexión curricular de Primaria, conexión curricular de Secundaria y Recursos Globales CREO**.\n\nSe abren en SharePoint y pueden solicitar permisos de tu cuenta institucional. Si no tienes acceso, pide autorización al responsable del material. El documento de Recursos Globales CREO 2026 ya está organizado en el explorador de Compartir Fe. Las conexiones curriculares de Primaria y Secundaria se consultan en sus documentos originales.",
       "section": "fe",
       "sources": [],
       "documents": [
@@ -860,7 +860,7 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_sin_dato": {
-      "text": "**Ese detalle de Compartir Fe no está confirmado**\n\nNo tengo tarifas, licencias, calendarios del colegio ni el contenido interno de los PDF de SharePoint confirmado. Para esos detalles, consulta al colegio o su asesor de CREO.\n\nSí puedo explicar la propuesta pública, los pilares, los recursos, las familias, la formación y cómo encontrar los tutoriales y documentos.",
+      "text": "**Ese detalle de Compartir Fe no está confirmado**\n\nNo tengo tarifas, licencias, calendarios del colegio ni el detalle de las conexiones curriculares de los PDF de SharePoint confirmado. Para esos detalles, consulta al colegio o su asesor de CREO.\n\nSí puedo explicar la propuesta pública, los pilares, los recursos, las familias, la formación y cómo encontrar los tutoriales y documentos.",
       "section": "fe",
       "sources": [
         "creo_formacion"
