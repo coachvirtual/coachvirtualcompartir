@@ -1162,11 +1162,14 @@ function loadRoboticaContent() {
 }
 
 window.addEventListener('message', event => {
-    const isFE = event.data && typeof event.data === 'object' && ['compartir-fe-height', 'compartir-fe-scroll'].includes(event.data.type);
+    const isFE = event.data && typeof event.data === 'object' && ['compartir-fe-height', 'compartir-fe-scroll', 'compartir-fe-video'].includes(event.data.type);
     const frame = document.getElementById(isFE ? 'fe-frame' : 'robotica-frame');
     if (!frame || event.source !== frame.contentWindow || event.origin !== location.origin) return;
     const data = event.data;
     if (!data || typeof data !== 'object') return;
+    if (isFE && data.type === 'compartir-fe-video' && videosFE.some(video => video.id === data.id)) {
+        openVideoModal(data.id);
+    }
     if (data.type === (isFE ? 'compartir-fe-height' : 'compartir-robotica-height') && Number.isFinite(data.height) && data.height > 0 && data.height < 100000) {
         frame.style.height = Math.ceil(data.height) + 'px';
     }
@@ -1192,18 +1195,7 @@ function loadFEContent() {
             </div>
             <div class="w-full h-px bg-white/10 mb-8"></div>
 
-            <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-experiencia" title="Guía completa de Recursos Globales CREO 2026" loading="eager"></iframe>
-
-            <p class="text-slate-300 mb-8 text-sm">Tutoriales y documentos de apoyo de <strong>Compartir Fe</strong>.</p>
-
-            <!-- VIDEOS -->
-            <h3 class="font-black text-white text-lg mb-4 flex items-center gap-2">
-                <i data-lucide="play-circle" class="${data.color} w-5 h-5 drop-shadow-[0_0_8px_currentColor]" aria-hidden="true"></i>
-                Tutoriales en video
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10" role="list">
-                ${generarTarjetas(videosFE)}
-            </div>
+            <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-ajustes-fe" title="Guía completa de Recursos Globales CREO 2026" loading="eager"></iframe>
 
             <!-- DOCUMENTOS -->
             <h3 class="font-black text-white text-lg mb-4 flex items-center gap-2">

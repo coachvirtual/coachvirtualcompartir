@@ -9,7 +9,10 @@ const context={};vm.createContext(context);vm.runInContext(fs.readFileSync('js/c
  try{for(const [name,width,height] of [['small-mobile',320,740],['mobile',390,844],['tablet',820,1180],['desktop',1440,1000]]){
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'}),errors=[];page.on('pageerror',e=>{errors.push(e.message);console.log('PAGE ERROR',e.message);});await route(page);
   await page.goto(live?'https://coachvirtual.github.io/coachvirtualcompartir/?creo=experiencia':'http://audit.local');await page.evaluate(()=>openRoleSelection('FE'));
-  const frame=page.frameLocator('#fe-frame');await frame.locator('.pillar-button').first().waitFor();assert.equal(await frame.locator('.pillar-button').count(),5);await frame.locator('body').evaluate(()=>{window.clickAudit=[];document.addEventListener('click',e=>window.clickAudit.push(e.target.outerHTML.slice(0,200)),true);});
+  const frame=page.frameLocator('#fe-frame');await frame.locator('.pillar-button').first().waitFor();assert.equal(await frame.locator('.pillar-button').count(),5);assert.equal(await frame.locator('a[download],a[href$=".docx"],.source-section').count(),0);await frame.locator('body').evaluate(()=>{window.clickAudit=[];document.addEventListener('click',e=>window.clickAudit.push(e.target.outerHTML.slice(0,200)),true);});
+  await frame.locator('#pillar-selector').evaluate(el=>parent.postMessage({type:'compartir-fe-scroll',top:el.getBoundingClientRect().top+scrollY},location.origin));
+  await page.waitForFunction(()=>{const f=document.querySelector('#fe-frame'),top=f.getBoundingClientRect().top+f.contentDocument.getElementById('pillar-selector').getBoundingClientRect().top;return top>=document.querySelector('header').offsetHeight&&top<200;});
+  for(let ci=0;ci<5;ci++){const before=await page.evaluate(()=>scrollY);await frame.locator(`[data-pillar="${ci}"]`).click();await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));assert.ok(Math.abs((await page.evaluate(()=>scrollY))-before)<2,'Pillar selection must retain the current vertical position');}
   for(let ci=0;ci<5;ci++){
    await frame.locator(`[data-pillar="${ci}"]`).click();assert.equal(await frame.locator('.chapter:visible').count(),1);
    for(let ri=0;ri<data.chapters[ci].resources.length;ri++){
@@ -23,7 +26,7 @@ const context={};vm.createContext(context);vm.runInContext(fs.readFileSync('js/c
   await frame.locator('#view-toggle').evaluate(el=>parent.postMessage({type:'compartir-fe-scroll',top:el.getBoundingClientRect().top+scrollY},location.origin));await page.waitForFunction(()=>{const f=document.querySelector('#fe-frame'),button=f.contentDocument.getElementById('view-toggle'),top=f.getBoundingClientRect().top+button.getBoundingClientRect().top;return top>=document.querySelector('header').offsetHeight&&top<300;});await frame.locator('#view-toggle').click();assert.equal(await frame.locator('.chapter:visible').count(),5);assert.equal(await frame.locator('.resource-panel:visible').count(),14);assert.equal(await frame.locator('.step-panel:visible').count(),13);
   assert.equal(await frame.locator('[data-source-id]:visible').count(),82);assert.equal(await frame.locator('.media:visible').count(),43);
   const paragraphs=await frame.locator('[data-source-id]').evaluateAll(els=>els.map(el=>({id:Number(el.dataset.sourceId),text:el.textContent})));
-  assert.equal(new Set(paragraphs.map(p=>p.id)).size,82);
+  assert.equal(new Set(paragraphs.map(p=>p.id)).size,82);assert.ok(await frame.locator('.source-text strong').count()>100);
   for(const source of coverage.sourceText){const found=paragraphs.find(p=>p.id===source.id);assert.ok(found);assert.equal(normalize(found.text),normalize(source.text));}
   await frame.locator('img').evaluateAll(imgs=>Promise.all(imgs.map(img=>{img.loading='eager';return img.decode();})));
   assert.equal(await frame.locator('html').evaluate(el=>el.scrollWidth>innerWidth),false);
@@ -40,8 +43,13 @@ const context={};vm.createContext(context);vm.runInContext(fs.readFileSync('js/c
   await frame.locator('.stepper').filter({has:frame.locator('[data-show-steps="servicio"]')}).evaluate(el=>{parent.postMessage({type:'compartir-fe-scroll',top:el.getBoundingClientRect().top+scrollY},location.origin);});
   await page.screenshot({path:`audit/creo-experience-step-${live?'published-':''}${name}.png`});
   assert.equal(await frame.locator('html').evaluate(el=>el.scrollWidth>innerWidth),false);
-  assert.equal(await page.locator('[data-vid-id="QCviXJSVUHc"]').count(),1);assert.equal(await page.getByRole('link',{name:'Abrir documento:',exact:false}).count(),3);assert.deepEqual(errors,[]);
-  results.push({name,width,allSourceParagraphs:82,allContentImages:43,pillars:5,resourceGroups:14,proposals:15,guidedSteps:13,search:true,navigation:true,croppedMedia:true,overflow:false,errors});
+  assert.equal(await frame.locator('#acceso [data-tutorial-video="QCviXJSVUHc"]').count(),1);assert.equal(await page.locator('[data-vid-id="QCviXJSVUHc"]').count(),0);assert.equal(await page.getByRole('link',{name:'Abrir documento:',exact:false}).count(),3);assert.deepEqual(errors,[]);
+  await page.evaluate(()=>{window.creoOpenedVideos=[];const original=window.openVideoModal;window.openVideoModal=(id,...args)=>{window.creoOpenedVideos.push(id);return original(id,...args);};});
+  for(const id of ['QCviXJSVUHc','I7Yd9PWTDc8']){await frame.locator(`[data-tutorial-video="${id}"]`).click();await page.locator('#video-modal').waitFor({state:'visible'});assert.equal(await page.evaluate(()=>window.creoOpenedVideos.at(-1)),id);await page.getByRole('button',{name:'Cerrar video',exact:true}).click();}
+  await frame.locator('#acceso .access-actions a[href="#inicio"]').click();
+  await page.waitForFunction(()=>{const f=document.querySelector('#fe-frame'),top=f.getBoundingClientRect().top+f.contentDocument.getElementById('inicio').getBoundingClientRect().top;return top>=0&&top<200;});
+  assert.deepEqual(errors,[]);
+  results.push({name,width,allSourceParagraphs:82,allContentImages:43,pillars:5,resourceGroups:14,proposals:15,guidedSteps:13,search:true,navigation:true,stationaryPillars:true,keywordsEmphasized:true,tutorialsInEDI:true,tutorialModal:true,homeButton:true,downloadRemoved:true,croppedMedia:true,overflow:false,errors});
   await page.close();console.log(name+': all 82 source paragraphs, 43 content images, resource selection, guided steps, search and brand layout verified');
  }
  // Verify the crop in the enlarged view independently of the host iframe.

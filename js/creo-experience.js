@@ -3,8 +3,20 @@
  const $=id=>document.getElementById(id), data=CREO_CONTENT;
  const safe=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const normalize=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
- const source=(p,tag='p')=>`<${tag} class="source-text${p.id===40?' source-subheading':''}" data-source-id="${p.id}">${safe(p.text)}</${tag}>`;
+ const keyPhrases=['Educación Religiosa Escolar','Proyectos de Aprendizaje y Servicio Solidario','Aprendizaje y Servicio Solidario','Pacto Educativo Global','Itinerarios de Vida Cristiana','Comunidades Infantiles y Juveniles','Convivencias y Retiros','Quince minutos en familia','Compartir Conocimientos','Creo Contenidos Globales','La voz de la experiencia','Escuela de familias','Celebrar en familia','Celebrar en comunidad','Enseñar en la escuela católica','Un libro para todos','Plan Lector CREO','Palabra de Dios','palabra de Dios','vida cristiana','formación Presacramental','comunidad educativa','escuela católica','identidad','valores cristianos','participación activa','preescolar','primaria','bachillerato','secundaria','Navidad','Pascua','Día de la familia','Día del maestro','Día de la infancia','virgen María','cultura del encuentro','esperanza y compromiso social','cuidado de la casa común','humanización del uso de la tecnología','preguntas esenciales','preguntas escenciales','perfil de maestro','ícono de la nube','índice de navegación','rangos de edad','minuto a minuto','cuatro períodos','crianza','vínculo familiar','lectura en familia','proyecto','planificación','ejecución','evaluación','celebración','experimentar','comprender','discernir','poner manos a la obra','conocer','celebrar','vivir','comunión','confirmación','Evangelio','Jesús','pastoral','docentes','familias','metas','objetivos','reflexión','guías','descargables','contenidos interactivos','recursos interactivos','vídeos','vídeo','vídeos cortos','temáticas','temas','tema','tres pasos','paso a paso','instrucciones sencillas','lecciones','pertinencia','guía','lectura','etapas','introducción','CREO','EDI','contenido'];
+ const keyPattern=new RegExp(`(?<![\\p{L}\\p{N}])(?:${[...new Set(keyPhrases)].sort((a,b)=>b.length-a.length).map(s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')})(?![\\p{L}\\p{N}])`,'giu');
+ function emphasize(text){
+  let html='',cursor=0,count=0;const used=new Set();
+  for(const match of text.matchAll(keyPattern)){
+   const key=normalize(match[0]);if(used.has(key))continue;
+   html+=safe(text.slice(cursor,match.index))+`<strong>${safe(match[0])}</strong>`;
+   cursor=match.index+match[0].length;used.add(key);if(++count===4)break;
+  }
+  return html+safe(text.slice(cursor));
+ }
+ const source=(p,tag='p')=>`<${tag} class="source-text${p.id===40?' source-subheading':''}" data-source-id="${p.id}">${emphasize(p.text)}</${tag}>`;
  let chapterIndex=0,showAll=false;
+ const initialHash=location.hash.slice(1);
  const resourceIndex=data.chapters.map(()=>0), stepIndex=new Map(), galleryIndex=new Map(), expandedSteps=new Set();
  const choices=c=>c.resources.reduce((sum,r)=>sum+(r.choices?.length||1),0);
  const sourceIndex=new Map();
@@ -73,7 +85,7 @@
   const matches=[...sourceIndex.values()].filter(p=>normalize(p.text).includes(q));
   $('chapters').hidden=true;$('search-results').hidden=false;
   $('guide-status').textContent=`${matches.length} ${matches.length===1?'coincidencia':'coincidencias'} en todo el contenido de la guía.`;
-  $('search-results').innerHTML=matches.length?matches.map(p=>`<button type="button" data-source-result="${p.id}"><span class="small-label">${p.ci===undefined?'ACCESO Y ORGANIZACIÓN':safe(data.chapters[p.ci].short)}${p.ri===undefined?'':' · '+safe(data.chapters[p.ci].resources[p.ri].title)}</span><span>${safe(p.text)}</span><b aria-hidden="true">↗</b></button>`).join(''):'<div class="empty-search"><h3>No encontramos ese término.</h3><p>Prueba con «familia», «retiros», «planificación» o el nombre de un recurso.</p><button type="button" class="button button-navy" data-clear-search>Volver a los recursos</button></div>';
+  $('search-results').innerHTML=matches.length?matches.map(p=>`<button type="button" data-source-result="${p.id}"><span class="small-label">${p.ci===undefined?'ACCESO Y ORGANIZACIÓN':safe(data.chapters[p.ci].short)}${p.ri===undefined?'':' · '+safe(data.chapters[p.ci].resources[p.ri].title)}</span><span>${emphasize(p.text)}</span><b aria-hidden="true">↗</b></button>`).join(''):'<div class="empty-search"><h3>No encontramos ese término.</h3><p>Prueba con «familia», «retiros», «planificación» o el nombre de un recurso.</p><button type="button" class="button button-navy" data-clear-search>Volver a los recursos</button></div>';
   publish();
  }
  $('source-title').innerHTML=source(data.title,'span');
@@ -92,7 +104,9 @@
  $('view-toggle').onclick=()=>{showAll=!showAll;clearSearch();render();$('access-media').innerHTML=gallery(data.accessImages,'access');};
  document.addEventListener('click',event=>{
   const pillar=event.target.closest('[data-pillar]');
-  if(pillar){chapterIndex=Number(pillar.dataset.pillar);showAll=false;clearSearch();render();history.replaceState(null,'','#'+data.chapters[chapterIndex].id);requestAnimationFrame(()=>scrollHost(document.getElementById(data.chapters[chapterIndex].id)));return;}
+  if(pillar){chapterIndex=Number(pillar.dataset.pillar);showAll=false;clearSearch();render();history.replaceState(null,'','#'+data.chapters[chapterIndex].id);return;}
+  const tutorial=event.target.closest('[data-tutorial-video]');
+  if(tutorial){const id=tutorial.dataset.tutorialVideo;if(parent!==window)parent.postMessage({type:'compartir-fe-video',id},location.origin);else window.open(`https://www.youtube.com/watch?v=${encodeURIComponent(id)}`,'_blank','noopener,noreferrer');return;}
   const resource=event.target.closest('[data-resource]');
   if(resource){const ci=Number(resource.dataset.chapter),ri=Number(resource.dataset.resource);if(resourceIndex[ci]===ri)return;resourceIndex[ci]=ri;render();document.querySelector(`[data-chapter="${ci}"][data-resource="${ri}"]`)?.focus({preventScroll:true});return;}
   const step=event.target.closest('[data-step-resource]');
@@ -107,7 +121,9 @@
   if(link){const target=document.getElementById(link.hash.slice(1));if(target){event.preventDefault();history.replaceState(null,'',link.hash);scrollHost(target);}}
  });
  function restoreHash(){
-  const hash=location.hash.slice(1),ci=data.chapters.findIndex(c=>c.id===hash);
+  const hash=initialHash;
+  if(!hash||location.hash.slice(1)!==hash){publish();return;}
+  const ci=data.chapters.findIndex(c=>c.id===hash);
   if(ci>=0){chapterIndex=ci;render();}
   else{for(let i=0;i<data.chapters.length;i++){const ri=data.chapters[i].resources.findIndex(r=>r.id===hash||'resource-'+r.id===hash);if(ri>=0){chapterIndex=i;resourceIndex[i]=ri;render();break;}}}
   requestAnimationFrame(()=>{publish();requestAnimationFrame(()=>scrollHost(document.getElementById(hash)||document.getElementById('inicio')));});

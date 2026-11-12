@@ -723,7 +723,7 @@ const BOT_PROGRAMAS = {
       "program": "FE"
     },
     "fe_contenidos": {
-      "text": "**Contenidos Globales CREO**\n\nEn **Compartir Fe** puedes explorar los **Recursos Globales CREO 2026**: catequesis de Comunión y Confirmación; celebraciones, talleres docentes y lectura en comunidad; Educación Religiosa Escolar y Plan Lector; servicio solidario, comunidades, retiros e itinerarios; y cuatro propuestas para las familias.\n\nLa guía completa conserva todas las explicaciones y capturas del documento, y permite descargar el archivo original. Para utilizar las actividades y descargables, ingresa a **EDI → Compartir Conocimientos → CREO Contenidos Globales**. También está disponible el tutorial.",
+      "text": "**Contenidos Globales CREO**\n\nEn **Compartir Fe** puedes explorar los **Recursos Globales CREO 2026**: catequesis de Comunión y Confirmación; celebraciones, talleres docentes y lectura en comunidad; Educación Religiosa Escolar y Plan Lector; servicio solidario, comunidades, retiros e itinerarios; y cuatro propuestas para las familias.\n\nLa guía completa conserva todas las explicaciones y capturas del documento, y permite explorar los recursos por pilares y pasos. Para utilizar las actividades y descargables, ingresa a **EDI → Compartir Conocimientos → CREO Contenidos Globales**. También está disponible el tutorial.",
       "section": "fe",
       "sources": [],
       "videos": [
