@@ -418,7 +418,7 @@ function ajustarPaddingHeader() {
         const header = document.querySelector('header');
         if (!header) return;
         const h = header.offsetHeight;
-        const gap = 24; // espacio respirable debajo del header
+        const gap = Math.min(48, Math.max(20, window.innerWidth * 0.025)); // separación proporcional a la pantalla
         ['main-menu', 'section-view'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.paddingTop = (h + gap) + 'px';

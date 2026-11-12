@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
+    <meta name="theme-color" content="#0f172a">
     <title>Coach Virtual - Santillana Compartir</title>
     <link rel="icon" type="image/png" href="assets/coach-bot-icon.png">
     <link rel="apple-touch-icon" href="assets/coach-bot-icon.png">
@@ -74,12 +75,12 @@
         };
     </script>
 </head>
-<body class="min-h-screen w-screen relative flex flex-col items-center overflow-x-hidden overflow-y-auto bg-[#0f172a]">
+<body class="min-h-screen w-full relative flex flex-col items-center overflow-x-hidden overflow-y-auto bg-[#0f172a]">
 
     <img src="assets/fondo-coachvirtual-compartir.png" id="bg-image" alt="" role="presentation">
 
     <!-- ==================== HEADER ==================== -->
-    <header class="fixed top-0 w-full z-50 bg-[#0f172a]/80 backdrop-blur-md border-b border-white/10 shadow-lg">
+    <header id="app-header" class="fixed top-0 w-full z-50 bg-[#0f172a]/80 backdrop-blur-md border-b border-white/10 shadow-lg">
 
 
         <div class="px-4 py-3 md:px-6 md:py-3 flex justify-between items-center">
@@ -144,7 +145,7 @@
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none" aria-hidden="true">
                 <i data-lucide="search" class="w-5 h-5 text-slate-400 group-focus-within:text-indigo-400 transition-colors"></i>
             </div>
-            <input type="search" id="global-search" placeholder="Busca en todos los tutoriales (Ej: quiz, tareas, libro web...)" aria-label="Buscar en todos los tutoriales"
+            <input type="search" id="global-search" placeholder="Busca un tutorial..." aria-label="Buscar en todos los tutoriales"
                 class="w-full glass-panel text-white placeholder-slate-400 rounded-full py-3 pl-12 pr-4 outline-none border border-white/20 focus:border-indigo-500/70 focus:ring-2 focus:ring-indigo-500/30 transition-all cyber-glow">
         </div>
 
@@ -153,7 +154,7 @@
             role="region" aria-label="Resultados de búsqueda" aria-live="polite"></div>
 
         <!-- TARJETAS -->
-        <!-- Grid: 2 cols en mobile/tablet, 4 en desktop (lg+) — evita aplastamiento en ~768px -->
+        <!-- Tarjetas: una columna en móvil, dos en tablet y cuatro en escritorio. -->
         <div id="cards-container" class="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 max-w-5xl mx-auto w-full items-stretch justify-items-center transition-all duration-500">
 
             <button id="card-Conocimientos" type="button" class="card category-card category-pink" onclick="openRoleSelection('Conocimientos')" aria-label="Compartir Conocimientos">
@@ -203,7 +204,7 @@
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none" aria-hidden="true">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
                 </div>
-                <input type="search" id="section-search" placeholder="Buscar solo en esta sección..." aria-label="Buscar dentro de esta sección"
+                <input type="search" id="section-search" placeholder="Buscar aquí..." aria-label="Buscar dentro de esta sección"
                     class="w-full glass-panel text-white placeholder-slate-400 rounded-full py-2 pl-10 pr-4 outline-none border border-white/20 focus:border-indigo-500/70 transition-all text-sm">
                 <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-[10px] text-slate-600 font-bold hidden sm:flex">esta sección</span>
             </div>
@@ -538,7 +539,7 @@
         </div>
     </div>
 
-    <footer class="w-full text-center text-xs text-slate-400 px-4 py-4">
+    <footer id="app-footer" class="w-full text-center text-xs text-slate-400 px-4 py-4">
         Protección del contador mediante reCAPTCHA. Se aplican la
         <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="underline">Política de Privacidad</a>
         y los <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" class="underline">Términos de Google</a>.
