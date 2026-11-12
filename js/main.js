@@ -1158,11 +1158,7 @@ function loadRoboticaContent() {
     sectionContent.innerHTML = `
         <h2 class="section-heading">Compartir Robótica</h2>
         <p class="supplemental-intro">Explora el programa Robótica SET-XXI: sus proyectos, metodología y recursos.</p>
-        <div class="robotica-source">
-            <a href="robotica.html" target="_blank" rel="noopener noreferrer">Abrir en página completa</a>
-            <a href="https://unoiblog.wixsite.com/unointernacional/set-21-robotica" target="_blank" rel="noopener noreferrer">Consultar fuente original</a>
-        </div>
-        <iframe id="robotica-frame" class="robotica-frame" src="robotica.html" title="Programa completo de Compartir Robótica SET-XXI" allow="fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+        <iframe id="robotica-frame" class="robotica-frame" src="robotica.html?v=20261112-clean" title="Programa completo de Compartir Robótica SET-XXI" allow="fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
 }
 
 window.addEventListener('message', event => {

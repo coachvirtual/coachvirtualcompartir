@@ -176,8 +176,6 @@ body{width:100%;min-height:100svh;}
 #section-search+span{display:none;}
 #section-back{min-height:44px;}
 #section-content:has(.robotica-frame){padding:clamp(12px,2vw,28px);}
-.robotica-source{display:flex;flex-wrap:wrap;column-gap:24px;row-gap:4px;margin:0 0 20px;font-size:14px;color:#a5f3fc;}
-.robotica-source a{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:3px;}
 .robotica-frame{display:block;width:100%;height:1000px;min-height:600px;border:0;border-radius:20px;background:#fff;}
 #app-footer{margin-top:auto;padding:20px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px));line-height:1.8;}
 button,a,[role="button"]{touch-action:manipulation;}
@@ -210,8 +208,7 @@ button,[role="button"]{-webkit-user-select:none;user-select:none;}
     .category-description{font-size:13px;margin-bottom:16px;line-height:1.65;}
     .category-footer{font-size:11px;padding-top:12px;}
     .supplemental-intro{font-size:14px;margin-bottom:16px;}
-    .robotica-source{font-size:12px;gap:0 16px;}
-    .robotica-frame{border-radius:12px;}
+        .robotica-frame{border-radius:12px;}
     #coachbot-modal{padding:10px;}
     #coachbot-modal>div{max-height:calc(100dvh - 20px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));}
     #coachbot-modal>div>div{padding-inline:16px;}
