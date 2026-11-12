@@ -127,6 +127,8 @@ const SECTION_DATA = {
     'Conocimientos': { title: 'COMPARTIR CONOCIMIENTOS', icon: 'atom',        color: 'text-pink-400',    theme: 'pink' },
     'Progreso':      { title: 'COMPARTIR PROGRESO',      icon: 'trending-up',  color: 'text-blue-400',    theme: 'blue' },
     'Ingles':        { title: 'COMPARTIR INGLÉS',        icon: 'globe',        color: 'text-emerald-400', theme: 'emerald' },
+    'Suplementales': { title: 'Compartir Suplementales', icon: 'blocks', color: 'text-cyan-400', theme: 'cyan' },
+    'Robotica':      { title: 'Compartir Robótica', icon: 'bot', color: 'text-amber-400', theme: 'amber' },
     'FE':            { title: 'COMPARTIR FE',            icon: 'layout-grid',  color: 'text-cyan-400',    theme: 'cyan' }
 };
 
@@ -156,7 +158,13 @@ const documentosFE = [
     }
 ];
 
-const todosLosVideos = [...videosGenerales, ...videosActividades, ...videosProgreso, ...videosIngles, ...videosFE];
+const videosRobotica = [
+    { id: 'Vf3GUM8fC0U', title: 'Robótica SET21: habilidades a través de proyectos tecnológicos',
+      desc: 'Conoce el programa de robótica educativa SET-XXI, sus niveles, metodología, componentes y habilidades del siglo XXI.',
+      rol: 'Ambos', tags: ['robotica','robótica','set21','set-xxi','suplementales','programación','programacion','steam','maker','simuladores','proyectos','tecnología','tecnologia'] }
+];
+
+const todosLosVideos = [...videosGenerales, ...videosActividades, ...videosProgreso, ...videosIngles, ...videosFE, ...videosRobotica];
 let seccionActualVideos = [];
 let videoActualId = null;
 
@@ -374,7 +382,8 @@ const VIDEOS_POR_SECCION = {
     'Conocimientos': [...videosGenerales, ...videosActividades].map(v => v.id),
     'Progreso':      videosProgreso.map(v => v.id),
     'Ingles':        videosIngles.map(v => v.id),
-    'FE':            videosFE.map(v => v.id)
+    'FE':            videosFE.map(v => v.id),
+    'Suplementales': [...videosFE, ...videosRobotica].map(v => v.id)
 };
 
 function actualizarContadores() {
@@ -799,13 +808,29 @@ const generarTarjetas = (videos) => {
 /* ============================================================
    NAVEGACIÓN ENTRE SECCIONES
    ============================================================ */
+let supplementalActual = null;
+
 const mainMenu        = document.getElementById('main-menu');
 const sectionView     = document.getElementById('section-view');
 const sectionContent  = document.getElementById('section-content');
 
 function openRoleSelection(sectionId) {
     const data = SECTION_DATA[sectionId];
+    if (!data) return;
     resetSectionSearch();
+    supplementalActual = ['FE', 'Robotica'].includes(sectionId) ? sectionId : null;
+    document.getElementById('section-back').setAttribute('aria-label', supplementalActual ? 'Volver a Compartir Suplementales' : 'Volver al menú principal');
+    if (sectionId === 'Suplementales' || sectionId === 'Robotica') {
+        mainMenu.classList.add('hidden', 'fade-out');
+        sectionView.classList.remove('hidden');
+        sectionView.classList.add('fade-in');
+        if (sectionId === 'Suplementales') loadSupplementalContent();
+        else loadRoboticaContent();
+        sectionView.setAttribute('tabindex', '-1');
+        sectionView.focus();
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        return;
+    }
 
     // FE no tiene segmentación por rol — va directo al contenido
     if (sectionId === 'FE') {
@@ -1102,7 +1127,60 @@ function grupoHTML(icon, color, titulo, videos, theme) {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10" role="list">${generarTarjetas(videos)}</div>`;
 }
 
+function loadSupplementalContent() {
+    seccionActualCtx = null;
+    seccionActualVideos = [...videosFE, ...videosRobotica];
+    sectionContent.style.opacity = 1;
+    sectionContent.innerHTML = `
+        <h2 class="section-heading">Compartir Suplementales</h2>
+        <p class="supplemental-intro">Más experiencias para aprender y crecer. Explora los recursos de cada programa.</p>
+        <div class="supplemental-grid">
+            <button type="button" id="card-FE" class="card category-card category-cyan" onclick="openRoleSelection('FE')" aria-label="Compartir Fe">
+                <span class="category-icon" aria-hidden="true"><i data-lucide="book-heart"></i></span>
+                <span class="category-kicker">Compartir</span><span class="category-title">Fe</span>
+                <span class="category-description">Tutoriales, conexiones curriculares y recursos de CREO para acompañar la formación en valores.</span>
+                <span class="category-footer">Explorar CREO<i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+            </button>
+            <button type="button" id="card-Robotica" class="card category-card category-amber" onclick="openRoleSelection('Robotica')" aria-label="Compartir Robótica">
+                <span class="category-icon" aria-hidden="true"><i data-lucide="bot"></i></span>
+                <span class="category-kicker">Compartir</span><span class="category-title">Robótica</span>
+                <span class="category-description">Conoce SET-XXI: proyectos, programación, cultura Maker y habilidades para la vida, de Transición a 11°.</span>
+                <span class="category-footer">Explorar SET-XXI<i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+            </button>
+        </div>`;
+    lucide.createIcons();
+}
+
+function loadRoboticaContent() {
+    seccionActualCtx = null;
+    seccionActualVideos = videosRobotica;
+    sectionContent.style.opacity = 1;
+    sectionContent.innerHTML = `
+        <h2 class="section-heading">Compartir Robótica</h2>
+        <p class="supplemental-intro">Explora el programa Robótica SET-XXI: sus proyectos, metodología y recursos.</p>
+        <div class="robotica-source">
+            <a href="robotica.html" target="_blank" rel="noopener noreferrer">Abrir en página completa</a>
+            <a href="https://unoiblog.wixsite.com/unointernacional/set-21-robotica" target="_blank" rel="noopener noreferrer">Consultar fuente original</a>
+        </div>
+        <iframe id="robotica-frame" class="robotica-frame" src="robotica.html" title="Programa completo de Compartir Robótica SET-XXI" allow="fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+}
+
+window.addEventListener('message', event => {
+    const frame = document.getElementById('robotica-frame');
+    if (!frame || event.source !== frame.contentWindow || event.origin !== location.origin) return;
+    const data = event.data;
+    if (!data || typeof data !== 'object') return;
+    if (data.type === 'compartir-robotica-height' && Number.isFinite(data.height) && data.height > 0 && data.height < 100000) {
+        frame.style.height = Math.ceil(data.height) + 'px';
+    }
+    if (data.type === 'compartir-robotica-scroll' && Number.isFinite(data.top) && data.top >= 0) {
+        const headerHeight = document.querySelector('header').offsetHeight;
+        window.scrollTo({top: frame.getBoundingClientRect().top + window.scrollY + data.top - headerHeight - 16, behavior: 'instant'});
+    }
+});
+
 function loadFEContent() {
+    seccionActualCtx = null;
     const data = SECTION_DATA['FE'];
     seccionActualVideos = videosFE;
     sectionContent.style.opacity = 0;
@@ -1154,6 +1232,10 @@ function loadFEContent() {
 
 
 function closeSection() {
+    if (supplementalActual) {
+        openRoleSelection('Suplementales');
+        return;
+    }
     sectionView.classList.remove('fade-in');
     seccionActualVideos = [];
     resetSectionSearch();

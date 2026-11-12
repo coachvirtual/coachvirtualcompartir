@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" href="assets/coach-bot-icon.png">
     <link rel="stylesheet" href="css/tailwind.css">
     <script src="js/vendor/lucide-0.468.0.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="assets/fonts/fonts.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
     <!-- ============ GOOGLE ANALYTICS GA4 ============
@@ -84,7 +84,7 @@
 
         <div class="px-4 py-3 md:px-6 md:py-3 flex justify-between items-center">
             <div class="h-9 sm:h-11 md:h-12 shrink min-w-0">
-                <img src="assets/logo-compartir.jpg" alt="Santillana Compartir - Tu aliado en transformación educativa" class="h-full w-auto max-w-[52vw] sm:max-w-none object-contain object-left drop-shadow-xl">
+                <img src="assets/logo-compartir.png" alt="Santillana Compartir - Tu aliado en transformación educativa" class="h-full w-auto max-w-[52vw] sm:max-w-none object-contain object-left drop-shadow-xl">
             </div>
             <nav class="flex items-center gap-2 md:gap-3" aria-label="Accesos rápidos">
                 <!-- Contador global de visitas (Firebase). Oculto hasta tener valor. -->
@@ -156,42 +156,37 @@
         <!-- Grid: 2 cols en mobile/tablet, 4 en desktop (lg+) — evita aplastamiento en ~768px -->
         <div id="cards-container" class="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 max-w-5xl mx-auto w-full items-stretch justify-items-center transition-all duration-500">
 
-            <!-- Conocimientos -->
-            <div id="card-Conocimientos"
-                class="card group relative w-full overflow-hidden cursor-pointer rounded-[1.5rem] shadow-[0_0_15px_rgba(236,72,153,0.12)] hover:shadow-[0_0_35px_rgba(236,72,153,0.45)]"
-                onclick="openRoleSelection('Conocimientos')" role="button" tabindex="0"
-                aria-label="Compartir Conocimientos — 30 tutoriales para Docentes y Estudiantes"
-                onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('Conocimientos')}">
-                <img src="assets/5.png" alt="Compartir Conocimientos" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]">
-            </div>
+            <button id="card-Conocimientos" type="button" class="card category-card category-pink" onclick="openRoleSelection('Conocimientos')" aria-label="Compartir Conocimientos">
+                <span class="category-icon" aria-hidden="true"><i data-lucide="atom"></i></span>
+                <span class="category-kicker">Compartir</span>
+                <span class="category-title">Conocimientos</span>
+                <span class="category-description">Aprende a usar los contenidos, actividades y herramientas de Compartir.</span>
+                <span class="category-footer">Tutoriales por perfil<i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+            </button>
 
-            <!-- Progreso -->
-            <div id="card-Progreso"
-                class="card group relative w-full overflow-hidden cursor-pointer rounded-[1.5rem] shadow-[0_0_15px_rgba(59,130,246,0.12)] hover:shadow-[0_0_35px_rgba(59,130,246,0.45)]"
-                onclick="openRoleSelection('Progreso')" role="button" tabindex="0"
-                aria-label="Compartir Progreso Pleno — 12 tutoriales para Docentes y Estudiantes"
-                onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('Progreso')}">
-                <img src="assets/6.png" alt="Compartir Progreso · Pleno" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]">
-            </div>
+            <button id="card-Progreso" type="button" class="card category-card category-blue" onclick="openRoleSelection('Progreso')" aria-label="Compartir Progreso">
+                <span class="category-icon" aria-hidden="true"><i data-lucide="trending-up"></i></span>
+                <span class="category-kicker">Compartir</span>
+                <span class="category-title">Progreso</span>
+                <span class="category-description">Planea, presenta y califica evaluaciones con Pleno.</span>
+                <span class="category-footer">Evaluación y aprendizaje<i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+            </button>
 
-            <!-- Inglés -->
-            <div id="card-Ingles"
-                class="card group relative w-full overflow-hidden cursor-pointer rounded-[1.5rem] shadow-[0_0_15px_rgba(16,185,129,0.12)] hover:shadow-[0_0_35px_rgba(16,185,129,0.45)]"
-                onclick="openRoleSelection('Ingles')" role="button" tabindex="0"
-                aria-label="Compartir Inglés Richmond Studio — 10 tutoriales para Docentes y Estudiantes"
-                onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('Ingles')}">
-                <img src="assets/7.png" alt="Compartir Inglés · Richmond" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]">
-            </div>
+            <button id="card-Ingles" type="button" class="card category-card category-emerald" onclick="openRoleSelection('Ingles')" aria-label="Compartir Inglés">
+                <span class="category-icon" aria-hidden="true"><i data-lucide="globe"></i></span>
+                <span class="category-kicker">Compartir</span>
+                <span class="category-title">Inglés</span>
+                <span class="category-description">Explora Richmond Studio y sus recursos para aprender inglés.</span>
+                <span class="category-footer">Richmond Studio<i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+            </button>
 
-            <!-- FE / CREO -->
-            <div id="card-FE"
-                class="card group relative w-full overflow-hidden cursor-pointer rounded-[1.5rem] shadow-[0_0_15px_rgba(6,182,212,0.12)] hover:shadow-[0_0_35px_rgba(6,182,212,0.45)]"
-                onclick="openRoleSelection('FE')" role="button" tabindex="0"
-                aria-label="Compartir FE CREO — 2 tutoriales solo para Docentes"
-                onkeydown="if(event.key==='Enter'||event.key===' '){openRoleSelection('FE')}">
-                <img src="assets/8.png" alt="Compartir FE · CREO" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]">
-            </div>
-
+            <button id="card-Suplementales" type="button" class="card category-card category-cyan" onclick="openRoleSelection('Suplementales')" aria-label="Compartir Suplementales">
+                <span class="category-icon" aria-hidden="true"><i data-lucide="blocks"></i></span>
+                <span class="category-kicker">Compartir</span>
+                <span class="category-title">Suplementales</span>
+                <span class="category-description">Descubre los recursos de Compartir Fe y Compartir Robótica.</span>
+                <span class="category-footer">Fe · Robótica<i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+            </button>
         </div>
 
     </main>
@@ -200,7 +195,7 @@
     <section id="section-view" class="hidden flex-col z-10 w-full max-w-5xl px-4 transition-all duration-500 transform scale-95 opacity-0 pb-28 md:pb-16" style="padding-top: 0;"
         aria-label="Tutoriales de la sección seleccionada">
         <div class="w-full mb-4 flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-            <button onclick="closeSection()" class="glass-panel text-white px-4 md:px-6 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-white/10 transition border border-white/20 text-sm cyber-hover shrink-0" aria-label="Volver al menú principal">
+            <button id="section-back" onclick="closeSection()" class="glass-panel text-white px-4 md:px-6 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-white/10 transition border border-white/20 text-sm cyber-hover shrink-0" aria-label="Volver al menú principal">
                 <i data-lucide="arrow-left" class="w-4 h-4" aria-hidden="true"></i> Volver
             </button>
             <div class="w-full relative group" role="search">

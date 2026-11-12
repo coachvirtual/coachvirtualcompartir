@@ -28,7 +28,8 @@ const BOT_DATA = {
             { label: "Compartir Conocimientos",                        topic: "prof_conocimientos" },
             { label: "Compartir Progreso (Pleno)",                     topic: "progreso_docente" },
             { label: "Inglés — Richmond Studio",                       topic: "ingles_docente" },
-            { label: "Compartir FE — CREO",                            topic: "fe_docente" },
+            { label: "Compartir Fe — CREO",                            topic: "fe_docente" },
+            { label: "Compartir Robótica — SET-XXI",                     topic: "robotica" },
             { label: "◀ Volver",                                       topic: "tengo_duda" }
         ]
     },
@@ -65,7 +66,8 @@ const BOT_DATA = {
             { label: "Compartir Conocimientos",                        topic: "prof_conocimientos" },
             { label: "Compartir Progreso (Pleno)",                     topic: "progreso_docente" },
             { label: "Inglés — Richmond Studio",                       topic: "ingles_docente" },
-            { label: "Compartir FE — CREO",                            topic: "fe_docente" },
+            { label: "Compartir Fe — CREO",                            topic: "fe_docente" },
+            { label: "Compartir Robótica — SET-XXI",                     topic: "robotica" },
             { label: "◀ Cambiar perfil",                               topic: "inicio" }
         ]
     },
@@ -79,9 +81,14 @@ const BOT_DATA = {
         ]
     },
 
+    "robotica": {
+        text: "**Compartir Robótica — SET-XXI**\n\nProyectos de robótica educativa, programación, computación física y diseño e impresión 3D, de Transición a 11°.\n\nEncuentra el programa completo en **Compartir Suplementales → Compartir Robótica**.",
+        options: [{ label: "◀ Volver al inicio", topic: "inicio" }]
+    },
+
     // ── FE / CREO ──────────────────────────────────────────────
     "fe_docente": {
-        text: "**Compartir FE — CREO**\n\nCREO es el ecosistema de formación en valores integrado con Compartir.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('QCviXJSVUHc')\" class=\"text-cyan-400 font-bold underline\">Tutorial Contenidos Globales CREO</a>\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('I7Yd9PWTDc8')\" class=\"text-cyan-400 font-bold underline\">Tutorial Conexiones CREO en Compartir</a>\n\n📄 Para las mallas curriculares y recursos globales, ve a la tarjeta <strong>Compartir FE</strong> en el menú principal.",
+        text: "**Compartir FE — CREO**\n\nCREO es el ecosistema de formación en valores integrado con Compartir.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('QCviXJSVUHc')\" class=\"text-cyan-400 font-bold underline\">Tutorial Contenidos Globales CREO</a>\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('I7Yd9PWTDc8')\" class=\"text-cyan-400 font-bold underline\">Tutorial Conexiones CREO en Compartir</a>\n\n📄 Para las mallas curriculares y recursos globales, ve a la tarjeta <strong>Compartir FE</strong> dentro de <strong>Compartir Suplementales</strong>.",
         options: [
             { label: "◀ Volver al menú",  topic: "menu_profesor" }
         ]

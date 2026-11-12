@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compartir Robótica · SET-XXI</title>
+<meta name="description" content="Robótica SET-XXI: programa de Santillana para desarrollar habilidades del siglo XXI con proyectos de robótica, programación, computación física e impresión 3D, de Transición a 11°.">
+<link href="assets/fonts/fonts.css" rel="stylesheet">
+<style>
+:root{
+  --amarillo:#FBBA00; --amarillo-claro:#FFE9A8; --crema:#FFF8E6;
+  --verde:#94C11E; --verde-claro:#E8F3C8; --verde-osc:#4F6F0A;
+  --navy:#050B2B; --navy-2:#111A45; --cian:#53C7D8; --azul-logo:#00389C;
+  --rojo:#E3261B; --naranja:#F5852B; --morado:#5251A2;
+  --tinta:#1D2433; --gris:#5A6275; --linea:#E6E1D3;
+  --cta:#1B6FA8; --cta-hover:#155A89;
+  --r:22px; --pad:clamp(20px,4vw,64px);
+  --sombra:0 10px 30px rgba(5,11,43,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Montserrat',system-ui,sans-serif;color:var(--tinta);background:#fff;line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+h1,h2,h3,h4{font-family:'Montserrat',sans-serif;line-height:1.12;color:var(--navy)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--cta);outline-offset:3px;border-radius:8px}
+.sec{padding:clamp(56px,8vw,110px) var(--pad);position:relative;overflow:hidden}
+.sec-head{max-width:820px;margin-bottom:clamp(28px,4vw,48px)}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:700 13px/1 'Montserrat';letter-spacing:.12em;text-transform:uppercase;color:var(--navy);background:#fff;border:2px solid var(--navy);padding:8px 14px;border-radius:999px;margin-bottom:18px}
+.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--rojo);display:block}
+h2{font-size:clamp(30px,4.2vw,50px);font-weight:800;letter-spacing:-.01em}
+.lead{font-size:clamp(17px,1.5vw,20px);color:var(--gris);margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:10px;font:700 16px/1 'Montserrat';padding:16px 26px;border-radius:999px;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .2s,background .2s,box-shadow .2s}
+.btn-primary{background:var(--cta);color:#fff;box-shadow:0 8px 20px rgba(27,111,168,.3)}
+.btn-primary:hover{background:var(--cta-hover);transform:translateY(-2px)}
+.btn-ghost{background:#fff;color:var(--navy);border-color:var(--navy)}
+.btn-ghost:hover{background:var(--navy);color:#fff;transform:translateY(-2px)}
+.btn svg{width:18px;height:18px}
+/* patrón de circuito */
+.circuit{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' fill='none' stroke='%23ffffff' stroke-opacity='.35' stroke-width='2'%3E%3Cpath d='M0 40h60l20 20h60M140 60v50l30 30h50M20 220v-60l30-30v-40M110 220v-40h50l20-20'/%3E%3Ccircle cx='140' cy='60' r='5'/%3E%3Ccircle cx='50' cy='90' r='5'/%3E%3Ccircle cx='160' cy='180' r='5'/%3E%3C/svg%3E")}
+
+/* HERO */
+.hero{background-color:var(--amarillo);padding-top:clamp(40px,6vw,80px);padding-bottom:clamp(48px,6vw,90px)}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,4vw,64px);align-items:center}
+.hero-logo{width:clamp(220px,24vw,320px);margin-bottom:26px;filter:drop-shadow(0 8px 18px rgba(5,11,43,.25))}
+.hero h1{font-size:clamp(38px,5.6vw,74px);font-weight:800;letter-spacing:-.02em}
+.hero h1 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.hero h1 .hl{background:linear-gradient(transparent 62%,#fff 62%);padding:0 .08em}
+.hero p.sub{font-size:clamp(18px,1.6vw,21px);margin-top:20px;max-width:640px;color:var(--navy)}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.datos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:36px;max-width:640px}
+.dato{background:#fff;border-radius:18px;padding:16px 18px;box-shadow:var(--sombra)}
+.dato b{display:block;font:800 clamp(20px,2vw,26px)/1.1 'Montserrat';color:var(--navy)}
+.dato span{font-size:14px;color:var(--gris)}
+.hero-art{position:relative;min-height:480px}
+.hero-art .blob{position:absolute;inset:4% 4% 2% 8%;border-radius:46% 54% 50% 50%/52% 46% 54% 48%;border:4px solid var(--navy);overflow:hidden;
+  background:radial-gradient(circle at 50% 38%,#fff 0 38%,var(--amarillo-claro) 75%);}
+.hero-art .blob:before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(5,11,43,.14) 1.6px,transparent 1.8px);background-size:22px 22px;opacity:.7}
+.hero-art .blob img{position:absolute;left:50%;bottom:-2%;transform:translateX(-50%);width:104%;max-width:none}
+.hero-art .b1{position:absolute;left:-6%;top:0;width:34%;z-index:3;animation:flot 6s ease-in-out infinite}
+.hero-art .b2{position:absolute;right:-4%;bottom:0;width:30%;z-index:3;animation:flot 7s ease-in-out infinite reverse}
+.pcard{position:absolute;z-index:4;left:34%;top:9%;width:min(270px,56%);background:#fff;border-radius:18px;padding:14px 16px 16px;box-shadow:0 14px 30px rgba(5,11,43,.18);border:2px solid var(--navy)}
+.pcard small{display:flex;align-items:center;gap:7px;font:800 11px 'Montserrat';letter-spacing:.12em;text-transform:uppercase;color:var(--gris)}
+.pcard small i{width:8px;height:8px;border-radius:50%;background:var(--verde);box-shadow:0 0 0 4px rgba(148,193,30,.25);animation:pulse 1.8s ease-in-out infinite}
+.pcard b{display:block;font:800 18px/1.2 'Montserrat';color:var(--navy);margin:6px 0 10px}
+.pbar{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.pbar span{height:7px;border-radius:4px;background:var(--linea)}
+.pbar span.on{background:var(--verde)}.pbar span.now{background:var(--rojo)}
+.pcard p{font-size:13px;line-height:1.4;color:var(--gris);margin-top:9px}
+@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(148,193,30,0)}}
+.chipf{position:absolute;z-index:4;background:var(--navy);color:#fff;font:700 14px 'Montserrat';padding:9px 14px;border-radius:999px;box-shadow:var(--sombra);white-space:nowrap}
+.chipf.c1{right:0;top:44%}.chipf.c2{left:0;bottom:22%;background:var(--rojo)}
+@keyframes flot{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* VIDEOS */
+.videos{background:var(--navy);color:#fff}
+.videos h2{color:#fff}.videos .lead{color:#C9D0E8}
+.videos .eyebrow{background:transparent;color:#fff;border-color:var(--cian)}
+.car{position:relative}
+.car-track{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
+.car-track::-webkit-scrollbar{display:none}
+.vcard{flex:0 0 calc((100% - 44px)/3);scroll-snap-align:start;background:var(--navy-2);border-radius:var(--r);overflow:hidden;border:1px solid rgba(83,199,216,.25)}
+.vframe{position:relative;aspect-ratio:16/9;background:#000}
+.vframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vbody{padding:18px 20px 22px}
+.vbody small{font:700 12px 'Montserrat';letter-spacing:.1em;text-transform:uppercase;color:var(--amarillo)}
+.vbody h3{color:#fff;font-size:20px;margin:6px 0 6px}
+.vbody p{color:#C9D0E8;font-size:15px}
+.car.single .vcard{flex:0 0 100%;max-width:1040px;margin:0 auto}
+.car.single .car-track{justify-content:center}
+.car.single .vbody{padding:22px 28px 26px}
+.car-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:22px}
+.car.single .car-nav{display:none}
+.car-btn{width:46px;height:46px;border-radius:50%;border:2px solid var(--cian);background:transparent;color:#fff;cursor:pointer;display:grid;place-items:center}
+.car-btn:hover{background:var(--cian);color:var(--navy)}
+.dots{display:flex;gap:8px}.dots button{width:10px;height:10px;border-radius:50%;border:0;background:#46507A;cursor:pointer}.dots button.on{background:var(--amarillo);width:26px;border-radius:6px}
+.insta{display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:28px;text-align:center}
+.insta a{display:inline-flex;align-items:center;gap:10px;color:var(--navy);background:var(--amarillo);font:700 15px 'Montserrat';padding:12px 20px;border-radius:999px;text-decoration:none}
+.insta a:hover{background:#fff}
+.insta span{color:#C9D0E8;font-size:15px}
+
+/* PROGRAMA / MANIFIESTO */
+.programa{background:var(--crema)}
+.prog-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center}
+.manif{background:var(--navy);color:#fff;border-radius:var(--r);padding:clamp(28px,4vw,52px);position:relative;overflow:hidden}
+.manif blockquote{font:700 clamp(24px,2.6vw,34px)/1.22 'Montserrat';color:#fff}
+.manif blockquote em{font-style:normal;color:var(--amarillo)}
+.manif p{color:#D5DAEE;margin-top:18px}
+.manif .sello{display:inline-block;margin-top:22px;font:800 13px 'Montserrat';letter-spacing:.12em;text-transform:uppercase;color:var(--navy);background:var(--verde);padding:8px 14px;border-radius:999px}
+.manif img{position:absolute;right:-18px;bottom:-24px;width:150px;opacity:.95}
+.pilares{display:grid;gap:16px;margin-top:28px}
+.pilar{display:flex;gap:16px;align-items:flex-start;background:#fff;border-radius:18px;padding:18px 20px;box-shadow:var(--sombra)}
+.pilar h3{font-size:18px;margin-bottom:4px}
+.pilar p{font-size:15.5px;color:var(--gris)}
+.ico{flex:0 0 52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.ico svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ico.am{background:var(--amarillo);color:var(--navy)}.ico.ve{background:var(--verde);color:var(--navy)}.ico.ro{background:var(--rojo)}.ico.az{background:var(--cta)}.ico.na{background:var(--navy)}.ico.ci{background:var(--cian);color:var(--navy)}.ico.mo{background:var(--morado)}.ico.or{background:var(--naranja);color:var(--navy)}
+
+/* HABILIDADES */
+.hab-wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,3vw,44px);align-items:start}
+.hab-col{border-radius:var(--r);padding:clamp(24px,3vw,36px)}
+.hab-col.tec{background:var(--amarillo)}
+.hab-col.hum{background:var(--verde-claro)}
+.hab-col h3{font-size:24px;margin-bottom:6px}
+.hab-col>p{color:var(--navy);opacity:.8;margin-bottom:20px}
+.tec-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tec-item{background:#fff;border-radius:16px;padding:14px;display:flex;gap:12px;align-items:center;font:700 15.5px/1.25 'Montserrat';color:var(--navy)}
+.tec-item .ico{flex-basis:42px;height:42px}.tec-item .ico svg{width:22px;height:22px}
+.kidfig{display:flex;justify-content:center;margin-top:18px}
+.kidfig img{width:62%;max-width:280px;filter:drop-shadow(0 10px 18px rgba(5,11,43,.2))}
+.hum-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.hum{background:#fff;border-radius:16px;padding:14px 16px;border-left:5px solid var(--verde)}
+.hum b{font-family:'Montserrat';font-size:16.5px;color:var(--navy);display:block}
+.hum span{font-size:14.5px;color:var(--gris)}
+
+/* MÉTODO */
+.metodo{background:var(--verde)}
+.metodo .lead{color:var(--navy);opacity:.85}
+.metodo .eyebrow{border-color:var(--navy)}
+.metodos{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:40px}
+.metodos span{background:#fff;color:var(--navy);font:700 15px 'Montserrat';padding:10px 16px;border-radius:999px}
+.fases{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;position:relative}
+.fases:before{content:"";position:absolute;left:6%;right:6%;top:42px;border-top:3px dashed var(--navy);opacity:.35}
+.fase{position:relative;background:none;border:0;cursor:pointer;text-align:center;font-family:inherit;padding:0 4px}
+.fase .num{width:84px;height:84px;margin:0 auto 12px;border-radius:50%;background:#fff;border:5px solid var(--rojo);display:grid;place-items:center;font:800 32px 'Montserrat';color:var(--navy);transition:transform .2s,background .2s}
+.fase .nom{font:800 15px 'Montserrat';text-transform:uppercase;letter-spacing:.04em;color:var(--navy)}
+.fase:hover .num{transform:scale(1.06)}
+.fase[aria-selected="true"] .num{background:var(--navy);color:var(--amarillo);border-color:var(--amarillo)}
+.fase-panel{margin-top:30px;background:#fff;border-radius:var(--r);padding:clamp(24px,3vw,40px);display:grid;grid-template-columns:auto 1fr auto;gap:clamp(18px,3vw,40px);align-items:center;box-shadow:var(--sombra)}
+.fase-panel .big{font:800 clamp(56px,7vw,96px)/1 'Montserrat';color:var(--amarillo);-webkit-text-stroke:3px var(--navy)}
+.fase-panel h3{font-size:clamp(24px,2.4vw,32px)}
+.fase-panel .q{font:700 17px 'Montserrat';color:var(--rojo);margin:6px 0 10px}
+.fase-panel p{color:var(--gris)}
+.fase-panel img{width:150px}
+.fase-ctrl{display:flex;gap:10px;margin-top:16px}
+.fase-ctrl button{font:700 14px 'Montserrat';background:var(--crema);border:2px solid var(--linea);border-radius:999px;padding:8px 14px;cursor:pointer;color:var(--navy)}
+.fase-ctrl button:hover{border-color:var(--navy)}
+
+/* ROLES */
+.roles-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.rol{background:var(--crema);border-radius:var(--r);padding:22px 20px 24px;text-align:center;border:2px solid transparent;transition:transform .25s,border-color .25s}
+.rol:hover{transform:translateY(-6px);border-color:var(--navy)}
+.rol .fig{height:170px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:14px}
+.rol .fig img{max-height:170px;width:auto}
+.rol .tag{display:inline-block;font:800 12px 'Montserrat';letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:999px;margin-bottom:10px}
+.rol h3{font-size:24px;margin-bottom:6px}
+.rol p{font-size:15.5px;color:var(--gris)}
+.roles-note{margin-top:22px;text-align:center;color:var(--gris);font-size:15.5px}
+
+/* NIVELES */
+.niveles{background:var(--crema)}
+.nv-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.nv{border-radius:var(--r);padding:24px 22px;color:var(--navy);position:relative;overflow:hidden;min-height:200px}
+.nv:nth-child(1){background:var(--amarillo)}.nv:nth-child(2){background:var(--verde)}.nv:nth-child(3){background:var(--cian)}.nv:nth-child(4){background:var(--navy);color:#fff}
+.nv:nth-child(4) h3{color:#fff}
+.nv .n{font:800 13px 'Montserrat';letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+.nv h3{font-size:clamp(24px,2.2vw,30px);margin:6px 0 10px}
+.nv .gr{display:flex;gap:6px;flex-wrap:wrap}
+.nv .gr span{background:rgba(255,255,255,.85);color:var(--navy);font:800 15px 'Montserrat';padding:6px 11px;border-radius:10px}
+.nv .bar{position:absolute;left:0;bottom:0;height:8px;background:rgba(5,11,43,.25)}
+.nv:nth-child(4) .bar{background:var(--amarillo)}
+.nv-flow{display:flex;justify-content:space-between;font:700 14px 'Montserrat';color:var(--gris);margin:14px 4px 0}
+.arq{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(24px,3vw,44px);margin-top:clamp(36px,5vw,60px);align-items:center}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.stat{background:#fff;border-radius:18px;padding:20px;box-shadow:var(--sombra);display:flex;gap:16px;align-items:center}
+.stat .c{flex:0 0 66px;height:66px;border-radius:50%;border:4px solid var(--rojo);display:grid;place-items:center;font:800 26px 'Montserrat';color:var(--navy);background:var(--amarillo-claro)}
+.stat b{font:800 18px 'Montserrat';color:var(--navy);display:block}
+.stat span{font-size:14.5px;color:var(--gris)}
+.arq-img{border-radius:var(--r);overflow:hidden;box-shadow:var(--sombra);border:4px solid #fff}
+.areas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:clamp(28px,4vw,44px)}
+.area{background:#fff;border-radius:18px;padding:18px;border-top:5px solid var(--amarillo)}
+.area:nth-child(2){border-color:var(--verde)}.area:nth-child(3){border-color:var(--cian)}.area:nth-child(4){border-color:var(--naranja)}
+.area b{font:800 17px 'Montserrat';color:var(--navy)}
+.area p{font-size:15px;color:var(--gris);margin-top:4px}
+.h3-sub{font-size:clamp(22px,2.2vw,28px);margin:clamp(36px,5vw,56px) 0 6px}
+.p-sub{color:var(--gris)}
+
+/* COMPONENTES */
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+.tab{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--linea);border-radius:999px;padding:8px 18px 8px 8px;font:700 15px 'Montserrat';color:var(--navy);cursor:pointer;transition:all .2s}
+.tab img{width:36px;height:36px;border-radius:50%;background:var(--crema);padding:4px}
+.tab .ti{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--crema)}
+.tab .ti svg{width:20px;height:20px;fill:none;stroke:var(--navy);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tab:hover{border-color:var(--navy)}
+.tab[aria-selected="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.panel{display:none;background:var(--crema);border-radius:var(--r);padding:clamp(24px,3.5vw,48px);grid-template-columns:1fr 1fr;gap:clamp(24px,3.5vw,52px);align-items:center}
+.panel.on{display:grid;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.panel h3{font-size:clamp(26px,2.6vw,34px);margin-bottom:10px}
+.panel p{color:var(--gris)}
+.ul{list-style:none;margin-top:18px;display:grid;gap:10px}
+.ul li{display:flex;gap:10px;align-items:flex-start}
+.ul li:before{content:"";flex:0 0 22px;height:22px;border-radius:50%;margin-top:2px;background:var(--verde) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23050B2B' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12l4 4 8-8'/%3E%3C/svg%3E") center/14px no-repeat}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.mini{background:#fff;border-radius:16px;padding:16px 18px}
+.mini h4{font-size:17px;margin-bottom:6px}
+.mini .ul{margin-top:6px;gap:6px;font-size:15px}
+.panel-img{display:grid;gap:14px}
+.panel-img img{border-radius:16px;box-shadow:var(--sombra);background:#fff}
+.panel-img.free img{box-shadow:none;background:none}
+.sims{display:flex;gap:8px;margin:16px 0 0;flex-wrap:wrap}
+.sims button{font:700 14px 'Montserrat';border:2px solid var(--navy);background:#fff;color:var(--navy);padding:8px 14px;border-radius:999px;cursor:pointer}
+.sims button[aria-pressed="true"]{background:var(--amarillo)}
+.sim-desc{margin-top:12px;font-size:15.5px;color:var(--gris);min-height:48px}
+.nota{margin-top:16px;font-size:14.5px;background:#fff;border-left:4px solid var(--amarillo);padding:12px 14px;border-radius:10px;color:var(--tinta)}
+
+/* RESPALDO */
+.respaldo{background:var(--navy);color:#fff}
+.respaldo h2,.respaldo h3{color:#fff}
+.respaldo .lead{color:#C9D0E8}
+.respaldo .eyebrow{background:transparent;color:#fff;border-color:var(--amarillo)}
+.resp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:22px}
+.resp{background:var(--navy-2);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:24px}
+.resp .k{font:800 13px 'Montserrat';letter-spacing:.12em;text-transform:uppercase;color:var(--amarillo)}
+.resp h3{font-size:22px;margin:8px 0}
+.resp p{color:#C9D0E8;font-size:15.5px}
+.ley{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:var(--r);overflow:hidden;background:#fff;color:var(--tinta)}
+.ley>div{padding:clamp(24px,3vw,40px)}
+.ley .izq{background:var(--amarillo)}
+.ley h3{color:var(--navy);font-size:clamp(22px,2.2vw,28px);margin-bottom:6px}
+.ley .k{font:800 13px 'Montserrat';letter-spacing:.12em;text-transform:uppercase;color:var(--navy);opacity:.75}
+.ley .ul li{color:var(--navy)}
+.ley .der .ul li:before{background-color:var(--amarillo)}
+.ley small{display:block;margin-top:16px;font-size:13.5px;color:var(--navy);opacity:.8}
+
+/* FAQ */
+.faq{max-width:980px;margin:0 auto}
+.qa{border-bottom:2px solid var(--linea)}
+.qa button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;text-align:left;background:none;border:0;padding:22px 4px;font:700 clamp(17px,1.5vw,20px) 'Montserrat';color:var(--navy);cursor:pointer}
+.qa button span.pm{flex:0 0 34px;height:34px;border-radius:50%;background:var(--amarillo);display:grid;place-items:center;font-size:22px;transition:transform .25s}
+.qa button[aria-expanded="true"] span.pm{transform:rotate(45deg);background:var(--verde)}
+.qa .ans{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.qa .ans p{padding:0 4px 22px;color:var(--gris)}
+
+/* CIERRE */
+.cierre{background-color:var(--amarillo);text-align:center}
+.cierre-in{max-width:860px;margin:0 auto;position:relative;z-index:2}
+.cierre img.m{width:clamp(180px,20vw,260px);margin:0 auto 10px;animation:flot 6s ease-in-out infinite}
+.cierre h2{font-size:clamp(32px,4.6vw,56px)}
+.cierre p{font-size:clamp(17px,1.5vw,20px);color:var(--navy);margin:16px auto 0;max-width:680px}
+.cierre .ctas{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:28px}
+.firma{display:flex;align-items:center;justify-content:center;gap:clamp(18px,3vw,40px);flex-wrap:wrap;padding:26px var(--pad);background:var(--navy)}
+.firma img{height:44px;width:auto}
+.firma .robo{height:64px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}}
+
+/* responsive */
+@media (max-width:1100px){
+  .vcard{flex-basis:calc((100% - 22px)/2)}
+  .fases{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:22px}.fases:before{display:none}
+  .roles-grid,.nv-grid,.areas{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .resp-grid{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .hero-grid,.prog-grid,.hab-wrap,.arq,.panel.on,.ley{grid-template-columns:1fr}
+  .hero-art{min-height:400px;max-width:520px;margin:0 auto;width:100%}
+  .fase-panel{grid-template-columns:1fr;text-align:left}.fase-panel img{display:none}
+  .cols2{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .vcard{flex-basis:100%}
+  .datos{grid-template-columns:1fr 1fr}.datos .dato:last-child{grid-column:1/-1}
+  .tec-list,.hum-grid,.stats,.roles-grid,.nv-grid,.areas{grid-template-columns:1fr}
+  .fases{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fase .num{width:68px;height:68px;font-size:26px}
+  .chipf{font-size:12px}.hero-art{min-height:340px}.pcard{left:30%;top:4%;padding:10px 12px}.pcard b{font-size:15px}.pcard p{display:none}
+  .tab{font-size:14px}
+  .hero .ctas .btn,.cierre .ctas .btn{width:100%;justify-content:center}
+}
+
+/* Tipografía Compartir: títulos Righteous, texto e interfaces Montserrat. */
+h1,h2,h3,h4,h5,h6{font-family:'Righteous',sans-serif;font-weight:400;overflow-wrap:break-word}
+button,input,select,textarea{font-family:'Montserrat',sans-serif}
+.source-credit{padding:20px;text-align:center;font-size:13px;background:#050B2B;color:#fff}
+@media(max-width:620px){.hero h1{font-size:clamp(30px,8vw,40px)}.btn{white-space:normal;line-height:1.4}.eyebrow{line-height:1.4}}
+</style>
+</head>
+<body>
+
+<!-- 1. PORTADA -->
+<header class="sec hero circuit" id="inicio">
+  <div class="hero-grid">
+    <div class="rv">
+      <img class="hero-logo" src="assets/robotica/56e54e19093f0c91.webp" alt="Logo de Robótica SET-XXI">
+      <h1><span class="sr">Robótica SET-XXI: </span>Aprenden creando. <span class="hl">Crecen resolviendo.</span></h1>
+      <p class="sub">Robótica SET-XXI es el programa de Santillana que desarrolla las habilidades del siglo XXI con proyectos reales de robótica, programación, computación física e impresión 3D. Del primer circuito en Transición al prototipo experto en 11°.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#videos"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Ver el video</a>
+        <a class="btn btn-ghost" href="#programa">Conocer el programa</a>
+      </div>
+      <div class="datos">
+        <div class="dato"><b>Transición – 11°</b><span>4 niveles progresivos</span></div>
+        <div class="dato"><b>4 proyectos</b><span>por grado, cada año</span></div>
+        <div class="dato"><b>1 hora semanal</b><span>intensidad mínima recomendada</span></div>
+      </div>
+    </div>
+    <div class="hero-art rv">
+      <div class="blob"><img src="assets/robotica/d500586f0f0c6dba.webp" alt="Docente y estudiante construyen y programan juntos un brazo robótico en clase de Robótica SET-XXI"></div>
+      <img class="b1" src="assets/robotica/6a8d01f66fd7d91d.webp" alt="" aria-hidden="true">
+      <img class="b2" src="assets/robotica/04b1a614c0c9d100.webp" alt="" aria-hidden="true">
+      <div class="pcard" aria-hidden="true">
+        <small><i></i>Proyecto en marcha</small>
+        <b>Fase 4 · Construyamos</b>
+        <div class="pbar"><span class="on"></span><span class="on"></span><span class="on"></span><span class="now"></span><span></span><span></span></div>
+        <p>Integran componentes, ensamblan y programan su prototipo.</p>
+      </div>
+      <span class="chipf c1" aria-hidden="true">Pensamiento computacional</span>
+      <span class="chipf c2" aria-hidden="true">Cultura Maker</span>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- 2. VIDEOS -->
+<section class="sec videos" id="videos" aria-labelledby="t-videos">
+  <div class="sec-head center rv">
+    <span class="eyebrow"><i></i>Míralo en acción</span>
+    <h2 id="t-videos">Así se vive Robótica SET-XXI</h2>
+    <p class="lead">En pocos minutos, el programa contado por sus protagonistas: estudiantes que diseñan, construyen y explican sus propias soluciones.</p>
+  </div>
+  <div class="car rv" id="car">
+    <div class="car-track" id="carTrack"></div>
+    <div class="car-nav">
+      <button class="car-btn" id="carPrev" aria-label="Video anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="dots" id="carDots"></div>
+      <button class="car-btn" id="carNext" aria-label="Video siguiente"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+  </div>
+  <div class="insta rv">
+    <span>¿Quieres ver más clases en vivo?</span>
+    <a href="https://www.instagram.com/reel/DQ_33q_EVnf/" target="_blank" rel="noopener">SET21 en acción en Instagram
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+  </div>
+</section>
+
+<!-- 3. PROGRAMA + MANIFIESTO -->
+<section class="sec programa" id="programa" aria-labelledby="t-prog">
+  <div class="prog-grid">
+    <div class="rv">
+      <span class="eyebrow"><i></i>¿Qué es?</span>
+      <h2 id="t-prog">Un programa curricular de robótica educativa para todo el colegio</h2>
+      <p class="lead">Robótica SET-XXI desarrolla habilidades del siglo XXI a través de proyectos tecnológicos basados en la robótica educativa, la computación física, el pensamiento computacional, la programación y el diseño e impresión 3D, integrados al proceso de enseñanza y aprendizaje.</p>
+      <div class="pilares">
+        <div class="pilar"><div class="ico am"><svg viewBox="0 0 24 24"><path d="M4 20h4v-6H4zM10 20h4V9h-4zM16 20h4V4h-4z"/></svg></div><div><h3>Progresión por niveles</h3><p>El aprendizaje crece de forma gradual, según las capacidades y el ritmo de cada etapa, desde Transición hasta 11°.</p></div></div>
+        <div class="pilar"><div class="ico ve"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/></svg></div><div><h3>STEAM de verdad, no un accesorio</h3><p>No se trata de sumar dispositivos al aula. Ciencia, tecnología, ingeniería, arte y matemáticas se integran en cada experiencia.</p></div></div>
+        <div class="pilar"><div class="ico ro"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg></div><div><h3>El error también enseña</h3><p>Los estudiantes enfrentan desafíos, experimentan, identifican y corrigen errores, y reflexionan sobre su propio proceso.</p></div></div>
+      </div>
+    </div>
+    <div class="manif rv">
+      <blockquote>La tecnología es el medio. <em>El estudiante es el centro.</em></blockquote>
+      <p>En Robótica SET-XXI nadie viene a mirar un robot: vienen a construirlo. Cada proyecto parte de un problema de su entorno, inspirado en los Objetivos de Desarrollo Sostenible, y termina con un prototipo que funciona y un equipo que aprendió a pensar junto.</p>
+      <p>Así formamos lo que nos mueve en UNOi: personas que entienden la tecnología, la usan con criterio y la ponen al servicio de los demás.</p>
+      <span class="sello">Formamos seres humanos plenos</span>
+      <img src="assets/robotica/427b22e840c4ee1e.webp" alt="" aria-hidden="true">
+    </div>
+  </div>
+</section>
+
+<!-- 4. HABILIDADES -->
+<section class="sec" id="habilidades" aria-labelledby="t-hab">
+  <div class="sec-head rv">
+    <span class="eyebrow"><i></i>¿Para qué?</span>
+    <h2 id="t-hab">Lo que aprenden a hacer y en quiénes se convierten</h2>
+    <p class="lead">Las destrezas tecnológicas abren la puerta. Las habilidades humanas son las que se quedan para toda la vida.</p>
+  </div>
+  <div class="hab-wrap">
+    <div class="hab-col tec rv">
+      <h3>Destrezas tecnológicas</h3>
+      <p>Lo que ponen en práctica en cada proyecto.</p>
+      <div class="tec-list">
+        <div class="tec-item"><span class="ico na"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M8 9l2 2-2 2M13 13h3"/></svg></span>Pensamiento computacional</div>
+        <div class="tec-item"><span class="ico az"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></span>Programación</div>
+        <div class="tec-item"><span class="ico ro"><svg viewBox="0 0 24 24"><path d="M4 20h8M8 20v-4l4-4 3 3 5-5M15 4l5 1-1 5"/><circle cx="12" cy="12" r="1.5"/></svg></span>Mecatrónica</div>
+        <div class="tec-item"><span class="ico ve"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></span>Impresión 3D</div>
+        <div class="tec-item"><span class="ico mo"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/><path d="M10 10h4v4h-4z"/></svg></span>Inteligencia artificial</div>
+        <div class="tec-item"><span class="ico ci"><svg viewBox="0 0 24 24"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/><path d="M2 9a14.5 14.5 0 0 1 20 0"/></svg></span>Internet de las cosas</div>
+      </div>
+      <div class="kidfig"><img src="assets/robotica/22bf76f8d321a1b4.webp" alt="Mascota robot de Robótica SET-XXI con gorra roja y caja de herramientas"></div>
+    </div>
+    <div class="hab-col hum rv">
+      <h3>Habilidades para la vida</h3>
+      <p>Lo que desarrollan como personas, proyecto tras proyecto.</p>
+      <div class="hum-grid">
+        <div class="hum"><b>Autonomía</b><span>para aprender, crear y decidir con confianza.</span></div>
+        <div class="hum"><b>Resiliencia</b><span>para superar retos y aprender de cada experiencia.</span></div>
+        <div class="hum"><b>Curiosidad e imaginación</b><span>para explorar nuevas posibilidades.</span></div>
+        <div class="hum"><b>Gestión de la información</b><span>para transformar datos en conocimiento.</span></div>
+        <div class="hum"><b>Pensamiento crítico</b><span>para analizar, cuestionar y decidir mejor.</span></div>
+        <div class="hum"><b>Resolución de problemas</b><span>con el diseño de soluciones innovadoras.</span></div>
+        <div class="hum"><b>Liderazgo y trabajo en equipo</b><span>para alcanzar metas comunes.</span></div>
+        <div class="hum"><b>Comunicación eficaz</b><span>para expresar ideas con claridad y propósito.</span></div>
+        <div class="hum"><b>Escucha activa y diálogo</b><span>para construir acuerdos y aprender de otros.</span></div>
+        <div class="hum"><b>Ciudadanía digital</b><span>para participar con responsabilidad en entornos tecnológicos.</span></div>
+        <div class="hum"><b>Empatía</b><span>para comprender y respetar otras realidades.</span></div>
+        <div class="hum"><b>Creatividad e innovación</b><span>para convertir ideas en proyectos con impacto.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. MÉTODO -->
+<section class="sec metodo circuit" id="metodo" aria-labelledby="t-met">
+  <div class="sec-head rv">
+    <span class="eyebrow"><i></i>¿Cómo?</span>
+    <h2 id="t-met">Metodologías activas y una secuencia que convierte cada reto en aprendizaje</h2>
+    <p class="lead">La tecnología se vuelve herramienta para explorar, construir, innovar y resolver. Los estudiantes son protagonistas de soluciones para su entorno.</p>
+  </div>
+  <div class="metodos rv" aria-label="Metodologías y enfoques">
+    <span>Aprendizaje basado en proyectos</span><span>Aprendizaje basado en problemas</span><span>Aprendizaje basado en servicio</span><span>Aprendizaje colaborativo</span><span>Cultura Maker</span><span>Enfoque STEAM</span>
+  </div>
+  <h3 class="rv" style="font-size:clamp(22px,2.2vw,28px);margin-bottom:22px">Las 6 fases de cada proyecto <span style="font:600 16px Nunito;color:var(--navy);opacity:.75">· toca una fase para conocerla</span></h3>
+  <div class="fases rv" role="tablist" aria-label="Fases del proyecto" id="fases"></div>
+  <div class="fase-panel rv" id="fasePanel" role="tabpanel" aria-live="polite">
+    <div class="big" id="fNum">1</div>
+    <div>
+      <h3 id="fNom"></h3>
+      <div class="q" id="fQ"></div>
+      <p id="fTxt"></p>
+      <div class="fase-ctrl"><button id="fPrev">← Anterior</button><button id="fNext">Siguiente →</button></div>
+    </div>
+    <img id="fImg" src="assets/robotica/d7e7a330379886d3.webp" alt="">
+  </div>
+</section>
+
+<!-- 6. ROLES -->
+<section class="sec" id="roles" aria-labelledby="t-roles">
+  <div class="sec-head center rv">
+    <span class="eyebrow"><i></i>Trabajo en equipo</span>
+    <h2 id="t-roles">Cuatro roles, un mismo prototipo</h2>
+    <p class="lead">Mientras recorren las fases, cada estudiante asume uno de cuatro roles. Así nadie se queda mirando: todos aportan algo que el equipo necesita.</p>
+  </div>
+  <div class="roles-grid">
+    <article class="rol rv"><div class="fig"><img src="assets/robotica/93a7de470653c9ce.webp" alt="Mascota robot con visor, rol Indagador"></div><span class="tag" style="background:var(--cian);color:var(--navy)">Pregunta</span><h3>Indagador</h3><p>Investiga, analiza información y formula preguntas.</p></article>
+    <article class="rol rv"><div class="fig"><img src="assets/robotica/b1af977a0c6f0d43.webp" alt="Mascota robot con paleta de colores, rol Diseñador"></div><span class="tag" style="background:var(--amarillo);color:var(--navy)">Imagina</span><h3>Diseñador</h3><p>Propone ideas y planifica soluciones.</p></article>
+    <article class="rol rv"><div class="fig"><img src="assets/robotica/d7e7a330379886d3.webp" alt="Mascota robot con herramientas, rol Constructor"></div><span class="tag" style="background:var(--verde);color:var(--navy)">Construye</span><h3>Constructor</h3><p>Desarrolla el prototipo y lo pone a funcionar.</p></article>
+    <article class="rol rv"><div class="fig"><img src="assets/robotica/4f71b903bc5063d4.webp" alt="Mascota robot de cabello rojo, rol Comunicador"></div><span class="tag" style="background:var(--rojo);color:#fff">Cuenta</span><h3>Comunicador</h3><p>Documenta, presenta y divulga los resultados del proyecto.</p></article>
+  </div>
+</section>
+
+<!-- 7. NIVELES Y ARQUITECTURA -->
+<section class="sec niveles" id="niveles" aria-labelledby="t-niv">
+  <div class="sec-head rv">
+    <span class="eyebrow"><i></i>Arquitectura de la experiencia</span>
+    <h2 id="t-niv">De Transición a 11°: cuatro niveles que crecen con tus estudiantes</h2>
+    <p class="lead">Cada nivel responde a una dificultad, unas narrativas de aprendizaje, unas competencias y unas evidencias de desempeño propias de la edad.</p>
+  </div>
+  <div class="nv-grid">
+    <div class="nv rv"><span class="n">Nivel 1</span><h3>Explorador</h3><div class="gr"><span>T</span><span>1°</span><span>2°</span></div><div class="bar" style="width:25%"></div></div>
+    <div class="nv rv"><span class="n">Nivel 2</span><h3>Practicante</h3><div class="gr"><span>3°</span><span>4°</span><span>5°</span></div><div class="bar" style="width:50%"></div></div>
+    <div class="nv rv"><span class="n">Nivel 3</span><h3>Investigador</h3><div class="gr"><span>6°</span><span>7°</span><span>8°</span></div><div class="bar" style="width:75%"></div></div>
+    <div class="nv rv"><span class="n">Nivel 4</span><h3>Experto</h3><div class="gr"><span>9°</span><span>10°</span><span>11°</span></div><div class="bar" style="width:100%"></div></div>
+  </div>
+  <div class="nv-flow" aria-hidden="true"><span>Más exploración</span><span>Más complejidad y autonomía →</span></div>
+
+  <div class="arq">
+    <div class="rv">
+      <h3 style="font-size:clamp(22px,2.2vw,28px);margin-bottom:16px">Un año escolar con ritmo claro</h3>
+      <div class="stats">
+        <div class="stat"><div class="c">4</div><div><b>Proyectos</b><span>por grado en el año escolar</span></div></div>
+        <div class="stat"><div class="c">8</div><div><b>Horas por proyecto</b><span>para pasar por las 6 fases</span></div></div>
+        <div class="stat"><div class="c">32</div><div><b>Semanas</b><span>de trabajo durante el año</span></div></div>
+        <div class="stat"><div class="c">1</div><div><b>Sesión semanal</b><span>de una hora, como mínimo</span></div></div>
+      </div>
+      <p class="nota">Se implementa en Tecnología e Informática, Robótica o áreas afines.</p>
+    </div>
+    <div class="arq-img rv"><img src="assets/robotica/634a5cfa7d0d50ac.webp" alt="Docente y estudiante ensamblan juntos un brazo robótico sobre una mesa de trabajo"></div>
+  </div>
+
+  <h3 class="h3-sub rv">Se conecta con las áreas fundamentales</h3>
+  <p class="p-sub rv">Componentes, competencias, habilidades y evidencias se articulan de forma natural con el currículo.</p>
+  <div class="areas">
+    <div class="area rv"><b>Matemáticas</b><p>Potencia el pensamiento crítico al analizar procesos lógicos y resolver desafíos.</p></div>
+    <div class="area rv"><b>Lenguaje</b><p>Fortalece la comunicación con la expresión clara de ideas.</p></div>
+    <div class="area rv"><b>Ciencias Naturales</b><p>Despierta la curiosidad con la exploración y la experimentación.</p></div>
+    <div class="area rv"><b>Ciencias Sociales</b><p>Fomenta la empatía y la comprensión del entorno social.</p></div>
+  </div>
+</section>
+
+<!-- 8. COMPONENTES -->
+<section class="sec" id="componentes" aria-labelledby="t-comp">
+  <div class="sec-head rv">
+    <span class="eyebrow"><i></i>Componentes</span>
+    <h2 id="t-comp">Todo lo que llega al colegio para que el programa funcione</h2>
+    <p class="lead">Recursos pedagógicos, tecnológicos y de acompañamiento pensados para cada actor: estudiantes, docentes y directivos.</p>
+  </div>
+  <div class="tabs rv" role="tablist" aria-label="Componentes del programa">
+    <button class="tab" role="tab" aria-selected="true" aria-controls="p-cartilla" id="t-cartilla"><img src="assets/robotica/4b1086e6e1817ee0.webp" alt="">Cartilla del estudiante</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-libro" id="t-libro"><img src="assets/robotica/45788b207e92508f.webp" alt="">Libro digital</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-caja" id="t-caja"><img src="assets/robotica/5964c6eedcf00818.webp" alt="">Caja de artefactos</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-sim" id="t-sim"><span class="ti"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M9 9h2v2H9zM13 9h2M13 12h2M9 14h6"/></svg></span>Simuladores</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-acomp" id="t-acomp"><img src="assets/robotica/6a436966d4480e71.webp" alt="">Acompañamiento y formación</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-premios" id="t-premios"><img src="assets/robotica/de6a33bb7f0c363a.webp" alt="">Premios y torneo</button>
+  </div>
+
+  <div class="panel on" id="p-cartilla" role="tabpanel" aria-labelledby="t-cartilla">
+    <div>
+      <h3>Cartilla del estudiante: su bitácora de proyecto</h3>
+      <p>Es el recurso físico que cada estudiante recibe de forma individual, por grado. Acompaña todas las etapas del proyecto.</p>
+      <ul class="ul">
+        <li>Orientaciones y actividades para cada fase del proyecto.</li>
+        <li>Espacio para registrar ideas, diseños y aprendizajes.</li>
+        <li>Evaluación del prototipo al cerrar cada proyecto.</li>
+        <li>Una cartilla por nivel: Explorador, Practicante, Investigador y Experto.</li>
+      </ul>
+    </div>
+    <div class="panel-img free"><img src="assets/robotica/de90afc91dfafbb3.webp" alt="Portadas de las cartillas de Robótica SET-XXI para 1°, 4°, 6° y 10°"></div>
+  </div>
+
+  <div class="panel" id="p-libro" role="tabpanel" aria-labelledby="t-libro">
+    <div>
+      <h3>Libro web para estudiantes y docentes</h3>
+      <p>Organizado por grado, con secuencias paso a paso alineadas con la metodología del programa.</p>
+      <div class="cols2">
+        <div class="mini"><h4>Para el estudiante</h4><ul class="ul"><li>Actividades interactivas</li><li>Metodología</li><li>Videotutoriales</li></ul></div>
+        <div class="mini"><h4>Para el docente · Maestro Maker</h4><ul class="ul"><li>Guía del programa</li><li>Fichas docentes</li><li>Mallas curriculares</li><li>Fundamentación teórica</li><li>Orientación técnica</li><li>Recursos didácticos extra</li></ul></div>
+      </div>
+    </div>
+    <div class="panel-img"><img src="assets/robotica/c79a61de2ffdce85.webp" alt="Pantalla del libro digital con una actividad de componentes electrónicos"><img src="assets/robotica/3add822f489a8004.webp" alt="Pantalla del libro digital con la actividad Una aventura sobre ruedas"></div>
+  </div>
+
+  <div class="panel" id="p-caja" role="tabpanel" aria-labelledby="t-caja">
+    <div>
+      <h3>Caja de artefactos: la electrónica que se toca</h3>
+      <p>Contiene los componentes electrónicos y las estructuras para construir los prototipos de forma colaborativa.</p>
+      <ul class="ul">
+        <li>Primer año: una caja por cada cuatro estudiantes, por grado.</li>
+        <li>Una caja adicional por grado para el colegio y sus docentes.</li>
+        <li>Años siguientes: partes, componentes y repuestos para mantenimiento, ampliación y reposición.</li>
+      </ul>
+    </div>
+    <div class="panel-img free"><img src="assets/robotica/0087331f88d868e1.webp" alt="Cajas de artefactos de Robótica SET-XXI para los grados 1°, 5°, 8° y 11°"><img src="assets/robotica/21ea428407f0b49c.webp" alt="Componentes del kit: placa programable, cables, motores, ruedas y sensores" style="max-width:340px;margin:0 auto"></div>
+  </div>
+
+  <div class="panel" id="p-sim" role="tabpanel" aria-labelledby="t-sim">
+    <div>
+      <h3>Simuladores: probar antes de construir</h3>
+      <p>Los estudiantes diseñan, programan y prueban sus circuitos en pantalla antes de pasar al prototipo físico. Así se equivocan sin miedo y aprenden más rápido.</p>
+      <div class="sims" role="group" aria-label="Elegir simulador">
+        <button aria-pressed="true" data-sim="0">Tinkercad</button><button aria-pressed="false" data-sim="1">Wokwi</button><button aria-pressed="false" data-sim="2">micro:bit</button>
+      </div>
+      <p class="sim-desc" id="simDesc"></p>
+    </div>
+    <div class="panel-img"><img id="simImg" src="assets/robotica/d0d6a7e53574e8fa.webp" alt=""></div>
+  </div>
+
+  <div class="panel" id="p-acomp" role="tabpanel" aria-labelledby="t-acomp">
+    <div>
+      <h3>Nadie implementa solo</h3>
+      <p>Especialistas en robótica acompañan al colegio para asegurar una implementación efectiva del programa.</p>
+      <ul class="ul">
+        <li>Acompañamiento académico, asesoría y seguimiento.</li>
+        <li>Formación docente con especialistas.</li>
+        <li>Rutas formativas: plataforma de capacitación autogestionada para docentes.</li>
+        <li>Mallas curriculares por grado y proyecto, alineadas con los lineamientos del Ministerio de Educación y la Ley de Educación Digital.</li>
+      </ul>
+    </div>
+    <div class="panel-img free"><img src="assets/robotica/6a8d01f66fd7d91d.webp" alt="Mascota robot de Robótica SET-XXI señalando" style="max-width:340px;margin:0 auto"></div>
+  </div>
+
+  <div class="panel" id="p-premios" role="tabpanel" aria-labelledby="t-premios">
+    <div>
+      <h3>Cuando el aula sale a mostrar lo que sabe</h3>
+      <p>Los estudiantes participan en eventos y competencias que celebran sus proyectos y les dan un público real.</p>
+      <ul class="ul">
+        <li>Premios Comunidad.</li>
+        <li>Torneo Nacional Robótica SET-XXI.</li>
+      </ul>
+    </div>
+    <div class="panel-img free"><img src="assets/robotica/0c2a56000c021fdd.webp" alt="Brazo robótico amarillo" style="max-width:420px;margin:0 auto"></div>
+  </div>
+</section>
+
+<!-- 9. RESPALDO CURRICULAR -->
+<section class="sec respaldo" id="respaldo" aria-labelledby="t-resp">
+  <div class="sec-head rv">
+    <span class="eyebrow"><i></i>Respaldo curricular</span>
+    <h2 id="t-resp">Alineado con estándares internacionales y con la nueva Ley de Educación Digital</h2>
+    <p class="lead">Robótica SET-XXI no es una actividad extracurricular: es un programa curricular que responde a lo que hoy se espera de Tecnología e Informática.</p>
+  </div>
+  <div class="resp-grid">
+    <div class="resp rv"><span class="k">Internacional</span><h3>Estándares ISTE</h3><p>Alineado con los estándares de la International Society for Technology in Education.</p></div>
+    <div class="resp rv"><span class="k">Nacional</span><h3>Orientaciones MEN 2022</h3><p>Responde a las orientaciones curriculares para Tecnología e Informática del Ministerio de Educación Nacional.</p></div>
+    <div class="resp rv"><span class="k">Nuevo marco</span><h3>Ley 2626 de 2026</h3><p>La Ley de Educación Digital moderniza la asignatura de Tecnología e Informática en básica y media.</p></div>
+  </div>
+  <div class="ley rv">
+    <div class="izq">
+      <span class="k">Qué pide la ley</span>
+      <h3>Ley 2626 · Ley de Educación Digital</h3>
+      <ul class="ul">
+        <li>Incorporar pensamiento computacional, programación, inteligencia artificial, ciencia de datos y ciudadanía digital (art. 1).</li>
+        <li>Una malla curricular progresiva y articulada por ciclos, actualizada al menos cada tres años e incluyendo la cultura maker (art. 3).</li>
+        <li>Formación docente en competencias digitales, programación y pedagogía digital (art. 4).</li>
+      </ul>
+      <small>Aplica a las instituciones oficiales; las privadas pueden adoptar el modelo curricular propuesto (art. 2).</small>
+    </div>
+    <div class="der">
+      <span class="k" style="color:var(--gris)">Cómo responde SET-XXI</span>
+      <h3>Tu colegio ya puede trabajar en esa dirección</h3>
+      <ul class="ul">
+        <li>Progresión de Transición a 11° en cuatro niveles.</li>
+        <li>Pensamiento computacional, programación, inteligencia artificial y gestión de la información en los proyectos.</li>
+        <li>Cultura Maker y enfoque STEAM como base metodológica.</li>
+        <li>Ciudadanía digital como habilidad explícita.</li>
+        <li>Formación docente, rutas formativas y acompañamiento de especialistas.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 10. PREGUNTAS FRECUENTES -->
+<section class="sec" id="preguntas" aria-labelledby="t-faq">
+  <div class="sec-head center rv">
+    <span class="eyebrow"><i></i>Preguntas frecuentes</span>
+    <h2 id="t-faq">Lo que suelen preguntar los colegios</h2>
+  </div>
+  <div class="faq rv" id="faq">
+    <div class="qa"><button aria-expanded="false">¿En qué asignatura se implementa?<span class="pm">+</span></button><div class="ans"><p>En Tecnología e Informática, Robótica o áreas afines. Se recomienda una intensidad mínima de una sesión semanal de una hora.</p></div></div>
+    <div class="qa"><button aria-expanded="false">¿Cuántos proyectos trabaja cada grado?<span class="pm">+</span></button><div class="ans"><p>Cuatro proyectos por grado durante el año escolar, de unas ocho horas cada uno, a lo largo de 32 semanas.</p></div></div>
+    <div class="qa"><button aria-expanded="false">¿Cuántas cajas de artefactos recibe el colegio?<span class="pm">+</span></button><div class="ans"><p>El primer año, una caja por cada cuatro estudiantes en cada grado, más una caja por grado para el colegio y sus docentes. En los años siguientes llegan partes, componentes y repuestos para mantenimiento, ampliación y reposición.</p></div></div>
+    <div class="qa"><button aria-expanded="false">¿El docente necesita ser experto en robótica?<span class="pm">+</span></button><div class="ans"><p>El docente cuenta con el libro web Maestro Maker, con orientaciones pedagógicas y secuencias didácticas paso a paso, además de formación, rutas formativas autogestionadas y el acompañamiento de especialistas en robótica.</p></div></div>
+    <div class="qa"><button aria-expanded="false">¿Cómo se evalúa el aprendizaje?<span class="pm">+</span></button><div class="ans"><p>Cada proyecto cierra con la fase de evaluación: los estudiantes reflexionan sobre sus aprendizajes, logros y oportunidades de mejora con una rúbrica de valoración. La cartilla incluye también la evaluación del prototipo.</p></div></div>
+  </div>
+</section>
+
+<!-- 11. CIERRE -->
+<section class="sec cierre circuit" id="cierre" aria-labelledby="t-cierre">
+  <div class="cierre-in rv">
+    <img class="m" src="assets/robotica/a521f8a140f160a4.webp" alt="Mascota robot de cabello rojo guiñando un ojo">
+    <h2 id="t-cierre">Cada proyecto empieza con una pregunta. ¿Cuál resolverá tu clase?</h2>
+    <p>Robótica SET-XXI convierte la curiosidad en prototipos y los prototipos en personas más seguras, creativas y conscientes de su entorno.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="#videos"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Ver de nuevo el video</a>
+      <a class="btn btn-ghost" href="#componentes">Explorar los componentes</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="firma">
+  <img class="robo" src="assets/robotica/56e54e19093f0c91.webp" alt="Robótica SET-XXI">
+  <img src="assets/robotica/1bd9e7f4dddb5be0.webp" alt="UNOi">
+</footer>
+
+<script>
+const IMG={"bot_girl3": "assets/robotica/4f71b903bc5063d4.webp", "bot_jet": "assets/robotica/d7e7a330379886d3.webp", "bot_paint": "assets/robotica/b1af977a0c6f0d43.webp", "bot_point": "assets/robotica/6a8d01f66fd7d91d.webp", "bot_visor": "assets/robotica/93a7de470653c9ce.webp", "bot_yellow": "assets/robotica/c54e57da764289fc.webp", "microbit": "assets/robotica/98f2daa63f91a1e8.webp", "tinkercad": "assets/robotica/d0d6a7e53574e8fa.webp", "wokwi": "assets/robotica/7e20eda2198ee374.webp"};
+/* ===== VIDEOS: agrega aquí nuevos videos (id de YouTube) ===== */
+const VIDEOS=[
+  {id:'Vf3GUM8fC0U',tag:'Video principal',title:'Robótica SET21: habilidades a través de proyectos tecnológicos',desc:'Conoce cómo el programa desarrolla habilidades del siglo XXI con robótica educativa, computación física, pensamiento computacional, programación y diseño e impresión 3D.'}
+];
+const LIST='';
+(function(){
+  const car=document.getElementById('car'),tr=document.getElementById('carTrack'),dots=document.getElementById('carDots');
+  VIDEOS.forEach((v,i)=>{
+    const src=v.id?`https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&rel=0&modestbranding=1`:`https://www.youtube-nocookie.com/embed/videoseries?list=${LIST}&index=${i}&enablejsapi=1&rel=0`;
+    const c=document.createElement('article');c.className='vcard';
+    c.innerHTML=`<div class="vframe"><iframe src="${src}" title="${v.title}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><div class="vbody"><small>${v.tag}</small><h3>${v.title}</h3><p>${v.desc}</p></div>`;
+    tr.appendChild(c);
+    const d=document.createElement('button');d.setAttribute('aria-label','Ir al video '+(i+1));d.onclick=()=>go(i);dots.appendChild(d);
+  });
+  if(VIDEOS.length===1) car.classList.add('single');
+  const cards=()=>[...tr.children];
+  function go(i){const c=cards()[Math.max(0,Math.min(i,cards().length-1))];tr.scrollTo({left:c.offsetLeft-tr.offsetLeft,behavior:'smooth'})}
+  function cur(){let b=0,m=1e9;cards().forEach((c,i)=>{const d=Math.abs(c.offsetLeft-tr.offsetLeft-tr.scrollLeft);if(d<m){m=d;b=i}});return b}
+  function upd(){const k=cur();[...dots.children].forEach((d,i)=>d.classList.toggle('on',i===k))}
+  document.getElementById('carPrev').onclick=()=>go(cur()-1);
+  document.getElementById('carNext').onclick=()=>go(cur()+1);
+  tr.addEventListener('scroll',()=>{clearTimeout(tr._t);tr._t=setTimeout(upd,80)});upd();
+  // pausar los demás al reproducir uno
+  window.addEventListener('message',e=>{
+    if(!/youtube/.test(e.origin))return;let d;try{d=typeof e.data==='string'?JSON.parse(e.data):e.data}catch(_){return}
+    if(d&&d.event==='onStateChange'&&d.info===1||d&&d.event==='infoDelivery'&&d.info&&d.info.playerState===1){
+      tr.querySelectorAll('iframe').forEach(f=>{if(f.contentWindow!==e.source)f.contentWindow.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:[]}),'*')});
+    }
+  });
+  tr.querySelectorAll('iframe').forEach(f=>f.addEventListener('load',()=>{f.contentWindow.postMessage(JSON.stringify({event:'listening',id:Math.random()}),'*')}));
+})();
+
+/* ===== FASES ===== */
+const FASES=[
+  {n:'El desafío',q:'¿Qué problema vamos a resolver?',t:'Plantea un reto dentro de un contexto social y una narrativa inspirada en los Objetivos de Desarrollo Sostenible (ODS).',img:IMG.bot_point},
+  {n:'Indaguemos',q:'¿Qué necesitamos saber?',t:'Exploran los conceptos, principios y conocimientos necesarios para comprender el problema y proponer soluciones.',img:IMG.bot_visor},
+  {n:'Diseñemos',q:'¿Cómo lo vamos a lograr?',t:'Identifican los componentes tecnológicos y planifican su integración según la funcionalidad del prototipo.',img:IMG.bot_paint},
+  {n:'Construyamos',q:'¡Manos a la obra!',t:'Integran componentes, ensamblan y desarrollan la programación que requiere la solución propuesta.',img:IMG.bot_jet},
+  {n:'Comuniquemos',q:'¿Cómo lo contamos?',t:'Comparten el proceso y los resultados con pósteres, informes, infografías, presentaciones o videos.',img:IMG.bot_girl3},
+  {n:'Evaluemos',q:'¿Qué aprendimos?',t:'Reflexionan sobre sus aprendizajes, los logros alcanzados y las oportunidades de mejora con una rúbrica de valoración.',img:IMG.bot_yellow}
+];
+(function(){
+  const $=id=>document.getElementById(id),w=$('fases'),fNum=$('fNum'),fNom=$('fNom'),fQ=$('fQ'),fTxt=$('fTxt'),fImg=$('fImg'),fPrev=$('fPrev'),fNext=$('fNext');let k=0;
+  FASES.forEach((f,i)=>{const b=document.createElement('button');b.className='fase';b.setAttribute('role','tab');b.innerHTML=`<span class="num">${i+1}</span><span class="nom">${f.n}</span>`;b.onclick=()=>set(i);w.appendChild(b)});
+  function set(i){k=(i+FASES.length)%FASES.length;const f=FASES[k];[...w.children].forEach((b,j)=>b.setAttribute('aria-selected',j===k));
+    fNum.textContent=k+1;fNom.textContent=f.n;fQ.textContent=f.q;fTxt.textContent=f.t;fImg.src=f.img}
+  fPrev.onclick=()=>set(k-1);fNext.onclick=()=>set(k+1);set(0);
+})();
+
+/* ===== PESTAÑAS DE COMPONENTES ===== */
+(function(){
+  const tabs=[...document.querySelectorAll('.tab')];
+  tabs.forEach(t=>t.addEventListener('click',()=>{tabs.forEach(x=>{x.setAttribute('aria-selected',x===t);document.getElementById(x.getAttribute('aria-controls')).classList.toggle('on',x===t)})}));
+  const SIMS=[
+    {img:IMG.tinkercad,alt:'Simulación de un circuito con Arduino y protoboard en Tinkercad',d:'Tinkercad: arman circuitos virtuales, los programan y diseñan piezas en 3D para imprimir.'},
+    {img:IMG.wokwi,alt:'Código y simulación de una pantalla LCD en Wokwi',d:'Wokwi: simulan proyectos electrónicos en el navegador y prueban su código antes de cargarlo en la placa.'},
+    {img:IMG.microbit,alt:'Editor de bloques de micro:bit con el simulador de la placa',d:'micro:bit: programan con bloques o código y ven el resultado al instante en la placa simulada.'}
+  ];
+  const bs=[...document.querySelectorAll('.sims button')],simImg=document.getElementById('simImg'),simDesc=document.getElementById('simDesc');
+  function s(i){bs.forEach((b,j)=>b.setAttribute('aria-pressed',j===i));simImg.src=SIMS[i].img;simImg.alt=SIMS[i].alt;simDesc.textContent=SIMS[i].d}
+  bs.forEach((b,i)=>b.onclick=()=>s(i));s(0);
+})();
+
+/* ===== FAQ (una abierta a la vez) ===== */
+(function(){
+  const qs=[...document.querySelectorAll('.qa button')];
+  qs.forEach(b=>b.addEventListener('click',()=>{const open=b.getAttribute('aria-expanded')==='true';
+    qs.forEach(x=>{x.setAttribute('aria-expanded','false');x.nextElementSibling.style.maxHeight=0});
+    if(!open){b.setAttribute('aria-expanded','true');const a=b.nextElementSibling;a.style.maxHeight=a.scrollHeight+'px'}}));
+})();
+
+/* ===== APARICIÓN AL HACER SCROLL ===== */
+(function(){
+  const els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  els.forEach(e=>io.observe(e));
+})();
+</script>
+<p class="source-credit">Contenido original: Coach Virtual UNOi · Robótica SET-XXI.
+<a href="https://unoiblog.wixsite.com/unointernacional/set-21-robotica" target="_blank" rel="noopener noreferrer">Consultar fuente</a></p>
+<script>
+(() => {
+  let pending = false;
+  const publish = () => {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(() => {
+      pending = false;
+      parent.postMessage({type:'compartir-robotica-height',height:document.body.offsetHeight}, location.origin);
+    });
+  };
+  new ResizeObserver(publish).observe(document.body);
+  window.addEventListener('load', publish);
+  document.fonts.ready.then(publish);
+  // Internal anchors scroll the host document, avoiding a second scroll area.
+  document.addEventListener('click', event => {
+    if (parent === window) return;
+    const link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+    const target = document.getElementById(link.getAttribute('href').slice(1));
+    if (!target) return;
+    event.preventDefault();
+    parent.postMessage({type:'compartir-robotica-scroll',top:target.getBoundingClientRect().top + scrollY}, location.origin);
+  });
+})();
+</script>
+</body>
+</html>
