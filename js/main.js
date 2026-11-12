@@ -1192,7 +1192,7 @@ function loadFEContent() {
             </div>
             <div class="w-full h-px bg-white/10 mb-8"></div>
 
-            <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo.html?v=20261112" title="Explorador de Recursos Globales CREO 2026" loading="eager"></iframe>
+            <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo.html?v=20261112-completa" title="Explorador de Recursos Globales CREO 2026" loading="eager"></iframe>
 
             <p class="text-slate-300 mb-8 text-sm">Tutoriales y documentos de apoyo de <strong>Compartir Fe</strong>.</p>
 
