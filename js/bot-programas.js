@@ -529,7 +529,7 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_docente": {
-      "text": "**Compartir Fe — CREO**\n\nCompartir Fe reúne los tutoriales y materiales de integración de **CREO**, el sistema educativo católico de Santillana. Su propuesta relaciona el currículo con el Evangelio y la formación integral, e involucra a directivos, docentes, estudiantes y familias.\n\nEn esta app encontrarás un **explorador de Recursos Globales CREO 2026**, organizado en cinco pilares y quince propuestas, además de **dos tutoriales y tres documentos de apoyo**. La disponibilidad de servicios del sistema CREO en cada colegio depende de su implementación.",
+      "text": "**Compartir Fe — CREO**\n\nCompartir Fe reúne los tutoriales y materiales de integración de **CREO**, el sistema educativo católico de Santillana. Su propuesta relaciona el currículo con el Evangelio y la formación integral, e involucra a directivos, docentes, estudiantes y familias.\n\nEn esta app encontrarás la **guía completa de Recursos Globales CREO 2026**, organizada en cinco pilares y quince propuestas, además de **dos tutoriales y tres documentos de apoyo**. La disponibilidad de servicios del sistema CREO en cada colegio depende de su implementación.",
       "section": "fe",
       "sources": [
         "creo"
@@ -723,7 +723,7 @@ const BOT_PROGRAMAS = {
       "program": "FE"
     },
     "fe_contenidos": {
-      "text": "**Contenidos Globales CREO**\n\nEn **Compartir Fe** puedes explorar los **Recursos Globales CREO 2026**: catequesis de Comunión y Confirmación; celebraciones, talleres docentes y lectura en comunidad; Educación Religiosa Escolar y Plan Lector; servicio solidario, comunidades, retiros e itinerarios; y cuatro propuestas para las familias.\n\nEl explorador incluye búsqueda, orientaciones y capturas del documento. Para utilizar las actividades y descargables, ingresa a **EDI → Compartir Conocimientos → CREO Contenidos Globales**. También está disponible el tutorial.",
+      "text": "**Contenidos Globales CREO**\n\nEn **Compartir Fe** puedes explorar los **Recursos Globales CREO 2026**: catequesis de Comunión y Confirmación; celebraciones, talleres docentes y lectura en comunidad; Educación Religiosa Escolar y Plan Lector; servicio solidario, comunidades, retiros e itinerarios; y cuatro propuestas para las familias.\n\nLa guía completa conserva todas las explicaciones y capturas del documento, y permite descargar el archivo original. Para utilizar las actividades y descargables, ingresa a **EDI → Compartir Conocimientos → CREO Contenidos Globales**. También está disponible el tutorial.",
       "section": "fe",
       "sources": [],
       "videos": [
@@ -760,7 +760,7 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_documentos": {
-      "text": "**Documentos disponibles de Compartir Fe**\n\nAquí tienes los tres documentos enlazados en la app: **conexión curricular de Primaria, conexión curricular de Secundaria y Recursos Globales CREO**.\n\nSe abren en SharePoint y pueden solicitar permisos de tu cuenta institucional. Si no tienes acceso, pide autorización al responsable del material. El documento de Recursos Globales CREO 2026 ya está organizado en el explorador de Compartir Fe. Las conexiones curriculares de Primaria y Secundaria se consultan en sus documentos originales.",
+      "text": "**Documentos disponibles de Compartir Fe**\n\nAquí tienes los tres documentos enlazados en la app: **conexión curricular de Primaria, conexión curricular de Secundaria y Recursos Globales CREO**.\n\nSe abren en SharePoint y pueden solicitar permisos de tu cuenta institucional. Si no tienes acceso, pide autorización al responsable del material. El documento de Recursos Globales CREO 2026 ya está disponible íntegramente en la guía de Compartir Fe. Las conexiones curriculares de Primaria y Secundaria se consultan en sus documentos originales.",
       "section": "fe",
       "sources": [],
       "documents": [
