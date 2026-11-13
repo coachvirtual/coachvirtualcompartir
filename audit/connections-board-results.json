@@ -1,0 +1,42 @@
+[
+  {
+    "width": 320,
+    "tableDefault": true,
+    "columns": 8,
+    "searchAcrossLevels": true,
+    "multiwordSearch": true,
+    "accentInsensitive": true,
+    "sourceValuesPreserved": true,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "tableDefault": true,
+    "columns": 8,
+    "searchAcrossLevels": true,
+    "multiwordSearch": true,
+    "accentInsensitive": true,
+    "sourceValuesPreserved": true,
+    "errors": []
+  },
+  {
+    "width": 820,
+    "tableDefault": true,
+    "columns": 8,
+    "searchAcrossLevels": true,
+    "multiwordSearch": true,
+    "accentInsensitive": true,
+    "sourceValuesPreserved": true,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "tableDefault": true,
+    "columns": 8,
+    "searchAcrossLevels": true,
+    "multiwordSearch": true,
+    "accentInsensitive": true,
+    "sourceValuesPreserved": true,
+    "errors": []
+  }
+]

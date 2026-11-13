@@ -18,12 +18,12 @@ const data=ctx.data,normalize=t=>String(t).replace(/\s+/g,' ').trim();
   for(const [name,width,height] of [['small-mobile',320,740],['mobile',390,844],['tablet',820,1180],['desktop',1440,1000]]){
    const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'}),errors=[];
    page.on('pageerror',e=>errors.push(e.message));await route(page);await page.goto(base+'?curriculum=20261112');await page.evaluate(()=>{openRoleSelection('FE');abrirContenidoFE('conexiones');});
-   const frame=page.frameLocator('#fe-frame');await frame.locator('.connection-card').first().waitFor();
+   const frame=page.frameLocator('#fe-frame');await frame.locator('.connection-table').waitFor();
    assert.equal(await page.locator('.coach-dock').isVisible(),false,'The Coach dock must not cover embedded pagination');
    assert.equal(await page.getByRole('button',{name:'Abrir Coach Bot',exact:true}).isVisible(),true);
    await frame.locator('body').evaluate(()=>{window.auditConnectionClicks=[];document.addEventListener('click',event=>{window.auditConnectionClicks.push(event.target.closest('button')?.id||event.target.tagName);},true);});
    const bringToView=async selector=>{await frame.locator(selector).evaluate(el=>parent.postMessage({type:'compartir-fe-scroll',top:el.getBoundingClientRect().top+scrollY},location.origin));await page.waitForFunction(selector=>{const f=document.querySelector('#fe-frame'),el=f.contentDocument.querySelector(selector),top=f.getBoundingClientRect().top+el.getBoundingClientRect().top;return top>=document.querySelector('header').offsetHeight&&top<250;},selector);};
-   assert.equal(await frame.locator('[data-connection-mode]').count(),3);
+   assert.equal(await frame.locator('[data-connection-mode]').count(),3);assert.equal(await frame.locator('.connection-table').count(),1);await frame.locator('[data-connection-view="cards"]').click();
    // Every field of every connection must be readable in both native views.
    for(const [level,key] of [['primaria','primary'],['secundaria','secondary']]){
     await frame.locator(`[data-connection-mode="${level}"]`).click();
@@ -39,7 +39,7 @@ const data=ctx.data,normalize=t=>String(t).replace(/\s+/g,' ').trim();
     assert.equal(await frame.locator('html').evaluate(el=>el.scrollWidth>innerWidth),false);
     await frame.locator('[data-connection-view="cards"]').click();
     await frame.locator('#connection-show-all').click();
-    assert.equal(await frame.locator('.connection-card').count(),8);assert.equal(await frame.locator('[data-connection-instruction]:visible').count(),8);
+    assert.equal(await frame.locator('.connection-card').count(),16);assert.equal(await frame.locator('[data-connection-instruction]:visible').count(),8);
     const seen=new Set(),visitedPages=new Set();
     do{
      const ids=await frame.locator('[data-connection-id]').evaluateAll(els=>els.map(el=>el.dataset.connectionId));

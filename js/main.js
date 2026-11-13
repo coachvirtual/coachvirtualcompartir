@@ -1253,7 +1253,7 @@ const FE_VISTAS = {
 
 const FE_RECORRIDO = {
     explorar: 'Conoce los cinco pilares, sus propuestas y ejemplos de uso.',
-    conexiones: 'Sigue la ruta de acceso y encuentra la conexión con tus clases.',
+    conexiones: 'Busca tu conexión curricular y consulta la ruta de acceso al recurso.',
     acceso: 'Ingresa desde EDI y acompaña tus primeros pasos con los tutoriales.'
 };
 
@@ -1306,7 +1306,7 @@ function abrirContenidoFE(vista, manejo = false) {
         ${indiceRecorridoFE(vista)}
         <h2 class="fe-view-title">${FE_VISTAS[vista]}</h2>
         <p class="fe-journey-intro">${FE_RECORRIDO[vista]} Sigue bajando para recorrer el contenido completo.</p>
-        <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-fe-recorrido&vista=${vista}${manejo ? '&modo=manejo' : ''}#${vista}" title="${FE_VISTAS[vista]}" loading="eager"></iframe>
+        <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-tablero&vista=${vista}${manejo ? '&modo=manejo' : ''}#${vista}" title="${FE_VISTAS[vista]}" loading="eager"></iframe>
         ${recorridoFE(vista)}
         ${navegacionFE()}`;
     sectionContent.style.opacity = 1;
