@@ -919,7 +919,7 @@ function actualizarPerfilUI(eligiendo = !perfilActual) {
     document.getElementById('profile-label').textContent = perfilActual === 'Docente' ? 'docentes' : 'estudiantes y familias';
     document.getElementById('profile-cancel').hidden = !perfilActual;
     document.getElementById('profile-search').hidden = eligiendo;
-    SECCIONES_CON_PERFIL.forEach(id => { document.getElementById('card-' + id).hidden = eligiendo; });
+    [...SECCIONES_CON_PERFIL, 'Suplementales'].forEach(id => { document.getElementById('card-' + id).hidden = eligiendo; });
     document.getElementById('global-search').value = '';
     document.getElementById('global-search').dispatchEvent(new Event('input'));
     document.getElementById('search-results').classList.add('hidden');
