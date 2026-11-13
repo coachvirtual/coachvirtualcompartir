@@ -10,9 +10,9 @@
     "test:design": "node audit/design-audit.cjs",
     "test:security": "node audit/security-regression.cjs",
     "test:bot": "node audit/coachbot-intents.test.cjs && node audit/coachbot-browser.test.cjs && node audit/coachbot-regressions.test.cjs",
-    "test:published": "node audit/coachbot-published.test.cjs && node audit/coachbot-regressions.test.cjs --live && node audit/creo-experience-check.cjs --live && node audit/conexiones/check.cjs --live",
+    "test:published": "node audit/coachbot-published.test.cjs && node audit/coachbot-regressions.test.cjs --live && node audit/creo-experience-check.cjs --live && node audit/conexiones/table-check.cjs --live",
     "test:creo": "node audit/creo-experience-check.cjs",
-    "test:conexiones": "node audit/conexiones/check.cjs"
+    "test:conexiones": "node audit/conexiones/table-check.cjs"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "4.0.1",

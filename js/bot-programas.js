@@ -752,7 +752,7 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_documentos": {
-      "text": "**Contenido completo de Compartir Fe**\n\nEn Compartir Fe puedes consultar los **recursos globales CREO**, las **mallas curriculares de Primaria y Secundaria** y el **manejo de conexiones** directamente en la app.\n\nLas mallas están organizadas en fichas y tablas con todos los campos de cada fila. Los enlaces de referencia permiten cotejar las fichas con las páginas de las mallas. Para utilizar los contenidos interactivos y descargables de CREO, ingresa con la cuenta de tu institución en EDI.",
+      "text": "**Contenido completo de Compartir Fe**\n\nEn Compartir Fe puedes consultar los **recursos globales CREO**, las **mallas curriculares de Primaria y Secundaria** y el **manejo de conexiones** directamente en la app.\n\nLas conexiones están organizadas en una sola tabla con todos los campos de cada fila. Puedes verlas todas o filtrarlas por nivel, grado, área, bimestre, colección y palabras clave. Para utilizar los contenidos interactivos y descargables de CREO, ingresa con la cuenta de tu institución en EDI.",
       "section": "fe",
       "sources": [],
       "options": [

@@ -1306,7 +1306,7 @@ function abrirContenidoFE(vista, manejo = false) {
         ${indiceRecorridoFE(vista)}
         <h2 class="fe-view-title">${FE_VISTAS[vista]}</h2>
         <p class="fe-journey-intro">${FE_RECORRIDO[vista]} Sigue bajando para recorrer el contenido completo.</p>
-        <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-tablero&vista=${vista}${manejo ? '&modo=manejo' : ''}#${vista}" title="${FE_VISTAS[vista]}" loading="eager"></iframe>
+        <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-tabla-unica&vista=${vista}${manejo ? '&modo=manejo' : ''}#${vista}" title="${FE_VISTAS[vista]}" loading="eager"></iframe>
         ${recorridoFE(vista)}
         ${navegacionFE()}`;
     sectionContent.style.opacity = 1;

@@ -1,5 +1,7 @@
 /* The source curriculum board: eight columns, simple rows, violet headings. */
 .connection-level-heading{margin-bottom:16px}.connection-level-heading h3{font-size:clamp(21px,2.3vw,30px)}
+.connection-browse-mode{display:inline-flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}.connection-browse-mode button{min-height:44px;padding:10px 18px}
+#connection-filter-panel[hidden],#connection-clear[hidden]{display:none!important}
 .connection-search-bar{display:grid;grid-template-columns:minmax(0,2fr) minmax(190px,1fr);gap:10px 16px;margin:16px 0 18px;padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--white)}
 .connection-search-bar label{display:flex;flex-direction:column;gap:7px;min-width:0;font-size:12px;font-weight:700;color:var(--ink)}
 .connection-search-bar input,.connection-search-bar select{width:100%;min-width:0;min-height:46px;padding:10px 12px;border:1px solid #aabed0;border-radius:6px;background:var(--white);color:var(--ink);font:15px/1.5 Montserrat,sans-serif}
