@@ -1251,6 +1251,29 @@ const FE_VISTAS = {
     acceso: 'Acceso desde EDI y tutoriales'
 };
 
+const FE_RECORRIDO = {
+    explorar: 'Conoce los cinco pilares, sus propuestas y ejemplos de uso.',
+    conexiones: 'Sigue la ruta de acceso y encuentra la conexión con tus clases.',
+    acceso: 'Ingresa desde EDI y acompaña tus primeros pasos con los tutoriales.'
+};
+
+function recorridoFE(vista) {
+    const entradas = Object.entries(FE_VISTAS);
+    const posicion = entradas.findIndex(([id]) => id === vista);
+    const siguiente = entradas[posicion + 1];
+    return `<aside class="fe-journey-ending" aria-label="Continuar el recorrido de Compartir Fe">
+        <p class="small-label">${siguiente ? `CONTINÚA · MOMENTO ${posicion + 2} DE 3` : 'COMPLETASTE LOS TRES MOMENTOS'}</p>
+        <h3>${siguiente ? siguiente[1] : 'Lleva los recursos a tu comunidad educativa'}</h3>
+        <p>${siguiente ? FE_RECORRIDO[siguiente[0]] : 'Puedes volver a cualquier momento del recorrido o consultar otra propuesta cuando la necesites.'}</p>
+        <button type="button" onclick="${siguiente ? `abrirContenidoFE('${siguiente[0]}')` : 'volverAFe()'}">${siguiente ? 'Continuar el recorrido →' : 'Volver a Compartir Fe'}</button>
+    </aside>`;
+}
+
+function indiceRecorridoFE(vista) {
+    const etiquetas = { explorar: 'Pilares', conexiones: 'Conexiones', acceso: 'Acceso EDI' };
+    return `<nav class="fe-journey-index" aria-label="Los tres momentos de Compartir Fe">${Object.entries(FE_VISTAS).map(([id, titulo], i) => `<button type="button" onclick="abrirContenidoFE('${id}')" aria-label="${i + 1}. ${titulo}"${id === vista ? ' aria-current="step"' : ''}><span>0${i + 1}</span>${etiquetas[id]}</button>`).join('')}</nav>`;
+}
+
 function navegacionFE() {
     return `<nav class="fe-navigation" aria-label="Navegación de Compartir Fe">
         ${feVistaActual ? '<button type="button" onclick="volverAFe()">← Compartir Fe</button>' : ''}
@@ -1280,8 +1303,11 @@ function abrirContenidoFE(vista, manejo = false) {
     document.getElementById('section-back').setAttribute('aria-label', 'Volver a Compartir Fe');
     sectionContent.innerHTML = `
         ${navegacionFE()}
+        ${indiceRecorridoFE(vista)}
         <h2 class="fe-view-title">${FE_VISTAS[vista]}</h2>
-        <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-fe-tarjetas&vista=${vista}${manejo ? '&modo=manejo' : ''}#${vista}" title="${FE_VISTAS[vista]}" loading="eager"></iframe>
+        <p class="fe-journey-intro">${FE_RECORRIDO[vista]} Sigue bajando para recorrer el contenido completo.</p>
+        <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-fe-recorrido&vista=${vista}${manejo ? '&modo=manejo' : ''}#${vista}" title="${FE_VISTAS[vista]}" loading="eager"></iframe>
+        ${recorridoFE(vista)}
         ${navegacionFE()}`;
     sectionContent.style.opacity = 1;
     mostrarSeccion();
@@ -1295,11 +1321,12 @@ function loadFEContent() {
     sectionContent.innerHTML = `
         ${navegacionFE()}
         <h2 class="section-heading">Compartir Fe</h2>
+        <p class="fe-journey-intro">Un recorrido en tres momentos. Empieza por los pilares y continúa hacia las conexiones y el acceso desde EDI. También puedes entrar directamente donde lo necesites.</p>
         <div class="fe-card-grid">
             ${Object.entries(FE_VISTAS).map(([vista, titulo], i) => `
                 <a id="fe-card-${vista}" class="fe-entry-card" href="creo-guia.html?v=20261112-conexiones-integras#${vista}" onclick="abrirContenidoFE('${vista}'); return false;">
                     <span class="fe-entry-number" aria-hidden="true">0${i + 1}</span>
-                    <span>${titulo}</span><span class="fe-entry-arrow" aria-hidden="true">↗</span>
+                    <span>${titulo}</span><small class="fe-entry-description">${FE_RECORRIDO[vista]}</small><span class="fe-entry-arrow" aria-hidden="true">${i === 0 ? 'Comenzar el recorrido' : 'Explorar este momento'} ↗</span>
                 </a>`).join('')}
         </div>`;
     sectionContent.style.opacity = 1;

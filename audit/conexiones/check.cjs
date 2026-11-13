@@ -39,7 +39,7 @@ const data=ctx.data,normalize=t=>String(t).replace(/\s+/g,' ').trim();
     assert.equal(await frame.locator('html').evaluate(el=>el.scrollWidth>innerWidth),false);
     await frame.locator('[data-connection-view="cards"]').click();
     await frame.locator('#connection-show-all').click();
-    assert.equal(await frame.locator('.connection-card').count(),8);
+    assert.equal(await frame.locator('.connection-card').count(),8);assert.equal(await frame.locator('[data-connection-instruction]:visible').count(),8);
     const seen=new Set(),visitedPages=new Set();
     do{
      const ids=await frame.locator('[data-connection-id]').evaluateAll(els=>els.map(el=>el.dataset.connectionId));
@@ -72,11 +72,11 @@ const data=ctx.data,normalize=t=>String(t).replace(/\s+/g,' ').trim();
     await frame.locator(`[data-connection-step="${i}"]`).click();assert.equal(await frame.locator(`#connection-step-${i}`).isVisible(),true);
     const text=await frame.locator(`[data-connection-instruction="${i+1}"]`).innerText();assert.equal(text.replace(/\s/g,''),coverage.sourceGuide[i].replace(/\s/g,''));
    }
-   await bringToView('#connection-guide-all');await frame.locator('#connection-guide-all').click();assert.equal(await frame.locator('[data-connection-instruction]:visible').count(),8);assert.equal(await frame.locator('.connection-media:visible').count(),coverage.guideImages);
+   assert.equal(await frame.locator('[data-connection-instruction]:visible').count(),8);assert.equal(await frame.locator('.connection-media:visible').count(),coverage.guideImages);
    await frame.locator('.connection-media img').evaluateAll(imgs=>Promise.all(imgs.map(img=>{img.loading='eager';return img.decode();})));
    assert.equal(await frame.locator('html').evaluate(el=>el.scrollWidth>innerWidth),false);
    await page.waitForFunction(()=>{const f=document.querySelector('#fe-frame');return Math.abs(f.clientHeight-f.contentDocument.body.offsetHeight)<3;});
-   await bringToView('#connection-guide-all');await frame.locator('#connection-guide-all').click();await frame.locator('[data-connection-step="6"]').click();
+   await frame.locator('[data-connection-step="6"]').click();
    await frame.locator('#connection-step-6 .connection-media img').evaluate(img=>img.decode());
    await frame.locator('#conexiones').evaluate(el=>parent.postMessage({type:'compartir-fe-scroll',top:el.getBoundingClientRect().top+scrollY},location.origin));
    await page.screenshot({path:`audit/conexiones/guide-${live?'published-':''}${name}.png`});

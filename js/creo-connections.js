@@ -2,7 +2,7 @@
  'use strict';
  const C=CREO_CONNECTIONS,U=window.CreoUI,$=id=>document.getElementById(id),safe=U.escape;
  const normalize=value=>String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
- const state={mode:'primaria',level:'primaria',grade:'1',area:'',bimester:'',collection:'',query:'',view:'cards',page:0,all:false,step:0,allSteps:false,selected:null};
+ const state={mode:'primaria',level:'primaria',grade:'1',area:'',bimester:'',collection:'',query:'',view:'cards',page:0,all:false,step:0,allSteps:true,selected:null};
  const size=8,fields=['area','grade','bimester','learning','lesson','topic','resource','digitalPage'];
  const labels={area:'Área',grade:'Grado',bimester:'Bimestre',learning:'Aprendizaje nuclear',lesson:'Lección',topic:'Tema articulador',resource:'Recurso asociado',digitalPage:'Página del libro digital'};
  const sourceRows=()=>state.level==='primaria'?C.primary:C.secondary;
@@ -58,10 +58,10 @@
   const example=state.selected||C.primary.find(r=>r.grade==='1'&&r.lesson==='Los meses del año');
   $('connection-context').hidden=!example;
   if(example)$('connection-context').innerHTML=`<span class="small-label">${state.selected?'CONEXIÓN QUE ESTÁS CONSULTANDO':'EJEMPLO UTILIZADO EN EL DOCUMENTO'}</span><h4>${safe(example.resource)}</h4><p>Colección: <strong>${safe(example.collection)}</strong></p><p><strong>${safe(example.area)} · ${example.grade}° · Bimestre ${safe(example.bimester)}</strong> · AN ${safe(example.learning)}</p><p>Lección: <strong>${safe(example.lesson)}</strong><br>Tema articulador: <strong>${safe(example.topic)}</strong><br>Página del libro digital: <strong>${safe(example.digitalPage)}</strong></p>`;
-  $('connection-guide-steps').innerHTML=C.guide.map((s,i)=>`<button type="button" data-connection-step="${i}" aria-pressed="${!state.allSteps&&i===state.step}" aria-controls="connection-step-${i}"><span>${String(i+1).padStart(2,'0')}</span>${safe(s.title)}</button>`).join('');
+  $('connection-guide-steps').innerHTML=C.guide.map((s,i)=>`<button type="button" data-connection-step="${i}" aria-pressed="${i===state.step}" aria-controls="connection-step-${i}"><span>${String(i+1).padStart(2,'0')}</span>${safe(s.title)}</button>`).join('');
   $('connection-guide-content').innerHTML=C.guide.map((s,i)=>`<article class="connection-instruction" id="connection-step-${i}"${!state.allSteps&&i!==state.step?' hidden':''}><div class="connection-instruction-copy"><span class="small-label">PASO ${String(i+1).padStart(2,'0')} / 08</span><h4>${safe(s.title)}</h4><p data-connection-instruction="${s.id}">${U.emphasize(s.text)}</p></div><div class="connection-example-images">${s.images.map(contentImage).join('')}</div></article>`).join('');
-  $('connection-guide-all').textContent=state.allSteps?'Ver un paso a la vez':'Ver todos los pasos';
-  $('connection-guide-all').setAttribute('aria-pressed',String(state.allSteps));
+  $('connection-guide-all').textContent='Continuar a la malla ↓';
+  $('connection-guide-all').removeAttribute('aria-pressed');
   $('connection-guide-previous').disabled=state.allSteps||state.step===0;
   $('connection-guide-next').disabled=state.allSteps||state.step===C.guide.length-1;
   $('connection-guide-position').textContent=state.allSteps?'Los ocho pasos están desplegados':`${state.step+1} de 8`;
@@ -71,11 +71,13 @@
   if(!['primaria','secundaria','manejo'].includes(mode))return;
   state.mode=mode;
   if(mode!=='manejo'&&state.level!==mode){state.level=mode;state.grade=mode==='primaria'?'1':'6';state.area='';state.bimester='';state.collection='';state.query='';state.page=0;state.all=false;setupFilters();}
-  $('connection-browser').hidden=mode==='manejo';$('connection-guide').hidden=mode!=='manejo';
+  $('connection-browser').hidden=false;$('connection-guide').hidden=false;
   document.querySelectorAll('[data-connection-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.connectionMode===mode)));
   mode==='manejo'?renderGuide():renderRows();
  }
  function clear(){state.grade='all';state.area='';state.bimester='';state.collection='';state.query='';state.page=0;setupFilters();renderRows();}
+ $('connection-browser').before($('connection-guide'));
+ $('connection-guide').hidden=false;
  setupFilters();renderRows();renderGuide();
  $('connection-area').onchange=event=>{state.area=event.target.value;state.page=0;renderRows();};
  $('connection-bimester').onchange=event=>{state.bimester=event.target.value;state.page=0;renderRows();};
@@ -85,18 +87,18 @@
  $('connection-previous').onclick=()=>{if(state.page>0){state.page--;renderRows();}};
  $('connection-next').onclick=()=>{state.page++;renderRows();};
  $('connection-show-all').onclick=()=>{state.all=!state.all;state.page=0;renderRows();};
- $('connection-guide-all').onclick=()=>{state.allSteps=!state.allSteps;renderGuide();};
+ $('connection-guide-all').onclick=()=>U.scrollTo($('connection-browser'));
  $('connection-guide-previous').onclick=()=>{if(state.step>0){state.step--;renderGuide();}};
  $('connection-guide-next').onclick=()=>{if(state.step<C.guide.length-1){state.step++;renderGuide();}};
- $('connection-back-to-grid').onclick=()=>setMode(state.level);
+ $('connection-back-to-grid').onclick=()=>{setMode(state.level);U.scrollTo($('connection-browser'));};
  document.addEventListener('click',event=>{
   const guideLink=event.target.closest('[data-connection-guide]');
   if(guideLink){event.preventDefault();event.stopPropagation();setMode('manejo');history.replaceState(null,'','#conexiones');requestAnimationFrame(()=>U.scrollTo($('conexiones')));return;}
-  const mode=event.target.closest('[data-connection-mode]');if(mode){setMode(mode.dataset.connectionMode);return;}
+  const mode=event.target.closest('[data-connection-mode]');if(mode){setMode(mode.dataset.connectionMode);U.scrollTo($(mode.dataset.connectionMode==='manejo'?'connection-guide':'connection-browser'));return;}
   const grade=event.target.closest('[data-connection-grade]');if(grade){state.grade=grade.dataset.connectionGrade;state.page=0;renderGrades();renderRows();document.querySelector(`[data-connection-grade="${state.grade}"]`)?.focus({preventScroll:true});return;}
   const view=event.target.closest('[data-connection-view]');if(view){state.view=view.dataset.connectionView;renderRows();return;}
-  const step=event.target.closest('[data-connection-step]');if(step){state.step=Number(step.dataset.connectionStep);state.allSteps=false;renderGuide();document.querySelector(`[data-connection-step="${state.step}"]`)?.focus({preventScroll:true});return;}
-  const route=event.target.closest('[data-connection-route]');if(route){state.selected=allRows.get(route.dataset.connectionRoute);state.step=0;state.allSteps=false;setMode('manejo');requestAnimationFrame(()=>U.scrollTo($('conexiones')));return;}
+  const step=event.target.closest('[data-connection-step]');if(step){state.step=Number(step.dataset.connectionStep);U.scrollTo($('connection-step-'+state.step));return;}
+  const route=event.target.closest('[data-connection-route]');if(route){state.selected=allRows.get(route.dataset.connectionRoute);state.step=0;state.allSteps=true;setMode('manejo');requestAnimationFrame(()=>U.scrollTo($('connection-guide')));return;}
   if(event.target.closest('[data-connection-clear]'))clear();
  },true);
  if(new URLSearchParams(location.search).get('modo')==='manejo')setMode('manejo');

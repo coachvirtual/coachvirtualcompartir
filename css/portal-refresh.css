@@ -61,3 +61,16 @@ body[class]{background-color:var(--page)}
 :root[data-theme=light] .category-pink{--label:#ad2478}:root[data-theme=light] .category-blue{--label:#2963b0}:root[data-theme=light] .category-red{--label:#bd2b3c}:root[data-theme=light] .category-cyan{--label:#00788b}:root[data-theme=light] .category-purple{--label:#7136bd}:root[data-theme=light] .category-green{--label:#167c46}
 :root[data-theme=dark] .category-pink{--accent:238,111,185}:root[data-theme=dark] .category-blue{--accent:108,165,242}:root[data-theme=dark] .category-red{--accent:250,117,130}:root[data-theme=dark] .category-cyan{--accent:76,201,214}:root[data-theme=dark] .category-purple{--accent:181,138,246}:root[data-theme=dark] .category-green{--accent:90,204,143}
 #cards-container .category-title,.supplemental-grid .category-title{color:var(--label,rgb(var(--accent)))}
+
+/* Three explicit entry points and a continuation at the end of every visit. */
+.fe-journey-intro{max-width:840px;color:var(--muted);font-size:14px;line-height:1.8;margin:12px 0 24px}
+.fe-entry-description{font:13px/1.8 Montserrat,sans-serif;color:var(--muted)}.fe-entry-card{gap:16px}.fe-entry-arrow{font-size:12px;line-height:1.6;align-self:stretch}
+.fe-journey-index{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 28px}
+.fe-journey-index button{display:flex;align-items:center;gap:12px;min-height:64px;padding:14px;text-align:left;font-size:12px;line-height:1.6;font-weight:700;border:1px solid var(--line);border-radius:12px;color:var(--muted);background:var(--surface)}
+.fe-journey-index button>span{display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border-radius:50%;background:var(--page);color:var(--brand)}
+.fe-journey-index button[aria-current=step]{border-color:var(--brand);color:var(--ink)}
+.fe-journey-ending{padding:28px;margin-bottom:28px;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--ink)}
+.fe-journey-ending h3{font-size:clamp(22px,3vw,30px);margin:8px 0 12px}.fe-journey-ending p{font-size:14px;line-height:1.8;color:var(--muted);max-width:760px}
+.fe-journey-ending .small-label{font-size:11px;letter-spacing:.1em;color:var(--brand);font-weight:800}
+.fe-journey-ending button{min-height:48px;margin-top:18px;padding:12px 20px;border:1px solid #9475d1;border-radius:12px;background:#7351bb;color:#fff;font-size:13px;font-weight:800}
+@media(max-width:700px){.fe-journey-index{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:22px}.fe-journey-index button{flex-direction:column;align-items:flex-start;gap:5px;min-height:70px;padding:8px;font-size:10px;line-height:1.4}.fe-journey-index button>span{width:24px;height:24px;flex-basis:24px}.fe-journey-ending{padding:20px}.fe-journey-intro{font-size:13px}}

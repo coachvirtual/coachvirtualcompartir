@@ -16,7 +16,8 @@
   return html+safe(text.slice(cursor));
  }
  const source=(p,tag='p')=>`<${tag} class="source-text${p.id===40?' source-subheading':''}" data-source-id="${p.id}">${emphasize(p.text)}</${tag}>`;
- let chapterIndex=0,showAll=false;
+ let chapterIndex=0;
+ const showAll=true;
  const initialHash=location.hash.slice(1);
  const resourceIndex=data.chapters.map(()=>0), stepIndex=new Map(), galleryIndex=new Map(), expandedSteps=new Set();
  const choices=c=>c.resources.reduce((sum,r)=>sum+(r.choices?.length||1),0);
@@ -46,21 +47,21 @@
   if(!r.steps.length)return '';
   const selected=stepIndex.get(r.id)||0;
   const allSteps=showAll||expandedSteps.has(r.id);
-  return `<section class="stepper" aria-label="Recorrido de ${safe(r.title)}"><div class="stepper-heading"><div><span class="small-label">UN RECORRIDO PARA PONERLO EN PRÁCTICA</span><h4>Explora cada paso</h4></div><button type="button" class="text-button" data-show-steps="${r.id}" aria-pressed="${allSteps}">${allSteps?'Ver un paso a la vez':'Ver todos los pasos'}</button></div><div class="step-buttons" aria-label="Pasos de ${safe(r.title)}">${r.steps.map((s,i)=>`<button type="button" data-step-resource="${r.id}" data-step-index="${i}" aria-pressed="${selected===i&&!allSteps}" aria-controls="step-${r.id}-${i}"><span>${String(i+1).padStart(2,'0')}</span>${safe(s.title)}</button>`).join('')}</div>${r.steps.map((s,i)=>`<div class="step-panel" id="step-${r.id}-${i}"${!allSteps&&selected!==i?' hidden':''}><div class="step-copy"><span class="step-number">${String(i+1).padStart(2,'0')}</span><h5>${safe(s.title)}</h5>${s.paragraphs.map(p=>source(p)).join('')}</div>${gallery(s.images,`${r.id}-step-${i}`)}</div>`).join('')}${!allSteps?`<div class="step-navigation"><button type="button" class="text-button" data-step-resource="${r.id}" data-step-index="${selected-1}"${selected===0?' disabled':''}>← Paso anterior</button><span>${selected+1} de ${r.steps.length}</span><button type="button" class="text-button" data-step-resource="${r.id}" data-step-index="${selected+1}"${selected===r.steps.length-1?' disabled':''}>Siguiente paso →</button></div>`:''}</section>`;
+  return `<section class="stepper" aria-label="Recorrido de ${safe(r.title)}"><div class="stepper-heading"><div><span class="small-label">UN RECORRIDO PARA PONERLO EN PRÁCTICA</span><h4>Sigue el recorrido, paso a paso</h4></div></div><div class="step-buttons" aria-label="Pasos de ${safe(r.title)}">${r.steps.map((s,i)=>`<button type="button" data-step-resource="${r.id}" data-step-index="${i}" aria-controls="step-${r.id}-${i}"><span>${String(i+1).padStart(2,'0')}</span>${safe(s.title)}</button>`).join('')}</div>${r.steps.map((s,i)=>`<div class="step-panel" id="step-${r.id}-${i}"${!allSteps&&selected!==i?' hidden':''}><div class="step-copy"><span class="step-number">${String(i+1).padStart(2,'0')}</span><h5>${safe(s.title)}</h5>${s.paragraphs.map(p=>source(p)).join('')}</div>${gallery(s.images,`${r.id}-step-${i}`)}</div>`).join('')}${!allSteps?`<div class="step-navigation"><button type="button" class="text-button" data-step-resource="${r.id}" data-step-index="${selected-1}"${selected===0?' disabled':''}>← Paso anterior</button><span>${selected+1} de ${r.steps.length}</span><button type="button" class="text-button" data-step-resource="${r.id}" data-step-index="${selected+1}"${selected===r.steps.length-1?' disabled':''}>Siguiente paso →</button></div>`:''}</section>`;
  }
  function renderResource(r,ci,ri){
   return `<article class="resource-panel" id="resource-${r.id}" aria-labelledby="title-${r.id}"${!showAll&&resourceIndex[ci]!==ri?' hidden':''}><div class="resource-eyebrow"><span>RECURSO ${String(ri+1).padStart(2,'0')}</span><span>COMPARTIR FE · CREO</span></div><h3 id="title-${r.id}" tabindex="-1">${safe(r.title)}</h3>${tags(r.tags||r.choices)}<div class="resource-prose">${r.paragraphs.map(p=>source(p,p.id===40?'h4':'p')).join('')}</div>${topics(r.topics)}${gallery(r.images,r.id)}${renderSteps(r)}</article>`;
  }
  function renderChapter(c,ci){
-  return `<section class="chapter" id="${c.id}"${!showAll&&ci!==chapterIndex?' hidden':''}><div class="chapter-heading"><div class="chapter-number">${String(ci+1).padStart(2,'0')}</div><div><p class="eyebrow">PILAR ${String(ci+1).padStart(2,'0')} / 05</p><h2 class="source-text" data-source-id="${c.title.id}">${safe(c.name)}</h2>${c.intro.map(p=>source(p)).join('')}${topics(c.topics)}</div></div><details class="organization"${showAll?' open':''}><summary>Conoce la organización de este pilar <span aria-hidden="true">+</span></summary>${gallery(c.images,`chapter-${ci}`)}</details><div class="resource-layout"><nav class="resource-nav" aria-label="Recursos de ${safe(c.short)}"><span class="small-label">${choices(c)} PROPUESTAS EN ESTE PILAR</span>${c.resources.map((r,ri)=>`<button type="button" data-chapter="${ci}" data-resource="${ri}" aria-pressed="${resourceIndex[ci]===ri}" aria-controls="resource-${r.id}"><span>${String(ri+1).padStart(2,'0')}</span>${safe(r.title)}<b aria-hidden="true">↗</b></button>`).join('')}<a href="#acceso">Cómo acceder desde EDI <span aria-hidden="true">↓</span></a></nav><div class="resource-content">${c.resources.map((r,ri)=>renderResource(r,ci,ri)).join('')}</div></div></section>`;
+  return `<section class="chapter" id="${c.id}"${!showAll&&ci!==chapterIndex?' hidden':''}><div class="chapter-heading"><div class="chapter-number">${String(ci+1).padStart(2,'0')}</div><div><p class="eyebrow">PILAR ${String(ci+1).padStart(2,'0')} / 05</p><h2 class="source-text" data-source-id="${c.title.id}">${safe(c.name)}</h2>${c.intro.map(p=>source(p)).join('')}${topics(c.topics)}</div></div><section class="organization journey-organization" aria-label="Organización de este pilar"><h3>Así se organiza este pilar</h3>${gallery(c.images,`chapter-${ci}`)}</section><div class="resource-layout"><nav class="resource-nav" aria-label="Recursos de ${safe(c.short)}"><span class="small-label">${choices(c)} PROPUESTAS EN ESTE PILAR</span>${c.resources.map((r,ri)=>`<button type="button" data-chapter="${ci}" data-resource="${ri}" aria-controls="resource-${r.id}"><span>${String(ri+1).padStart(2,'0')}</span>${safe(r.title)}<b aria-hidden="true">↗</b></button>`).join('')}<a href="#acceso">Cómo acceder desde EDI <span aria-hidden="true">↓</span></a></nav><div class="resource-content">${c.resources.map((r,ri)=>renderResource(r,ci,ri)).join('')}</div></div><div class="journey-next"><span class="small-label">${ci<4?'CONTINÚA CON EL SIGUIENTE PILAR':'YA RECORRISTE LOS CINCO PILARES'}</span><a href="#${ci<4?data.chapters[ci+1].id:'conexiones'}">${ci<4?data.chapters[ci+1].name:'Ahora, conecta estos recursos con tus clases'} <span aria-hidden="true">↓</span></a></div></section>`;
  }
  function render(){
   $('chapters').classList.toggle('show-all',showAll);
   $('chapters').innerHTML=data.chapters.map(renderChapter).join('');
-  document.querySelectorAll('[data-pillar]').forEach((b,i)=>b.setAttribute('aria-pressed',String(!showAll&&i===chapterIndex)));
-  $('view-toggle').setAttribute('aria-pressed',String(showAll));
-  $('view-toggle').innerHTML=`<span aria-hidden="true">${showAll?'▤':'▦'}</span> ${showAll?'Volver al recorrido por pilares':'Ver todo el contenido'}`;
-  $('guide-status').textContent=showAll?'Los cinco pilares, todos sus recursos y todos los pasos están desplegados.':`${data.chapters[chapterIndex].short} · ${choices(data.chapters[chapterIndex])} propuestas · Selecciona un recurso para explorar todo su contenido.`;
+  document.querySelectorAll('[data-pillar]').forEach((b,i)=>b.setAttribute('aria-current',i===chapterIndex?'location':'false'));
+  $('view-toggle').textContent='Ir al primer pilar ↓';
+  $('view-toggle').removeAttribute('aria-pressed');
+  $('guide-status').textContent='Recorrido completo · 5 pilares · 15 propuestas. Sigue bajando: todos los recursos, ejemplos y pasos están abiertos.';
   publish();
  }
  function clearSearch(){
@@ -74,7 +75,7 @@
  function selectSource(id){
   const entry=sourceIndex.get(id);
   clearSearch();
-  if(entry.ci!==undefined){chapterIndex=entry.ci;showAll=false;
+  if(entry.ci!==undefined){chapterIndex=entry.ci;
    if(entry.ri!==undefined){resourceIndex[entry.ci]=entry.ri;if(entry.si!==undefined)stepIndex.set(data.chapters[entry.ci].resources[entry.ri].id,entry.si);}
    render();
   }
@@ -92,8 +93,13 @@
  $('source-title').innerHTML=source(data.title,'span');
  $('source-introduction').innerHTML=source(data.introduction);
  $('source-overview').innerHTML=data.overview.map(p=>source(p)).join('');
+ if(document.documentElement.dataset.creoVista==='explorar'){
+  // The scoped entry omits the hero; keep its original introduction in the journey.
+  $('source-overview').prepend(...$('source-introduction').childNodes);
+  document.querySelector('#explorar .section-heading .eyebrow').replaceChildren(...$('source-title').childNodes);
+ }
  $('source-access').innerHTML=data.access.map(p=>source(p)).join('');
- $('pillar-selector').innerHTML=data.chapters.map((c,i)=>`<button class="pillar-button" type="button" data-pillar="${i}" aria-pressed="${i===0}" aria-controls="${c.id}"><div class="pillar-photo"><img src="assets/creo/pilar-${c.photo}.webp" alt="" width="315" height="474" loading="lazy"><span>${String(i+1).padStart(2,'0')}</span></div><span class="pillar-name">${safe(c.name)}<b aria-hidden="true">↗</b></span></button>`).join('');
+ $('pillar-selector').innerHTML=data.chapters.map((c,i)=>`<button class="pillar-button" type="button" data-pillar="${i}" aria-controls="${c.id}"><div class="pillar-photo"><img src="assets/creo/pilar-${c.photo}.webp" alt="" width="315" height="474" loading="lazy"><span>${String(i+1).padStart(2,'0')}</span></div><span class="pillar-name">${safe(c.name)}<b aria-hidden="true">↗</b></span></button>`).join('');
  let pending=false;
  function publish(){
   if(parent===window||pending)return;
@@ -102,7 +108,7 @@
  render();
  $('access-media').innerHTML=gallery(data.accessImages,'access');
  $('guide-search').addEventListener('input',search);
- $('view-toggle').onclick=()=>{showAll=!showAll;clearSearch();render();$('access-media').innerHTML=gallery(data.accessImages,'access');};
+ $('view-toggle').onclick=()=>{clearSearch();scrollHost(document.getElementById(data.chapters[0].id));};
  document.addEventListener('click',event=>{
   const link=event.target.closest('a[href^="#"]');
   if(!link||!document.documentElement.dataset.creoVista||parent===window)return;
@@ -116,15 +122,13 @@
  },true);
  document.addEventListener('click',event=>{
   const pillar=event.target.closest('[data-pillar]');
-  if(pillar){chapterIndex=Number(pillar.dataset.pillar);showAll=false;clearSearch();render();history.replaceState(null,'','#'+data.chapters[chapterIndex].id);return;}
+  if(pillar){chapterIndex=Number(pillar.dataset.pillar);clearSearch();document.querySelectorAll('[data-pillar]').forEach((b,i)=>b.setAttribute('aria-current',i===chapterIndex?'location':'false'));const id=data.chapters[chapterIndex].id;history.replaceState(null,'','#'+id);scrollHost(document.getElementById(id));return;}
   const tutorial=event.target.closest('[data-tutorial-video]');
   if(tutorial){const id=tutorial.dataset.tutorialVideo;if(parent!==window)parent.postMessage({type:'compartir-fe-video',id},location.origin);else window.open(`https://www.youtube.com/watch?v=${encodeURIComponent(id)}`,'_blank','noopener,noreferrer');return;}
   const resource=event.target.closest('[data-resource]');
-  if(resource){const ci=Number(resource.dataset.chapter),ri=Number(resource.dataset.resource);if(resourceIndex[ci]===ri)return;resourceIndex[ci]=ri;render();document.querySelector(`[data-chapter="${ci}"][data-resource="${ri}"]`)?.focus({preventScroll:true});return;}
+  if(resource){const ci=Number(resource.dataset.chapter),ri=Number(resource.dataset.resource);resourceIndex[ci]=ri;scrollHost(document.getElementById('resource-'+data.chapters[ci].resources[ri].id));return;}
   const step=event.target.closest('[data-step-resource]');
-  if(step&&!step.disabled){const id=step.dataset.stepResource;stepIndex.set(id,Number(step.dataset.stepIndex));expandedSteps.delete(id);if(showAll){data.chapters.forEach((c,ci)=>{const ri=c.resources.findIndex(r=>r.id===id);if(ri>=0){chapterIndex=ci;resourceIndex[ci]=ri;}});}showAll=false;render();const focus=document.querySelector(`.step-buttons [data-step-resource="${id}"][data-step-index="${step.dataset.stepIndex}"]`);focus?.focus({preventScroll:true});return;}
-  const allSteps=event.target.closest('[data-show-steps]');
-  if(allSteps){const id=allSteps.dataset.showSteps;expandedSteps.has(id)?expandedSteps.delete(id):expandedSteps.add(id);render();return;}
+  if(step&&!step.disabled){scrollHost(document.getElementById(`step-${step.dataset.stepResource}-${step.dataset.stepIndex}`));return;}
   const galleryButton=event.target.closest('[data-gallery-key]');
   if(galleryButton){const key=galleryButton.dataset.galleryKey,index=Number(galleryButton.dataset.galleryIndex);galleryIndex.set(key,index);const current=galleryButton.closest('.gallery');current.querySelectorAll('.media').forEach((figure,i)=>{figure.hidden=i!==index;});current.querySelectorAll('[data-gallery-index]').forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));current.querySelector('.gallery-controls>span').textContent=`${index+1} / ${current.querySelectorAll('.media').length} · Ejemplos de contenido`;return;}
   const result=event.target.closest('[data-source-result]');if(result){selectSource(Number(result.dataset.sourceResult));return;}
@@ -134,6 +138,7 @@
  });
  function restoreHash(){
   const hash=initialHash;
+  if(hash===document.documentElement.dataset.creoVista){publish();return;}
   if(!hash||location.hash.slice(1)!==hash){publish();return;}
   const ci=data.chapters.findIndex(c=>c.id===hash);
   if(ci>=0){chapterIndex=ci;render();}

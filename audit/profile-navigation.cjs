@@ -30,11 +30,28 @@ const { chromium } = require('playwright');
             assert.equal(await page.locator('.fe-entry-card').count(), 3);
             assert.equal(await page.locator('#fe-frame').count(), 0);
             await page.screenshot({ path: `audit/fe-cards-${width}.png`, fullPage: true });
+            await page.locator('#fe-card-explorar').click();
+            await page.locator('.fe-journey-ending button').click();
+            await page.waitForFunction(() => feVistaActual === 'conexiones');
+            await page.frameLocator('#fe-frame').locator('#connection-guide').waitFor({state:'visible'});
+            assert.equal(await page.frameLocator('#fe-frame').locator('[data-connection-instruction]:visible').count(),8);
+            await page.locator('.fe-journey-ending button').click();
+            await page.waitForFunction(() => feVistaActual === 'acceso');
+            await page.locator('.fe-journey-ending button').click();
+            assert.equal(await page.locator('.fe-entry-card').count(),3);
             for (const vista of ['explorar', 'conexiones', 'acceso']) {
                 await page.locator('#fe-card-' + vista).click();
                 const frame = page.frameLocator('#fe-frame');
                 await frame.locator('#pillar-selector button').first().waitFor({ state: 'attached' });
                 for (const id of ['explorar', 'conexiones', 'acceso']) assert.equal(await frame.locator('#' + id).isVisible(), id === vista);
+                if (vista === 'explorar') {
+                    assert.equal(await frame.locator('#source-overview [data-source-id="2"]').isVisible(), true);
+                    assert.equal(await frame.locator('.chapter:visible').count(), 5);
+                    assert.equal(await frame.locator('.resource-panel:visible').count(), 14);
+                }
+                await frame.locator('body').evaluate(() => document.fonts.ready);
+                await page.evaluate(() => scrollTo(0, 0));
+                await page.screenshot({ path: `audit/fe-journey-${vista}-${width}.png` });
                 assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
                 if (vista === 'acceso') {
                     assert.equal(await frame.locator('#tutoriales').isVisible(), true);
