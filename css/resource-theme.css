@@ -1,0 +1,21 @@
+/* Resource pages keep their program identity while sharing the portal theme. */
+:root{--theme-surface:#fff;--theme-ink:#242451;--theme-border:#33316b22;color-scheme:light}
+:root[data-theme=dark]{--theme-surface:#222640;--theme-ink:#f1f0fc;--theme-border:#ffffff26;--ink:#e3e6f3;--muted:#bac4d6;--white:#191c36;--pale:#20243d;--line:#ffffff26;--cyan-light:#1a394b;--cyan-dark:#69d2f1;--tinta:#e3e6f3;--gris:#bac4d6;--linea:#ffffff26;--crema:#20243d;--amarillo-claro:#464025;--verde-claro:#293b2b;color-scheme:dark}
+:root[data-theme=dark] body{background:#191c36;color:var(--theme-ink)}
+:root[data-theme=dark] :is(h1,h2,h3,h4,h5,.small-label,.eyebrow,.image-back){color:var(--theme-ink)}
+:root[data-theme=dark] :is(.brand-bar,.hero-caption,.pillar-button,.pillar-photo>span,.search input,.view-toggle,.button-outline,.proposal-card,.tutorial-card,.connection-modes button,.connection-grades button,.connection-filters,.connection-filters select,.connection-filters input,.connection-view,.connection-view button,.connection-card,.connection-table-scroll,.connection-table caption,.connection-empty,.connection-guide-steps button,.connection-instruction,.connection-media>a,.malla-controls select,.access-context-note,.dato,.pcard,.pilar,.tec-item,.hum,.metodos span,.fase .num,.fase-panel,.stat,.area,.tab,.mini,.sims button,.nota,.ley,.eyebrow,.btn-ghost){background:var(--theme-surface);color:var(--theme-ink);border-color:var(--theme-border)}
+:root[data-theme=dark] :is(.curriculum,.connection-card-meta>span,.connection-table tbody tr:nth-child(even)){background:#20243d}
+:root[data-theme=dark] :is(.tutorial-card strong,.access-route p strong,.access-context-note strong,.access-context-note a,.connection-card h3,.connection-card h4,.connection-card p,.connection-card-meta,.connection-level-heading,.pillar-name,.proposal-card h3,.proposal-card strong,.stat .c,.fase-ctrl button,.fase .num,.nivel h3,.dato strong,.pcard strong,.tec-item,.metodos span){color:var(--theme-ink)}
+:root[data-theme=dark] :is(.button-navy,.connection-modes button[aria-pressed=true],.connection-view button[aria-pressed=true],.connection-guide-steps button[aria-pressed=true]){background:#6543ac;color:#fff}
+:root[data-theme=dark] .brand-logo{background:#fff;border-radius:4px}
+.theme-toggle{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;border:1px solid var(--theme-border);border-radius:50%;background:var(--theme-surface);color:var(--theme-ink);font:26px/1 system-ui;cursor:pointer;touch-action:manipulation}
+.theme-toggle:focus-visible{outline:3px solid #9673d0;outline-offset:3px}.theme-toggle:active{transform:scale(.96)}
+.resource-theme-toggle{position:fixed;right:16px;bottom:16px;z-index:200;box-shadow:0 4px 18px #11142b22}
+@media(hover:hover) and (pointer:fine){:root[data-theme=dark] :is(.tutorial-card:hover,.connection-modes button:hover,.connection-grades button:hover,.connection-guide-steps button:hover){background:#303752}}
+
+:root[data-theme=dark] :is(.resource-panel,.resource-nav button,.gallery-controls button,.step-buttons button,.search-results>button,.access-route li>b,.expand-image){background:var(--theme-surface);color:var(--theme-ink)}
+:root[data-theme=dark] :is(.resource-nav button[aria-pressed=true],.gallery-controls button[aria-pressed=true]){background:#6543ac;color:white}
+
+:root[data-theme=dark] :is(.source-text strong,.source-text b,.dato b,.pcard b,.ley .der h3,.ley .der li,.ley .der small){color:var(--theme-ink)}
+:root[data-theme=dark] .resource-robotica :is(.hero h1,.metodo>.sec-head h2,.metodo>.sec-head p,.hab-col.tec h3,.nv:nth-child(-n+3) h3,.nv:nth-child(-n+3) p,.ley .izq h3){color:#050b2b}
+:root[data-theme=dark] .resource-robotica :is(.dato,.pcard,.pilar,.hum,.tec-item,.fase-panel,.stat,.area,.tab,.mini,.nota,.ley .der) :is(b,strong,h3,h4){color:var(--theme-ink)}

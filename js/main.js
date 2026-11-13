@@ -192,10 +192,10 @@ const videosIngles = [
 const SECTION_DATA = {
     'Conocimientos': { title: 'COMPARTIR CONOCIMIENTOS', icon: 'atom',        color: 'text-pink-400',    theme: 'pink' },
     'Progreso':      { title: 'COMPARTIR PROGRESO',      icon: 'trending-up',  color: 'text-blue-400',    theme: 'blue' },
-    'Ingles':        { title: 'COMPARTIR INGLÉS',        icon: 'globe',        color: 'text-emerald-400', theme: 'emerald' },
+    'Ingles':        { title: 'COMPARTIR INGLÉS',        icon: 'globe',        color: 'text-red-400', theme: 'red' },
     'Suplementales': { title: 'Compartir Suplementales', icon: 'blocks', color: 'text-cyan-400', theme: 'cyan' },
     'Robotica':      { title: 'Compartir Robótica', icon: 'bot', color: 'text-amber-400', theme: 'amber' },
-    'FE':            { title: 'COMPARTIR FE',            icon: 'book-heart',  color: 'text-purple-400',    theme: 'purple' },
+    'FE':            { title: 'COMPARTIR FE',            icon: 'cross',  color: 'text-purple-400',    theme: 'purple' },
     'Bienestar':     { title: 'Compartir Bienestar', icon: 'heart-handshake', color: 'text-cyan-400', theme: 'cyan' },
     'Pruebas':       { title: 'Compartir Pruebas', icon: 'clipboard-check', color: 'text-green-400', theme: 'green' }
 };
@@ -1171,7 +1171,7 @@ function loadSupplementalContent() {
         <p class="supplemental-intro">Más experiencias para aprender y crecer. Explora los recursos de cada programa.</p>
         <div class="supplemental-grid">
             <button type="button" id="card-FE" class="card category-card category-purple" onclick="openRoleSelection('FE')" aria-label="Compartir Fe">
-                <span class="category-icon" aria-hidden="true"><i data-lucide="book-heart"></i></span>
+                <span class="category-icon" aria-hidden="true"><i data-lucide="cross"></i></span>
                 <span class="category-kicker">Compartir</span><span class="category-title">Fe</span>
                 <span class="category-description">Tutoriales, conexiones curriculares y recursos de CREO para acompañar la formación en valores.</span>
                 <span class="category-footer">Explorar CREO<i data-lucide="arrow-up-right" aria-hidden="true"></i></span>

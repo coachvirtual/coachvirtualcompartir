@@ -1,0 +1,305 @@
+{
+  "results": [
+    {
+      "width": 320,
+      "theme": "light",
+      "cards": [
+        {
+          "width": 292,
+          "height": 113,
+          "overflow": false,
+          "title": "Conocimientos"
+        },
+        {
+          "width": 292,
+          "height": 113,
+          "overflow": false,
+          "title": "Progreso"
+        },
+        {
+          "width": 292,
+          "height": 113,
+          "overflow": false,
+          "title": "Inglés"
+        },
+        {
+          "width": 292,
+          "height": 113,
+          "overflow": false,
+          "title": "Suplementales"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "cards": [
+        {
+          "width": 292,
+          "height": 113,
+          "overflow": false,
+          "title": "Conocimientos"
+        },
+        {
+          "width": 292,
+          "height": 113,
+          "overflow": false,
+          "title": "Progreso"
+        },
+        {
+          "width": 292,
+          "height": 113,
+          "overflow": false,
+          "title": "Inglés"
+        },
+        {
+          "width": 292,
+          "height": 113,
+          "overflow": false,
+          "title": "Suplementales"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "cards": [
+        {
+          "width": 354,
+          "height": 113,
+          "overflow": false,
+          "title": "Conocimientos"
+        },
+        {
+          "width": 354,
+          "height": 113,
+          "overflow": false,
+          "title": "Progreso"
+        },
+        {
+          "width": 354,
+          "height": 113,
+          "overflow": false,
+          "title": "Inglés"
+        },
+        {
+          "width": 354,
+          "height": 113,
+          "overflow": false,
+          "title": "Suplementales"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "cards": [
+        {
+          "width": 354,
+          "height": 113,
+          "overflow": false,
+          "title": "Conocimientos"
+        },
+        {
+          "width": 354,
+          "height": 113,
+          "overflow": false,
+          "title": "Progreso"
+        },
+        {
+          "width": 354,
+          "height": 113,
+          "overflow": false,
+          "title": "Inglés"
+        },
+        {
+          "width": 354,
+          "height": 113,
+          "overflow": false,
+          "title": "Suplementales"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "cards": [
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Conocimientos"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Progreso"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Inglés"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Suplementales"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "cards": [
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Conocimientos"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Progreso"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Inglés"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Suplementales"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "cards": [
+        {
+          "width": 511,
+          "height": 129,
+          "overflow": false,
+          "title": "Conocimientos"
+        },
+        {
+          "width": 511,
+          "height": 129,
+          "overflow": false,
+          "title": "Progreso"
+        },
+        {
+          "width": 511,
+          "height": 129,
+          "overflow": false,
+          "title": "Inglés"
+        },
+        {
+          "width": 511,
+          "height": 129,
+          "overflow": false,
+          "title": "Suplementales"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "cards": [
+        {
+          "width": 511,
+          "height": 129,
+          "overflow": false,
+          "title": "Conocimientos"
+        },
+        {
+          "width": 511,
+          "height": 129,
+          "overflow": false,
+          "title": "Progreso"
+        },
+        {
+          "width": 511,
+          "height": 129,
+          "overflow": false,
+          "title": "Inglés"
+        },
+        {
+          "width": 511,
+          "height": 129,
+          "overflow": false,
+          "title": "Suplementales"
+        }
+      ]
+    },
+    {
+      "width": 1920,
+      "theme": "light",
+      "cards": [
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Conocimientos"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Progreso"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Inglés"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Suplementales"
+        }
+      ]
+    },
+    {
+      "width": 1920,
+      "theme": "dark",
+      "cards": [
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Conocimientos"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Progreso"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Inglés"
+        },
+        {
+          "width": 347,
+          "height": 129,
+          "overflow": false,
+          "title": "Suplementales"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}
