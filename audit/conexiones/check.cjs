@@ -62,7 +62,7 @@ const data=ctx.data,normalize=t=>String(t).replace(/\s+/g,' ').trim();
     await frame.locator(`[data-connection-step="${i}"]`).click();assert.equal(await frame.locator(`#connection-step-${i}`).isVisible(),true);
     const text=await frame.locator(`[data-connection-instruction="${i+1}"]`).innerText();assert.equal(text.replace(/\s/g,''),coverage.sourceGuide[i].replace(/\s/g,''));
    }
-   await bringToView('#connection-guide-all');await frame.locator('#connection-guide-all').click();assert.equal(await frame.locator('[data-connection-instruction]:visible').count(),8);assert.equal(await frame.locator('.connection-media:visible').count(),10);
+   await bringToView('#connection-guide-all');await frame.locator('#connection-guide-all').click();assert.equal(await frame.locator('[data-connection-instruction]:visible').count(),8);assert.equal(await frame.locator('.connection-media:visible').count(),coverage.guideImages);
    await frame.locator('.connection-media img').evaluateAll(imgs=>Promise.all(imgs.map(img=>{img.loading='eager';return img.decode();})));
    assert.equal(await frame.locator('html').evaluate(el=>el.scrollWidth>innerWidth),false);
    await page.waitForFunction(()=>{const f=document.querySelector('#fe-frame');return Math.abs(f.clientHeight-f.contentDocument.body.offsetHeight)<3;});
@@ -75,7 +75,7 @@ const data=ctx.data,normalize=t=>String(t).replace(/\s+/g,' ').trim();
    await page.screenshot({path:`audit/conexiones/primary-${live?'published-':''}${name}.png`});
    assert.equal(await frame.locator('a[download]').count(),0);assert.equal(await page.getByRole('link',{name:'Abrir documento:',exact:false}).count(),0);
    assert.equal(await frame.locator('#acceso [data-tutorial-video]').count(),2);assert.deepEqual(errors,[]);
-   results.push({name,width,primaryRows:128,secondaryRows:138,fieldValues:2128,pagination:true,filters:true,table:true,guideInstructions:8,guideImages:10,overflow:false,errors});await page.close();
+   results.push({name,width,primaryRows:128,secondaryRows:138,fieldValues:2128,pagination:true,filters:true,table:true,guideInstructions:8,guideImages:coverage.guideImages,overflow:false,errors});await page.close();
    console.log(name+': all 266 rows and 2,128 field values, full pagination, filters, table and 8-step guide verified');
   }
   const viewer=await browser.newPage({viewport:{width:1440,height:1000}});await route(viewer);
@@ -85,7 +85,7 @@ const data=ctx.data,normalize=t=>String(t).replace(/\s+/g,' ').trim();
   }
   await viewer.goto(base+'creo-malla.html?level=secundaria&page=8&row=s-8-1');await viewer.locator('#malla-image').evaluate(img=>img.decode());assert.equal(await viewer.locator('#malla-row-highlight').isVisible(),true);assert.match(await viewer.locator('#malla-caption').innerText(),/No es lo mismo precio que valor/);
   await viewer.screenshot({path:`audit/conexiones/reference-${live?'published':''}.png`});await viewer.locator('#malla-zoom').selectOption('150');assert.equal(await viewer.locator('#malla-sheet').evaluate(el=>el.style.width),'150%');
-  await viewer.goto(base+'creo-imagen.html?set=conexiones&id=9');await viewer.locator('.crop-window img').evaluate(img=>img.decode());assert.match(await viewer.locator('.crop-window img').getAttribute('src'),/conexiones\/image9/);await viewer.close();
+  await viewer.goto(base+'creo-imagen.html?set=conexiones&id=14');await viewer.locator('.crop-window img').evaluate(img=>img.decode());assert.match(await viewer.locator('.crop-window img').getAttribute('src'),/conexiones\/guide-panel-14/);await viewer.close();
   fs.writeFileSync(`audit/conexiones/${live?'published-':''}results.json`,JSON.stringify({results,referencePages:27,sourceCoverage:coverage.totalRows},null,2));
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exit(1);});

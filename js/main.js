@@ -1195,7 +1195,7 @@ function loadFEContent() {
             </div>
             <div class="w-full h-px bg-white/10 mb-8"></div>
 
-            <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-conexiones" title="Compartir Fe: recursos globales, conexiones curriculares y manejo de conexiones" loading="eager"></iframe>
+            <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-conexiones-integras" title="Compartir Fe: recursos globales, conexiones curriculares y manejo de conexiones" loading="eager"></iframe>
 
             `;
         lucide.createIcons();

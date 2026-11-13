@@ -1,0 +1,250 @@
+{
+  "sources": [
+    {
+      "file": "Malla COMPARTIR primaria CREO 2026.pdf",
+      "sha256": "14761e5fad0fe457a07a6e2bfed333dd8cd2bd4e4de8bd8fe58004d3c7b12cb8"
+    },
+    {
+      "file": "Malla PDC y PAR secundaria 2026.pdf",
+      "sha256": "2d6341ce903364bd8d39cb93f1133aa3c69aeeed1ee43fb92f7f691007997f6d"
+    },
+    {
+      "file": "Manejo de Conexiones CREO Tangerine.docx",
+      "sha256": "bb7477a2b695bce496be8a869e13585b09a669781e6b239e47fd64762582869c"
+    }
+  ],
+  "primary": [
+    {
+      "page": 3,
+      "rows": 19,
+      "fields": 152,
+      "sourceWords": 353
+    },
+    {
+      "page": 4,
+      "rows": 7,
+      "fields": 56,
+      "sourceWords": 145
+    },
+    {
+      "page": 6,
+      "rows": 16,
+      "fields": 128,
+      "sourceWords": 294
+    },
+    {
+      "page": 7,
+      "rows": 8,
+      "fields": 64,
+      "sourceWords": 186
+    },
+    {
+      "page": 9,
+      "rows": 18,
+      "fields": 144,
+      "sourceWords": 365
+    },
+    {
+      "page": 10,
+      "rows": 10,
+      "fields": 80,
+      "sourceWords": 257
+    },
+    {
+      "page": 12,
+      "rows": 19,
+      "fields": 152,
+      "sourceWords": 408
+    },
+    {
+      "page": 13,
+      "rows": 7,
+      "fields": 56,
+      "sourceWords": 161
+    },
+    {
+      "page": 15,
+      "rows": 18,
+      "fields": 144,
+      "sourceWords": 351
+    },
+    {
+      "page": 16,
+      "rows": 6,
+      "fields": 48,
+      "sourceWords": 141
+    }
+  ],
+  "secondary": [
+    {
+      "page": 1,
+      "rows": 18,
+      "fields": 144,
+      "referenceMeanPixelError": 0.862,
+      "visuallyCompared": true
+    },
+    {
+      "page": 2,
+      "rows": 14,
+      "fields": 112,
+      "referenceMeanPixelError": 0.755,
+      "visuallyCompared": true
+    },
+    {
+      "page": 3,
+      "rows": 9,
+      "fields": 72,
+      "referenceMeanPixelError": 0.593,
+      "visuallyCompared": true
+    },
+    {
+      "page": 4,
+      "rows": 16,
+      "fields": 128,
+      "referenceMeanPixelError": 0.832,
+      "visuallyCompared": true
+    },
+    {
+      "page": 5,
+      "rows": 12,
+      "fields": 96,
+      "referenceMeanPixelError": 0.755,
+      "visuallyCompared": true
+    },
+    {
+      "page": 6,
+      "rows": 14,
+      "fields": 112,
+      "referenceMeanPixelError": 0.763,
+      "visuallyCompared": true
+    },
+    {
+      "page": 7,
+      "rows": 8,
+      "fields": 64,
+      "referenceMeanPixelError": 0.631,
+      "visuallyCompared": true
+    },
+    {
+      "page": 8,
+      "rows": 18,
+      "fields": 144,
+      "referenceMeanPixelError": 0.898,
+      "visuallyCompared": true
+    },
+    {
+      "page": 9,
+      "rows": 7,
+      "fields": 56,
+      "referenceMeanPixelError": 0.608,
+      "visuallyCompared": true
+    },
+    {
+      "page": 10,
+      "rows": 15,
+      "fields": 120,
+      "referenceMeanPixelError": 0.787,
+      "visuallyCompared": true
+    },
+    {
+      "page": 11,
+      "rows": 7,
+      "fields": 56,
+      "referenceMeanPixelError": 0.645,
+      "visuallyCompared": true
+    }
+  ],
+  "guide": {
+    "paragraphs": 8,
+    "textIdenticalIgnoringWhitespace": true,
+    "uniqueSourceImages": [
+      {
+        "image": 1,
+        "sourceSize": [
+          1526,
+          514
+        ],
+        "meanPixelError": 2.114
+      },
+      {
+        "image": 2,
+        "sourceSize": [
+          1141,
+          565
+        ],
+        "meanPixelError": 0.761
+      },
+      {
+        "image": 3,
+        "sourceSize": [
+          1178,
+          625
+        ],
+        "meanPixelError": 1.083
+      },
+      {
+        "image": 4,
+        "sourceSize": [
+          1103,
+          698
+        ],
+        "meanPixelError": 1.235
+      },
+      {
+        "image": 5,
+        "sourceSize": [
+          1112,
+          797
+        ],
+        "meanPixelError": 0.392
+      },
+      {
+        "image": 6,
+        "sourceSize": [
+          947,
+          451
+        ],
+        "meanPixelError": 0.682
+      },
+      {
+        "image": 7,
+        "sourceSize": [
+          958,
+          460
+        ],
+        "meanPixelError": 2.6
+      },
+      {
+        "image": 8,
+        "sourceSize": [
+          820,
+          743
+        ],
+        "meanPixelError": 1.48
+      },
+      {
+        "image": 9,
+        "sourceSize": [
+          751,
+          470
+        ],
+        "meanPixelError": 1.584
+      },
+      {
+        "image": 10,
+        "sourceSize": [
+          1041,
+          614
+        ],
+        "meanPixelError": 1.761
+      }
+    ],
+    "illustrationOccurrences": 15,
+    "sourceAnnotations": 14,
+    "additionalTextParts": {},
+    "sourceEndsStep5": "Da clic en el XAPI correspondiente y selecciona"
+  },
+  "errors": [],
+  "totalConnections": 266,
+  "allChecksPassed": true
+}

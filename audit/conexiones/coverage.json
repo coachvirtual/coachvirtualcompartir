@@ -21,7 +21,9 @@
   "primaryPages": 16,
   "secondaryPages": 11,
   "guideParagraphs": 8,
-  "guideImages": 10,
+  "guideImages": 15,
+  "guideUniqueSourceImages": 10,
+  "guideSourceAnnotations": 14,
   "secondaryVerifiedPages": [
     1,
     2,

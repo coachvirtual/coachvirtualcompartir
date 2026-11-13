@@ -39,18 +39,15 @@ paragraphs=[''.join(t.text or '' for t in p.findall('.//w:t',ns)).strip() for p 
 paragraphs=[p for p in paragraphs if p]
 assert len(paragraphs)==8
 titles=['Identifica la conexión','Selecciona área y grado','Elige el bimestre','Ubica el tema y el AN','Abre el XAPI','Encuentra el tema articulador','Selecciona el cubo de CREO','Recorre el recurso']
-images=[[1],[2],[3],[4],[5,6],[7,8],[9],[10]]
+images=[[1],[2,3],[4,5],[6,7],[8,9,10],[11,12,13],[14],[15]]
 guide=[{'id':i+1,'title':title,'text':text.replace('?Desde','? Desde'),'original':text,'images':imgs} for i,(title,text,imgs) in enumerate(zip(titles,paragraphs,images))]
-media={}
-for n in range(1,11):
-    path=root/f'assets/creo/conexiones/image{n}.webp'
-    with Image.open(path) as im:w,h=im.size
-    media[n]={'src':f'assets/creo/conexiones/image{n}.webp','width':w,'height':h,'crop':[0,0,w,h],'caption':next(s['title'] for s in guide if n in s['images'])}
+panels=json.loads((audit/'guide-panels.json').read_text(encoding='utf8'))
+media={p['id']:{**{k:p[k] for k in ['src','width','height','crop']},'caption':next(s['title'] for s in guide if p['id'] in s['images'])} for p in panels}
 pages={level:json.loads((audit/f'{level}-page-meta.json').read_text(encoding='utf8')) for level in ['primaria','secundaria']}
 data={'fields':fields,'primary':primary,'secondary':secondary,'guide':guide,'pages':pages}
 (root/'js/creo-curriculum-data.js').write_text('const CREO_CONNECTIONS = '+json.dumps(data,ensure_ascii=False,separators=(',',':'))+';\n',encoding='utf8')
 (root/'js/creo-connections-media.js').write_text('const CREO_CONNECTION_MEDIA = '+json.dumps(media,ensure_ascii=False,separators=(',',':'))+';\n',encoding='utf8')
 sources=[root/'Malla COMPARTIR primaria CREO 2026.pdf',root/'Malla PDC y PAR secundaria 2026.pdf',root/'Manejo de Conexiones CREO Tangerine.docx']
-report={'sources':[{'file':p.name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sources],'primaryRows':128,'secondaryRows':138,'totalRows':266,'fieldsPerRow':8,'fieldValues':266*8,'primaryPages':16,'secondaryPages':11,'guideParagraphs':8,'guideImages':10,'secondaryVerifiedPages':list(range(1,12)),'secondaryCorrections':corrections,'sourceGuide':paragraphs}
+report={'sources':[{'file':p.name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sources],'primaryRows':128,'secondaryRows':138,'totalRows':266,'fieldsPerRow':8,'fieldValues':266*8,'primaryPages':16,'secondaryPages':11,'guideParagraphs':8,'guideImages':15,'guideUniqueSourceImages':10,'guideSourceAnnotations':14,'secondaryVerifiedPages':list(range(1,12)),'secondaryCorrections':corrections,'sourceGuide':paragraphs}
 (audit/'coverage.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
-print('Verified: 266 complete connections, 2,128 field values, all 27 PDF pages, all 8 guide instructions and 10 content images.')
+print('Verified: 266 complete connections, 2,128 field values, all 27 PDF pages, all 8 guide instructions, 15 illustration occurrences and 14 source callouts.')

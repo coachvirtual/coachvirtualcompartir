@@ -1,0 +1,302 @@
+[
+  {
+    "id": 1,
+    "src": "assets/creo/conexiones/guide-panel-01.webp",
+    "width": 1338,
+    "height": 460,
+    "crop": [
+      0,
+      0,
+      1338,
+      460
+    ],
+    "sourcePage": 1,
+    "sourceRect": [
+      83.05000305175781,
+      112.62997436523438,
+      528.9500122070312,
+      265.47998046875
+    ],
+    "sourceAnnotations": 0
+  },
+  {
+    "id": 2,
+    "src": "assets/creo/conexiones/guide-panel-02.webp",
+    "width": 1233,
+    "height": 386,
+    "crop": [
+      0,
+      0,
+      1233,
+      386
+    ],
+    "sourcePage": 1,
+    "sourceRect": [
+      99.3499984741211,
+      313.6000061035156,
+      510.17999267578125,
+      441.8500061035156
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 3,
+    "src": "assets/creo/conexiones/guide-panel-03.webp",
+    "width": 990,
+    "height": 427,
+    "crop": [
+      0,
+      0,
+      990,
+      427
+    ],
+    "sourcePage": 1,
+    "sourceRect": [
+      139.75,
+      472.27001953125,
+      469.6000061035156,
+      614.0700073242188
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 4,
+    "src": "assets/creo/conexiones/guide-panel-04.webp",
+    "width": 1230,
+    "height": 386,
+    "crop": [
+      0,
+      0,
+      1230,
+      386
+    ],
+    "sourcePage": 2,
+    "sourceRect": [
+      100.5999984741211,
+      68.8499755859375,
+      510.17999267578125,
+      197.0999755859375
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 5,
+    "src": "assets/creo/conexiones/guide-panel-05.webp",
+    "width": 817,
+    "height": 440,
+    "crop": [
+      0,
+      0,
+      817,
+      440
+    ],
+    "sourcePage": 2,
+    "sourceRect": [
+      170.35000610351562,
+      219.51998901367188,
+      442.6600036621094,
+      365.8699951171875
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 6,
+    "src": "assets/creo/conexiones/guide-panel-06.webp",
+    "width": 1227,
+    "height": 386,
+    "crop": [
+      0,
+      0,
+      1227,
+      386
+    ],
+    "sourcePage": 2,
+    "sourceRect": [
+      101.5,
+      431.29998779296875,
+      510.17999267578125,
+      559.5499877929688
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 7,
+    "src": "assets/creo/conexiones/guide-panel-07.webp",
+    "width": 798,
+    "height": 510,
+    "crop": [
+      0,
+      0,
+      798,
+      510
+    ],
+    "sourcePage": 3,
+    "sourceRect": [
+      182.22999572753906,
+      68.85002136230469,
+      447.77996826171875,
+      238.34002685546875
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 8,
+    "src": "assets/creo/conexiones/guide-panel-08.webp",
+    "width": 1227,
+    "height": 386,
+    "crop": [
+      0,
+      0,
+      1227,
+      386
+    ],
+    "sourcePage": 3,
+    "sourceRect": [
+      101.5,
+      273.8299865722656,
+      510.17999267578125,
+      402.0799865722656
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 9,
+    "src": "assets/creo/conexiones/guide-panel-09.webp",
+    "width": 749,
+    "height": 339,
+    "crop": [
+      0,
+      0,
+      749,
+      339
+    ],
+    "sourcePage": 3,
+    "sourceRect": [
+      188.5,
+      440.48004150390625,
+      437.9700012207031,
+      553.280029296875
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 10,
+    "src": "assets/creo/conexiones/guide-panel-10.webp",
+    "width": 836,
+    "height": 405,
+    "crop": [
+      0,
+      0,
+      836,
+      405
+    ],
+    "sourcePage": 3,
+    "sourceRect": [
+      166.75,
+      582.8169555664062,
+      445.19000244140625,
+      717.5169677734375
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 11,
+    "src": "assets/creo/conexiones/guide-panel-11.webp",
+    "width": 1227,
+    "height": 386,
+    "crop": [
+      0,
+      0,
+      1227,
+      386
+    ],
+    "sourcePage": 4,
+    "sourceRect": [
+      110.5,
+      98.1500244140625,
+      519.1799926757812,
+      226.4000244140625
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 12,
+    "src": "assets/creo/conexiones/guide-panel-12.webp",
+    "width": 659,
+    "height": 318,
+    "crop": [
+      0,
+      0,
+      659,
+      318
+    ],
+    "sourcePage": 4,
+    "sourceRect": [
+      190.5,
+      274.4000244140625,
+      409.9599914550781,
+      380.20001220703125
+    ],
+    "sourceAnnotations": 2
+  },
+  {
+    "id": 13,
+    "src": "assets/creo/conexiones/guide-panel-13.webp",
+    "width": 545,
+    "height": 483,
+    "crop": [
+      0,
+      0,
+      545,
+      483
+    ],
+    "sourcePage": 4,
+    "sourceRect": [
+      213.0,
+      384.20001220703125,
+      394.3499755859375,
+      544.6799926757812
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 14,
+    "src": "assets/creo/conexiones/guide-panel-14.webp",
+    "width": 871,
+    "height": 550,
+    "crop": [
+      0,
+      0,
+      871,
+      550
+    ],
+    "sourcePage": 5,
+    "sourceRect": [
+      169.75,
+      68.85002136230469,
+      459.75,
+      251.83001708984375
+    ],
+    "sourceAnnotations": 1
+  },
+  {
+    "id": 15,
+    "src": "assets/creo/conexiones/guide-panel-15.webp",
+    "width": 736,
+    "height": 439,
+    "crop": [
+      0,
+      0,
+      736,
+      439
+    ],
+    "sourcePage": 5,
+    "sourceRect": [
+      192.25,
+      277.1500244140625,
+      437.1199951171875,
+      423.20001220703125
+    ],
+    "sourceAnnotations": 0
+  }
+]
