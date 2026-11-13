@@ -17,7 +17,7 @@ const data=ctx.data,normalize=t=>String(t).replace(/\s+/g,' ').trim();
  try{
   for(const [name,width,height] of [['small-mobile',320,740],['mobile',390,844],['tablet',820,1180],['desktop',1440,1000]]){
    const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'}),errors=[];
-   page.on('pageerror',e=>errors.push(e.message));await route(page);await page.goto(base+'?curriculum=20261112');await page.evaluate(()=>openRoleSelection('FE'));
+   page.on('pageerror',e=>errors.push(e.message));await route(page);await page.goto(base+'?curriculum=20261112');await page.evaluate(()=>{openRoleSelection('FE');abrirContenidoFE('conexiones');});
    const frame=page.frameLocator('#fe-frame');await frame.locator('.connection-card').first().waitFor();
    assert.equal(await page.locator('.coach-dock').isVisible(),false,'The Coach dock must not cover embedded pagination');
    assert.equal(await page.getByRole('button',{name:'Abrir Coach Bot',exact:true}).isVisible(),true);

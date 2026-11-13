@@ -13,10 +13,8 @@ body { margin: 0; background-color: #0f172a; }
 .profile-summary{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;width:100%;margin-bottom:24px;text-align:left;color:#cbd5e1;font-size:14px;}
 .profile-summary strong{color:#fff;}.profile-change{min-height:44px;padding:10px 16px;border:1px solid #818cf880;border-radius:999px;color:#c7d2fe;background:#17213d;font-size:13px;font-weight:700;flex-shrink:0;}
 #profile-cancel{margin-top:18px;}
-.fe-shortcuts{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;}
-.fe-shortcuts a{display:flex;align-items:center;min-height:44px;max-width:100%;padding:10px 18px;border:1px solid #a78bfa80;border-radius:24px;background:#a78bfa18;color:#ede9fe;font-size:13px;font-weight:700;line-height:1.6;overflow-wrap:anywhere;}
-.profile-options button:focus-visible,.profile-change:focus-visible,.fe-shortcuts a:focus-visible{outline:3px solid #67e8f9;outline-offset:4px;}
-@media(hover:hover){.profile-options button:hover,.profile-change:hover,.fe-shortcuts a:hover{background:#303c64;}}
+.profile-options button:focus-visible,.profile-change:focus-visible,.fe-entry-card:focus-visible,.fe-navigation button:focus-visible{outline:3px solid #67e8f9;outline-offset:4px;}
+@media(hover:hover){.profile-options button:hover,.profile-change:hover{background:#303c64;}}
 @media(max-width:599px){.profile-options{grid-template-columns:1fr;}.profile-picker{padding:20px;}.profile-options button{padding:20px;}}
 
 #bg-image {
@@ -338,3 +336,14 @@ body:has(.coach-dock) #app-footer{padding-bottom:calc(110px + env(safe-area-inse
 @media(max-width:900px){.coach-welcome{flex-wrap:wrap;gap:16px;padding:20px;}.coach-start{margin-left:128px;}.coach-welcome-copy{flex-basis:calc(100% - 128px);}}
 @media(max-width:599px){.coach-welcome{gap:12px;padding:18px;margin-bottom:24px;border-radius:20px;}.coach-portrait{flex-basis:76px;height:92px;}.coach-character{width:64px;height:74px;border-radius:14px;}.coach-orbit{width:78px;height:78px;}.coach-orbit-two{width:86px;height:86px;}.coach-hello{right:-4px;top:-2px;font-size:10px;}.coach-welcome-copy{flex-basis:calc(100% - 88px);}.coach-eyebrow{font-size:9px;letter-spacing:.06em;}.coach-welcome h2{font-size:23px;}.coach-welcome h2>span{display:block;font-size:19px;margin-top:2px;}.coach-welcome-copy>p:last-child{font-size:12px;line-height:1.6;}.coach-start{width:100%;margin-left:0;}.coach-dock{right:max(12px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));min-height:60px;padding:7px 12px 7px 8px;border-radius:18px;gap:9px;}.coach-dock>img{width:36px;height:42px;}.coach-dock strong{font-size:13px;}.coach-dock>svg{width:18px;height:18px;}}
 @media(prefers-reduced-motion:reduce){.coach-character,.coach-hello{animation:none;}.coach-start,.coach-dock{transition:none;}.coach-start:hover,.coach-dock:hover,.coach-start:active,.coach-dock:active{transform:none;}}
+
+.fe-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:26px}
+.fe-entry-card{position:relative;display:flex;flex-direction:column;gap:24px;min-height:240px;padding:26px;border:1px solid #a78bfa80;border-radius:24px;background:linear-gradient(145deg,#a78bfa22,#111c32);color:#fff;text-align:left;text-decoration:none;font-size:22px;font-weight:800;line-height:1.45;overflow-wrap:anywhere}
+.fe-entry-number{font-size:13px;color:#c4b5fd;letter-spacing:.12em}.fe-entry-arrow{margin-top:auto;align-self:flex-end;color:#c4b5fd}
+.fe-navigation{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 24px}.fe-navigation:last-child{margin:24px 0 0}
+.fe-navigation button{min-height:44px;padding:10px 16px;border:1px solid #a78bfa66;border-radius:999px;background:#17213d;color:#ede9fe;font-size:13px;font-weight:700}
+.fe-view-title{font-size:clamp(24px,4vw,38px);font-weight:800;line-height:1.35;margin-bottom:24px;overflow-wrap:anywhere}
+@media(hover:hover){.fe-entry-card:hover,.fe-navigation button:hover{background-color:#303c64;border-color:#c4b5fd}}
+@media(max-width:760px){.fe-card-grid{grid-template-columns:1fr}.fe-entry-card{min-height:160px;padding:24px;font-size:21px;gap:16px}}
+
+body:has(.fe-card-grid) .coach-dock{visibility:hidden}

@@ -27,19 +27,38 @@ const { chromium } = require('playwright');
             assert.equal(await page.locator('#card-Suplementales').isVisible(), true);
             await page.locator('#card-Suplementales').click();
             await page.locator('#card-FE').click();
-            const frame = page.frameLocator('#fe-frame');
-            await frame.locator('#pillar-selector button').first().waitFor();
-            for (const hash of ['explorar', 'conexiones', 'acceso', 'tutoriales', 'explorar']) {
-                await page.locator(`.fe-shortcuts a[href$="#${hash}"]`).click();
-                const top = await frame.locator('#' + hash).evaluate(el => el.getBoundingClientRect().top + window.frameElement.getBoundingClientRect().top);
-                const headerHeight = await page.locator('header').evaluate(el => el.offsetHeight);
-                assert.ok(top >= headerHeight && top < (hash === 'tutoriales' ? 600 : headerHeight + 40), `${hash} should appear below the header: ${top}`);
+            assert.equal(await page.locator('.fe-entry-card').count(), 3);
+            assert.equal(await page.locator('#fe-frame').count(), 0);
+            await page.screenshot({ path: `audit/fe-cards-${width}.png`, fullPage: true });
+            for (const vista of ['explorar', 'conexiones', 'acceso']) {
+                await page.locator('#fe-card-' + vista).click();
+                const frame = page.frameLocator('#fe-frame');
+                await frame.locator('#pillar-selector button').first().waitFor({ state: 'attached' });
+                for (const id of ['explorar', 'conexiones', 'acceso']) assert.equal(await frame.locator('#' + id).isVisible(), id === vista);
+                assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+                if (vista === 'acceso') {
+                    assert.equal(await frame.locator('#tutoriales').isVisible(), true);
+                    await frame.locator('[data-tutorial-video]').first().click();
+                    await page.locator('#video-modal').waitFor({ state: 'visible' });
+                    await page.getByRole('button', { name: 'Cerrar video', exact: true }).click();
+                    // A link to another section opens that section with navigation intact.
+                    await frame.locator('#acceso a[data-connection-guide]').click();
+                    await page.waitForFunction(() => feVistaActual === 'conexiones');
+                    await page.frameLocator('#fe-frame').locator('#connection-guide').waitFor({state:'visible'});
+                }
+                await page.locator('#section-back').click();
+                assert.equal(await page.locator('.fe-entry-card').count(), 3);
+                assert.equal(await page.locator('#fe-frame').count(), 0);
             }
-            await frame.locator('[data-tutorial-video]').first().click();
-            await page.locator('#video-modal').waitFor({ state: 'visible' });
-            await page.getByRole('button', { name: 'Cerrar video', exact: true }).click();
-            await page.locator('#section-back').click();
-            await page.locator('#section-back').click();
+            await page.locator('#fe-card-explorar').click();
+            await page.getByRole('button', { name: 'Inicio', exact: true }).first().click();
+            assert.equal(await page.locator('#main-menu').isVisible(), true);
+            await page.locator('#card-Suplementales').click();
+            await page.locator('#card-FE').click();
+            await page.locator('#fe-card-acceso').click();
+            await page.getByRole('button', { name: 'Cambiar perfil', exact: true }).last().click();
+            assert.equal(await page.locator('#profile-picker').isVisible(), true);
+            await page.locator('#profile-cancel').click();
             assert.equal(await page.evaluate(() => localStorage.getItem('cv_perfil')), 'Docente');
             await page.reload();
             assert.equal(await page.locator('#profile-picker').isVisible(), false);

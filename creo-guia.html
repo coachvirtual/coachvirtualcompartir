@@ -7,16 +7,20 @@
 <meta name="description" content="Compartir Fe CREO 2026: recursos globales, conexiones curriculares de Primaria y Secundaria y manejo de conexiones.">
 <title>Compartir Fe · CREO 2026</title>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="css/creo.css?v=20261112-conexiones-integras">
+<link rel="stylesheet" href="css/creo.css?v=20261112-fe-tarjetas">
 <link rel="stylesheet" href="css/creo-connections.css?v=20261112-conexiones-integras">
 <script src="js/creo-content.js?v=20261112-conexiones-integras" defer></script>
 <script src="js/creo-media.js?v=20261112-conexiones-integras" defer></script>
-<script src="js/creo-experience.js?v=20261112-conexiones-integras" defer></script>
+<script src="js/creo-experience.js?v=20261112-fe-tarjetas" defer></script>
 <script src="js/creo-curriculum-data.js?v=20261112-conexiones-integras" defer></script>
 <script src="js/creo-connections-media.js?v=20261112-conexiones-integras" defer></script>
-<script src="js/creo-connections.js?v=20261112-conexiones-integras" defer></script>
+<script src="js/creo-connections.js?v=20261112-fe-tarjetas" defer></script>
 </head>
 <body>
+<script>
+    const vistaCREO = new URLSearchParams(location.search).get('vista');
+    if (['explorar', 'conexiones', 'acceso'].includes(vistaCREO)) document.documentElement.dataset.creoVista = vistaCREO;
+</script>
 <a class="skip-link" href="#explorar">Ir a los recursos</a>
 <header class="brand-bar"><a href="#inicio" aria-label="CREO, inicio"><img class="brand-logo" src="assets/creo/brand/logo-navy.png" alt="CREO" width="1446" height="576"></a><div><span>COMPARTIR FE</span><b>2026</b></div></header>
 <main>

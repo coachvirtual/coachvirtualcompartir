@@ -104,6 +104,17 @@
  $('guide-search').addEventListener('input',search);
  $('view-toggle').onclick=()=>{showAll=!showAll;clearSearch();render();$('access-media').innerHTML=gallery(data.accessImages,'access');};
  document.addEventListener('click',event=>{
+  const link=event.target.closest('a[href^="#"]');
+  if(!link||!document.documentElement.dataset.creoVista||parent===window)return;
+  const hash=link.hash.slice(1),target=document.getElementById(hash);
+  const section=target?.closest('main>section');
+  const vista=hash==='inicio'?'inicio':section?.id;
+  if(vista&&(vista==='inicio'||vista!==document.documentElement.dataset.creoVista)){
+   event.preventDefault();event.stopImmediatePropagation();
+   parent.postMessage({type:'compartir-fe-route',vista,manejo:link.hasAttribute('data-connection-guide')},location.origin);
+  }
+ },true);
+ document.addEventListener('click',event=>{
   const pillar=event.target.closest('[data-pillar]');
   if(pillar){chapterIndex=Number(pillar.dataset.pillar);showAll=false;clearSearch();render();history.replaceState(null,'','#'+data.chapters[chapterIndex].id);return;}
   const tutorial=event.target.closest('[data-tutorial-video]');

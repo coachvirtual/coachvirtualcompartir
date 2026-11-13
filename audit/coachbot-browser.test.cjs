@@ -47,7 +47,7 @@ const {chromium}=require('playwright');
   await ask('Tutoriales de Compartir Fe','fe_tutoriales',/Contenidos Globales CREO/);
   assert.equal(await last().getByRole('button',{name:/Ver video:/}).count(),2);
   await last().getByRole('button',{name:'Abrir Compartir Fe',exact:true}).click();
-  await page.waitForTimeout(500);assert.equal(await modal.isVisible(),false);assert.equal(await page.locator('#fe-frame').count(),1);
+  await page.waitForTimeout(500);assert.equal(await modal.isVisible(),false);assert.equal(await page.locator('.fe-entry-card').count(),3);assert.equal(await page.locator('#fe-frame').count(),0);
   await page.evaluate(()=>abrirCoachBot());
   await ask('¿Cómo creo una tarea?','docente_tarea',/Crear una Tarea/);
   await ask('Soy profesor','menu_profesor',/Profe/);

@@ -880,6 +880,7 @@ const generarTarjetas = (videos) => {
    NAVEGACIÓN ENTRE SECCIONES
    ============================================================ */
 let supplementalActual = null;
+let feVistaActual = null;
 let seccionAbierta = null;
 let revisionBusquedaSeccion = 0;
 
@@ -942,6 +943,7 @@ function cambiarPerfil() {
     if (SECCIONES_CON_PERFIL.includes(seccionAbierta)) seccionPendientePerfil = seccionAbierta;
     if (!sectionView.classList.contains('hidden')) {
         supplementalActual = null;
+        feVistaActual = null;
         closeSection();
     }
     actualizarPerfilUI(true);
@@ -963,10 +965,11 @@ function openRoleSelection(sectionId) {
     resetSectionSearch();
     seccionPendientePerfil = null;
     document.getElementById('section-profile-change').hidden = !SECCIONES_CON_PERFIL.includes(sectionId);
+    feVistaActual = null;
     seccionAbierta = sectionId;
     seccionActualCtx = null;
     seccionActualVideos = [];
-    document.getElementById('section-search').closest('[role="search"]').hidden = ['Bienestar', 'Pruebas'].includes(sectionId);
+    document.getElementById('section-search').closest('[role="search"]').hidden = ['Bienestar', 'Pruebas', 'FE'].includes(sectionId);
     supplementalActual = ['FE', 'Robotica', 'Bienestar', 'Pruebas'].includes(sectionId) ? sectionId : null;
     document.getElementById('section-back').setAttribute('aria-label', supplementalActual ? 'Volver a Compartir Suplementales' : 'Volver al menú principal');
     if (['Suplementales', 'Robotica', 'Bienestar', 'Pruebas'].includes(sectionId)) {
@@ -1220,11 +1223,16 @@ function loadRoboticaContent() {
 }
 
 window.addEventListener('message', event => {
-    const isFE = event.data && typeof event.data === 'object' && ['compartir-fe-height', 'compartir-fe-scroll', 'compartir-fe-video'].includes(event.data.type);
+    const isFE = event.data && typeof event.data === 'object' && ['compartir-fe-height', 'compartir-fe-scroll', 'compartir-fe-video', 'compartir-fe-route'].includes(event.data.type);
     const frame = document.getElementById(isFE ? 'fe-frame' : 'robotica-frame');
     if (!frame || event.source !== frame.contentWindow || event.origin !== location.origin) return;
     const data = event.data;
     if (!data || typeof data !== 'object') return;
+    if (isFE && data.type === 'compartir-fe-route') {
+        if (data.vista === 'inicio') volverAFe();
+        else if (Object.hasOwn(FE_VISTAS, data.vista)) abrirContenidoFE(data.vista, data.manejo === true);
+        return;
+    }
     if (isFE && data.type === 'compartir-fe-video' && videosFE.some(video => video.id === data.id)) {
         openVideoModal(data.id);
     }
@@ -1237,48 +1245,69 @@ window.addEventListener('message', event => {
     }
 });
 
-function navegarCREO(event) {
-    const frame = document.getElementById('fe-frame');
-    const enlace = event.currentTarget;
-    const destino = frame?.contentDocument?.getElementById(new URL(enlace.href).hash.slice(1));
-    if (!destino) return;
-    event.preventDefault();
-    frame.contentWindow.history.replaceState(null, '', enlace.href);
-    destino.setAttribute('tabindex', '-1');
-    destino.focus({ preventScroll: true });
-    window.scrollTo({ top: frame.getBoundingClientRect().top + window.scrollY + destino.getBoundingClientRect().top - document.querySelector('header').offsetHeight - 16, behavior: 'instant' });
+const FE_VISTAS = {
+    explorar: 'Los cinco pilares',
+    conexiones: 'Conexiones curriculares y Manejo de conexiones',
+    acceso: 'Acceso desde EDI y tutoriales'
+};
+
+function navegacionFE() {
+    return `<nav class="fe-navigation" aria-label="Navegación de Compartir Fe">
+        ${feVistaActual ? '<button type="button" onclick="volverAFe()">← Compartir Fe</button>' : ''}
+        <button type="button" onclick="openRoleSelection('Suplementales')">Suplementales</button>
+        <button type="button" onclick="irInicioDesdeFe()">Inicio</button>
+        <button type="button" onclick="cambiarPerfil()">Cambiar perfil</button>
+    </nav>`;
+}
+
+function irInicioDesdeFe() {
+    feVistaActual = null;
+    supplementalActual = null;
+    closeSection();
+}
+
+function volverAFe() {
+    const anterior = feVistaActual;
+    loadFEContent();
+    mostrarSeccion();
+    document.getElementById('fe-card-' + anterior)?.focus({ preventScroll: true });
+}
+
+function abrirContenidoFE(vista, manejo = false) {
+    if (!Object.hasOwn(FE_VISTAS, vista)) return;
+    resetSectionSearch();
+    feVistaActual = vista;
+    document.getElementById('section-back').setAttribute('aria-label', 'Volver a Compartir Fe');
+    sectionContent.innerHTML = `
+        ${navegacionFE()}
+        <h2 class="fe-view-title">${FE_VISTAS[vista]}</h2>
+        <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-fe-tarjetas&vista=${vista}${manejo ? '&modo=manejo' : ''}#${vista}" title="${FE_VISTAS[vista]}" loading="eager"></iframe>
+        ${navegacionFE()}`;
+    sectionContent.style.opacity = 1;
+    mostrarSeccion();
 }
 
 function loadFEContent() {
+    feVistaActual = null;
     seccionActualCtx = null;
-    const data = SECTION_DATA['FE'];
     seccionActualVideos = videosFE;
-        sectionContent.innerHTML = `
-            <div class="flex items-center justify-between mb-6">
-                <div class="flex items-center gap-4">
-                    <i data-lucide="${data.icon}" class="w-10 h-10 ${data.color} drop-shadow-[0_0_15px_currentColor]" aria-hidden="true"></i>
-                    <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tight">${data.title}</h2>
-                </div>
-                <span class="hidden md:inline-block bg-cyan-500/20 text-cyan-300 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border border-cyan-500/30">CREO</span>
-            </div>
-            <div class="w-full h-px bg-white/10 mb-8"></div>
-
-            <nav class="fe-shortcuts" aria-label="Accesos rápidos de CREO">
-                <a href="creo-guia.html?v=20261112-conexiones-integras#explorar" target="fe-content" onclick="navegarCREO(event)">Los cinco pilares</a>
-                <a href="creo-guia.html?v=20261112-conexiones-integras#conexiones" target="fe-content" onclick="navegarCREO(event)">Conexiones curriculares y Manejo de conexiones</a>
-                <a href="creo-guia.html?v=20261112-conexiones-integras#acceso" target="fe-content" onclick="navegarCREO(event)">Acceso desde EDI</a>
-                <a href="creo-guia.html?v=20261112-conexiones-integras#tutoriales" target="fe-content" onclick="navegarCREO(event)">Tutoriales</a>
-            </nav>
-
-            <iframe id="fe-frame" name="fe-content" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-conexiones-integras" title="Compartir Fe: recursos globales, conexiones curriculares y manejo de conexiones" loading="eager"></iframe>
-
-            `;
-        lucide.createIcons();
-        sectionContent.style.opacity = 1;
+    document.getElementById('section-back').setAttribute('aria-label', 'Volver a Compartir Suplementales');
+    sectionContent.innerHTML = `
+        ${navegacionFE()}
+        <h2 class="section-heading">Compartir Fe</h2>
+        <div class="fe-card-grid">
+            ${Object.entries(FE_VISTAS).map(([vista, titulo], i) => `
+                <a id="fe-card-${vista}" class="fe-entry-card" href="creo-guia.html?v=20261112-conexiones-integras#${vista}" onclick="abrirContenidoFE('${vista}'); return false;">
+                    <span class="fe-entry-number" aria-hidden="true">0${i + 1}</span>
+                    <span>${titulo}</span><span class="fe-entry-arrow" aria-hidden="true">↗</span>
+                </a>`).join('')}
+        </div>`;
+    sectionContent.style.opacity = 1;
 }
 
 
 function closeSection() {
+    if (feVistaActual) { volverAFe(); return; }
     if (supplementalActual) {
         const volverA = supplementalActual;
         openRoleSelection('Suplementales');

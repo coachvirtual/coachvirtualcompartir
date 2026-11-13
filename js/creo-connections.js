@@ -99,4 +99,5 @@
   const route=event.target.closest('[data-connection-route]');if(route){state.selected=allRows.get(route.dataset.connectionRoute);state.step=0;state.allSteps=false;setMode('manejo');requestAnimationFrame(()=>U.scrollTo($('conexiones')));return;}
   if(event.target.closest('[data-connection-clear]'))clear();
  },true);
+ if(new URLSearchParams(location.search).get('modo')==='manejo')setMode('manejo');
 })();
