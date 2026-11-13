@@ -6,6 +6,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons();
+    initPerfil();
     initSearch();
     initSectionSearch();
     initFlujoProblema();
@@ -379,11 +380,14 @@ window.ratingVoto = function(tipo) {
 function actualizarUIProgreso() {
     const vistos = getVistos();
     // Solo contar vistos que pertenecen a las secciones principales (excluye FE)
-    const vistosContables = vistos.filter(id => VIDEO_PROGRESO_IDS.has(id));
-    const total = VIDEO_PROGRESO_IDS.size;
+    const idsPerfil = new Set(videosDelPerfil().filter(v => VIDEO_PROGRESO_IDS.has(v.id)).map(v => v.id));
+    const vistosContables = vistos.filter(id => idsPerfil.has(id));
+    const total = idsPerfil.size;
     const pct = total > 0 ? Math.round((vistosContables.length / total) * 100) : 0;
     const banner = document.getElementById('progreso-banner');
     if (banner) {
+        banner.classList.toggle('hidden', !vistosContables.length);
+        banner.style.display = vistosContables.length ? 'flex' : '';
         if (vistosContables.length > 0) {
             banner.classList.remove('hidden');
             banner.style.display = 'flex';
@@ -784,7 +788,7 @@ function initSearch() {
                 cardsContainer.classList.remove('hidden');
                 return;
             }
-            const filtrados = todosLosVideos.filter(v =>
+            const filtrados = videosDelPerfil().filter(v =>
                 coincideBusqueda(v, query)
             );
             cardsContainer.classList.add('hidden');
@@ -897,10 +901,68 @@ const mainMenu        = document.getElementById('main-menu');
 const sectionView     = document.getElementById('section-view');
 const sectionContent  = document.getElementById('section-content');
 
+const SECCIONES_CON_PERFIL = ['Conocimientos', 'Progreso', 'Ingles'];
+let perfilActual = null;
+let seccionPendientePerfil = null;
+
+function initPerfil() {
+    try {
+        const guardado = localStorage.getItem('cv_perfil');
+        if (['Docente', 'Estudiante'].includes(guardado)) perfilActual = guardado;
+    } catch (_) {}
+    actualizarPerfilUI();
+}
+
+function actualizarPerfilUI(eligiendo = !perfilActual) {
+    document.getElementById('profile-picker').hidden = !eligiendo;
+    document.getElementById('profile-summary').hidden = eligiendo;
+    document.getElementById('profile-label').textContent = perfilActual === 'Docente' ? 'docentes' : 'estudiantes y familias';
+    document.getElementById('profile-cancel').hidden = !perfilActual;
+    document.getElementById('profile-search').hidden = eligiendo;
+    SECCIONES_CON_PERFIL.forEach(id => { document.getElementById('card-' + id).hidden = eligiendo; });
+    document.getElementById('global-search').value = '';
+    document.getElementById('global-search').dispatchEvent(new Event('input'));
+    document.getElementById('search-results').classList.add('hidden');
+    document.getElementById('cards-container').classList.remove('hidden');
+    actualizarUIProgreso();
+}
+
+function seleccionarPerfil(rol) {
+    if (!['Docente', 'Estudiante'].includes(rol)) return;
+    perfilActual = rol;
+    try { localStorage.setItem('cv_perfil', rol); } catch (_) {}
+    actualizarPerfilUI();
+    const destino = seccionPendientePerfil;
+    seccionPendientePerfil = null;
+    if (destino) openRoleSelection(destino);
+    else document.getElementById('card-Conocimientos').focus({ preventScroll: true });
+}
+
+function cambiarPerfil() {
+    if (SECCIONES_CON_PERFIL.includes(seccionAbierta)) seccionPendientePerfil = seccionAbierta;
+    if (!sectionView.classList.contains('hidden')) {
+        supplementalActual = null;
+        closeSection();
+    }
+    actualizarPerfilUI(true);
+    document.getElementById('profile-title').focus();
+}
+
+function cancelarCambioPerfil() {
+    if (perfilActual) seleccionarPerfil(perfilActual);
+}
+
+function videosDelPerfil() {
+    const principales = SECCIONES_CON_PERFIL.flatMap(id => perfilActual ? construirGruposSeccion(id, perfilActual).flatMap(g => g.videos) : []);
+    return [...principales, ...videosFE, ...videosRobotica];
+}
+
 function openRoleSelection(sectionId) {
     const data = SECTION_DATA[sectionId];
     if (!data) return;
     resetSectionSearch();
+    seccionPendientePerfil = null;
+    document.getElementById('section-profile-change').hidden = !SECCIONES_CON_PERFIL.includes(sectionId);
     seccionAbierta = sectionId;
     seccionActualCtx = null;
     seccionActualVideos = [];
@@ -921,35 +983,12 @@ function openRoleSelection(sectionId) {
         mostrarSeccion();
         return;
     }
-    sectionContent.innerHTML = `
-        <div class="flex items-center gap-4 mb-6">
-            <i data-lucide="${data.icon}" class="w-10 h-10 ${data.color} drop-shadow-[0_0_15px_currentColor]" aria-hidden="true"></i>
-            <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tight">${data.title}</h2>
-        </div>
-        <div class="w-full h-px bg-white/10 mb-10"></div>
-        <div class="flex flex-col items-center pb-8">
-            <h3 class="text-2xl font-black text-white mb-8 text-center">¿Cuál es tu perfil?</h3>
-            <div class="flex flex-col sm:flex-row gap-6 w-full max-w-2xl">
-                <button onclick="loadFilteredContent('${sectionId}','Docente')"
-                    class="flex-1 bg-white/5 border border-${data.theme}-500/30 hover:bg-${data.theme}-600/20 p-10 rounded-[2rem] transition-all group flex flex-col items-center gap-4 shadow-xl cyber-hover"
-                    aria-label="Ver tutoriales para Docentes">
-                    <div class="w-20 h-20 bg-${data.theme}-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform" aria-hidden="true">
-                        <i data-lucide="graduation-cap" class="w-10 h-10 ${data.color}"></i>
-                    </div>
-                    <span class="text-2xl font-black text-white">Soy Docente</span>
-                </button>
-                <button onclick="loadFilteredContent('${sectionId}','Estudiante')"
-                    class="flex-1 bg-white/5 border border-${data.theme}-500/30 hover:bg-${data.theme}-600/20 p-10 rounded-[2rem] transition-all group flex flex-col items-center gap-4 shadow-xl cyber-hover"
-                    aria-label="Ver tutoriales para Estudiantes y Padres de familia">
-                    <div class="w-20 h-20 bg-${data.theme}-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform" aria-hidden="true">
-                        <i data-lucide="backpack" class="w-10 h-10 ${data.color}"></i>
-                    </div>
-                    <span class="text-2xl font-black text-white">Soy Estudiante</span>
-                    <span class="text-xs text-slate-400 -mt-2">(también Padres de familia)</span>
-                </button>
-            </div>
-        </div>`;
-    lucide.createIcons();
+    if (!perfilActual) {
+        seccionPendientePerfil = sectionId;
+        cambiarPerfil();
+        return;
+    }
+    loadFilteredContent(sectionId, perfilActual);
     mostrarSeccion();
 }
 
@@ -1198,6 +1237,18 @@ window.addEventListener('message', event => {
     }
 });
 
+function navegarCREO(event) {
+    const frame = document.getElementById('fe-frame');
+    const enlace = event.currentTarget;
+    const destino = frame?.contentDocument?.getElementById(new URL(enlace.href).hash.slice(1));
+    if (!destino) return;
+    event.preventDefault();
+    frame.contentWindow.history.replaceState(null, '', enlace.href);
+    destino.setAttribute('tabindex', '-1');
+    destino.focus({ preventScroll: true });
+    window.scrollTo({ top: frame.getBoundingClientRect().top + window.scrollY + destino.getBoundingClientRect().top - document.querySelector('header').offsetHeight - 16, behavior: 'instant' });
+}
+
 function loadFEContent() {
     seccionActualCtx = null;
     const data = SECTION_DATA['FE'];
@@ -1212,7 +1263,14 @@ function loadFEContent() {
             </div>
             <div class="w-full h-px bg-white/10 mb-8"></div>
 
-            <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-conexiones-integras" title="Compartir Fe: recursos globales, conexiones curriculares y manejo de conexiones" loading="eager"></iframe>
+            <nav class="fe-shortcuts" aria-label="Accesos rápidos de CREO">
+                <a href="creo-guia.html?v=20261112-conexiones-integras#explorar" target="fe-content" onclick="navegarCREO(event)">Los cinco pilares</a>
+                <a href="creo-guia.html?v=20261112-conexiones-integras#conexiones" target="fe-content" onclick="navegarCREO(event)">Conexiones curriculares y Manejo de conexiones</a>
+                <a href="creo-guia.html?v=20261112-conexiones-integras#acceso" target="fe-content" onclick="navegarCREO(event)">Acceso desde EDI</a>
+                <a href="creo-guia.html?v=20261112-conexiones-integras#tutoriales" target="fe-content" onclick="navegarCREO(event)">Tutoriales</a>
+            </nav>
+
+            <iframe id="fe-frame" name="fe-content" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-conexiones-integras" title="Compartir Fe: recursos globales, conexiones curriculares y manejo de conexiones" loading="eager"></iframe>
 
             `;
         lucide.createIcons();

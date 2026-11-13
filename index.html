@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/tailwind.css?v=20261112-bot-cleanup">
     <script src="js/vendor/lucide-icons.js?v=20261112-bot-cleanup" defer></script>
     <link href="assets/fonts/fonts.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20261112-bot-cleanup">
+    <link rel="stylesheet" href="css/style.css?v=20261112-perfiles">
 
     <!-- ============ GOOGLE ANALYTICS GA4 ============
          INSTRUCCIONES: Reemplaza el valor de GA4_MEASUREMENT_ID
@@ -139,6 +139,20 @@
             </button>
         </section>
 
+        <section id="profile-picker" class="profile-picker" aria-labelledby="profile-title">
+            <h2 id="profile-title" tabindex="-1">¿Cómo vas a usar Compartir?</h2>
+            <p>Elige tu perfil para ver los tutoriales de Conocimientos, Progreso e Inglés.</p>
+            <div class="profile-options">
+                <button type="button" onclick="seleccionarPerfil('Docente')"><strong>Soy docente</strong><span>Prepara clases, asigna actividades y acompaña el aprendizaje.</span></button>
+                <button type="button" onclick="seleccionarPerfil('Estudiante')"><strong>Soy estudiante</strong><span>Encuentra tus actividades, evaluaciones y recursos. También para familias.</span></button>
+            </div>
+            <button id="profile-cancel" type="button" class="profile-change" onclick="cancelarCambioPerfil()" hidden>Conservar mi perfil actual</button>
+        </section>
+        <div id="profile-summary" class="profile-summary" hidden>
+            <p>Viendo recursos para <strong id="profile-label"></strong></p>
+            <button type="button" class="profile-change" onclick="cambiarPerfil()">Cambiar perfil</button>
+        </div>
+
         <!-- PROGRESO -->
         <div id="progreso-banner" class="hidden w-full max-w-2xl mb-6 glass-panel rounded-2xl p-4 border border-indigo-500/30 items-center gap-4">
             <div class="w-12 h-12 shrink-0 relative">
@@ -158,7 +172,7 @@
         </div>
 
         <!-- BUSCADOR -->
-        <div class="w-full max-w-2xl mb-4 relative group" role="search">
+        <div id="profile-search" class="w-full max-w-2xl mb-4 relative group" role="search" hidden>
             <label for="global-search" class="sr-only">Buscar tutoriales por nombre o tema</label>
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none" aria-hidden="true">
                 <i data-lucide="search" class="w-5 h-5 text-slate-400 group-focus-within:text-indigo-400 transition-colors"></i>
@@ -175,7 +189,7 @@
         <!-- Tarjetas: una columna en móvil, dos en tablet y cuatro en escritorio. -->
         <div id="cards-container" class="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 max-w-5xl mx-auto w-full items-stretch justify-items-center transition-all duration-500">
 
-            <button id="card-Conocimientos" type="button" class="card category-card category-pink" onclick="openRoleSelection('Conocimientos')" aria-label="Compartir Conocimientos">
+            <button id="card-Conocimientos" hidden type="button" class="card category-card category-pink" onclick="openRoleSelection('Conocimientos')" aria-label="Compartir Conocimientos">
                 <span class="category-icon" aria-hidden="true"><i data-lucide="atom"></i></span>
                 <span class="category-kicker">Compartir</span>
                 <span class="category-title">Conocimientos</span>
@@ -183,7 +197,7 @@
                 <span class="category-footer">Tutoriales por perfil<i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
             </button>
 
-            <button id="card-Progreso" type="button" class="card category-card category-blue" onclick="openRoleSelection('Progreso')" aria-label="Compartir Progreso">
+            <button id="card-Progreso" hidden type="button" class="card category-card category-blue" onclick="openRoleSelection('Progreso')" aria-label="Compartir Progreso">
                 <span class="category-icon" aria-hidden="true"><i data-lucide="trending-up"></i></span>
                 <span class="category-kicker">Compartir</span>
                 <span class="category-title">Progreso</span>
@@ -191,7 +205,7 @@
                 <span class="category-footer">Evaluación y aprendizaje<i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
             </button>
 
-            <button id="card-Ingles" type="button" class="card category-card category-emerald" onclick="openRoleSelection('Ingles')" aria-label="Compartir Inglés">
+            <button id="card-Ingles" hidden type="button" class="card category-card category-emerald" onclick="openRoleSelection('Ingles')" aria-label="Compartir Inglés">
                 <span class="category-icon" aria-hidden="true"><i data-lucide="globe"></i></span>
                 <span class="category-kicker">Compartir</span>
                 <span class="category-title">Inglés</span>
@@ -217,6 +231,7 @@
             <button id="section-back" onclick="closeSection()" class="glass-panel text-white px-4 md:px-6 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-white/10 transition border border-white/20 text-sm cyber-hover shrink-0" aria-label="Volver al menú principal">
                 <i data-lucide="arrow-left" class="w-4 h-4" aria-hidden="true"></i> Volver
             </button>
+            <button id="section-profile-change" type="button" class="profile-change" onclick="cambiarPerfil()" hidden>Cambiar perfil</button>
             <div class="w-full relative group" role="search">
                 <label for="section-search" class="sr-only">Buscar dentro de esta sección</label>
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none" aria-hidden="true">
@@ -388,7 +403,7 @@
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="js/main.js?v=20261112-bot-cleanup"></script>
+    <script src="js/main.js?v=20261112-perfiles"></script>
     <script src="js/bot-programas.js?v=20261112-bot-cleanup"></script>
     <script src="js/bot.js?v=20261112-bot-cleanup"></script>
     <script src="js/contador.js?v=20261112-bot-cleanup"></script>
