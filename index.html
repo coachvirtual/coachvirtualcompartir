@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/tailwind.css?v=20261112-diseno-suplementales">
     <script src="js/vendor/lucide-0.468.0.min.js"></script>
     <link href="assets/fonts/fonts.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20261112-diseno-suplementales">
+    <link rel="stylesheet" href="css/style.css?v=20261112-coach-visible">
 
     <!-- ============ GOOGLE ANALYTICS GA4 ============
          INSTRUCCIONES: Reemplaza el valor de GA4_MEASUREMENT_ID
@@ -99,7 +99,7 @@
                 <button onclick="abrirCoachBot()"
                     class="glass-panel text-indigo-300 hover:text-white px-3 py-1.5 rounded-full text-[11px] font-bold hover:bg-indigo-600/30 transition border border-indigo-500/30 hover:border-indigo-400 flex items-center gap-1.5 cyber-hover"
                     aria-label="Abrir Coach Bot" aria-haspopup="dialog">
-                    <i data-lucide="bot" class="w-3.5 h-3.5 shrink-0" aria-hidden="true"></i>
+                    <img src="assets/coach-bot-icon.png" class="coach-nav-icon" width="24" height="28" alt="">
                     <span>Coach Bot</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shrink-0" aria-hidden="true"></span>
                 </button>
@@ -120,6 +120,24 @@
         <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 uppercase drop-shadow-lg tracking-tight">
             Coach Virtual <span class="bg-gradient-to-r from-pink-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">Compartir</span>
         </h1>
+
+        <section class="coach-welcome" aria-labelledby="coach-welcome-title">
+            <div class="coach-portrait" aria-hidden="true">
+                <span class="coach-orbit coach-orbit-one"></span>
+                <span class="coach-orbit coach-orbit-two"></span>
+                <img class="coach-character" src="assets/coach-bot-icon.png" width="954" height="1082" alt="" fetchpriority="high">
+                <span class="coach-hello">¡Hola!</span>
+            </div>
+            <div class="coach-welcome-copy">
+                <p class="coach-eyebrow"><span></span> Tu asistente virtual</p>
+                <h2 id="coach-welcome-title">Soy Coach Bot<span>. ¿Te ayudo?</span></h2>
+                <p>Te guío paso a paso y te ayudo a encontrar tutoriales y recursos de Compartir.</p>
+            </div>
+            <button type="button" class="coach-start" onclick="abrirCoachBot()" aria-haspopup="dialog" aria-controls="coachbot-modal">
+                Hablar con Coach Bot
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+            </button>
+        </section>
 
         <!-- PROGRESO -->
         <div id="progreso-banner" class="hidden w-full max-w-2xl mb-6 glass-panel rounded-2xl p-4 border border-indigo-500/30 items-center gap-4">
@@ -324,6 +342,12 @@
             </div>
         </div>
     </div>
+
+    <button type="button" class="coach-dock" onclick="abrirCoachBot()" aria-label="Conversar con Coach Bot" aria-haspopup="dialog" aria-controls="coachbot-modal">
+        <img src="assets/coach-bot-icon.png" width="46" height="52" alt="">
+        <span><strong>Coach Bot</strong><span>¿Necesitas ayuda?</span></span>
+        <i data-lucide="message-circle" aria-hidden="true"></i>
+    </button>
 
     <!-- ==================== COACH BOT MODAL CENTRAL ==================== -->
     <div id="coachbot-modal" class="hidden fixed inset-0 z-[95] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
