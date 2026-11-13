@@ -2,6 +2,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 function load(withPrograms=true){const ctx={document:{getElementById:()=>null},window:{}};vm.createContext(ctx);vm.runInContext((withPrograms?fs.readFileSync('js/bot-programas.js','utf8')+'\n':'')+fs.readFileSync('js/bot.js','utf8')+'\nthis.bot={BOT_DATA,KEYWORD_INDEX,botMemoria,searchByKeyword,PROGRAM_DATA};',ctx);return ctx.bot;}
 const bot=load();
 const cases=[
+ ['Compartir Bienestar','bienestar_proximamente'],['Compartir Pruebas','pruebas_proximamente'],
  ['¿Qué es Compartir Robótica?','robotica'],['Que es robotica','robotica'],['Quiero información de Robótica','robotica'],['SET XXI','robotica'],['set-21','robotica'],
  ['¿Cuántos proyectos tiene SET21?','robotica_tiempos'],['¿Cuántos proyectos hay por grado en robótica?','robotica_tiempos'],['¿Cuántas horas por semana en robótica?','robotica_tiempos'],['¿En qué asignatura se implementa SET21?','robotica_tiempos'],
  ['¿Cuáles son los niveles de robótica?','robotica_niveles'],['¿Qué grados tiene SET21?','robotica_niveles'],['¿Qué edad requiere robótica?','robotica_niveles'],

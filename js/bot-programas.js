@@ -849,21 +849,24 @@ const BOT_PROGRAMAS = {
         }
       ]
     },
+    "bienestar_proximamente": {
+      "text": "**Compartir Bienestar**\n\nPróximamente. Estamos preparando este espacio en Compartir Suplementales.",
+      "program": "Bienestar",
+      "options": [{"label": "◀ Suplementales", "topic": "suplementales_bot"}]
+    },
+    "pruebas_proximamente": {
+      "text": "**Compartir Pruebas**\n\nPróximamente. Estamos preparando este espacio en Compartir Suplementales.",
+      "program": "Pruebas",
+      "options": [{"label": "◀ Suplementales", "topic": "suplementales_bot"}]
+    },
     "suplementales_bot": {
-      "text": "**Compartir Suplementales**\n\nPuedes preguntarme por **Compartir Robótica — SET-XXI** o **Compartir Fe — CREO**. Elige un programa para explorar sus recursos.",
+      "text": "**Compartir Suplementales**\n\nExplora **Compartir Robótica — SET-XXI** y **Compartir Fe — CREO**. **Compartir Bienestar** y **Compartir Pruebas** estarán disponibles próximamente.",
       "options": [
-        {
-          "label": "Compartir Robótica — SET-XXI",
-          "topic": "robotica"
-        },
-        {
-          "label": "Compartir Fe — CREO",
-          "topic": "fe_docente"
-        },
-        {
-          "label": "◀ Inicio",
-          "topic": "inicio"
-        }
+        {"label": "Compartir Robótica — SET-XXI", "topic": "robotica"},
+        {"label": "Compartir Fe — CREO", "topic": "fe_docente"},
+        {"label": "Compartir Bienestar · Próximamente", "topic": "bienestar_proximamente"},
+        {"label": "Compartir Pruebas · Próximamente", "topic": "pruebas_proximamente"},
+        {"label": "◀ Inicio", "topic": "inicio"}
       ]
     },
     "programas_comparar": {

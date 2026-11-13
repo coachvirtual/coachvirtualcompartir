@@ -9,7 +9,7 @@ const BOT_DATA = {
             { label: "🎯 Quiero aprender — soy Docente",              topic: "menu_profesor" },
             { label: "🎒 Quiero aprender — soy Estudiante o Padre",   topic: "menu_estudiante" },
             { label: "❓ Tengo una duda o problema",                   topic: "tengo_duda" },
-            { label: "🧩 Robótica y Fe — Suplementales", topic: "suplementales_bot" },
+            { label: "🧩 Compartir Suplementales", topic: "suplementales_bot" },
             { label: "📋 Preguntas frecuentes",                        topic: "faq_bot" }
         ]
     },
@@ -505,6 +505,8 @@ function searchByKeyword(text) {
     if (/^(hola|buenos dias|buenas tardes|buenas noches|inicio|menu|volver al inicio)$/.test(q)) return remember('inicio');
     if (/^soy (?:un |una )?(?:docente|profesor|profesora|maestro|maestra)$/.test(q)) return remember('menu_profesor');
     if (/^soy (?:un |una )?(?:estudiante|alumno|alumna|padre|madre|familiar)$/.test(q)) return remember('menu_estudiante');
+    if (/\b(?:compartir )?bienestar\b/.test(q)) return remember('bienestar_proximamente');
+    if (/\bcompartir pruebas\b/.test(q)) return remember('pruebas_proximamente');
     const robotics = /\b(robotica|robot|robots|set\s*(?:21|xxi))\b/.test(q);
     const crearActividad = /\bcreo\s+(?:(?:un|una|el|la|mi|mis|los|las|nuevo|nueva)\s+)*(?:tareas?|quiz|cuestionario|evaluacion|actividad|rubrica|material)\b/.test(q);
     const fe = /\b(fe|pastoral|evangelio|catolica|catolico|jesus|peg)\b|pacto educativo/.test(q) || (!crearActividad && /\bcreo\b(?!\s+que\b)/.test(q));
@@ -593,11 +595,11 @@ function agregarRecursosBot(message, data) {
     const resources = document.createElement('div');
     resources.className = 'bot-resources';
     const program = data.program;
-    if (program === 'Robotica' || program === 'FE') {
+    if (['Robotica', 'FE', 'Bienestar', 'Pruebas'].includes(program)) {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'bot-program-button';
-        button.textContent = program === 'Robotica' ? 'Abrir Compartir Robótica' : 'Abrir Compartir Fe';
+        button.textContent = 'Abrir Compartir ' + ({Robotica: 'Robótica', FE: 'Fe'}[program] || program);
         button.addEventListener('click', () => {
             window.cerrarCoachBot();
             openRoleSelection(program);

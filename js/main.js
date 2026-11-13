@@ -12,7 +12,72 @@ document.addEventListener("DOMContentLoaded", () => {
     initProgreso();
     ajustarPaddingHeader();
     actualizarContadores();
+    initAccesibilidadModales();
 });
+
+// Mantener el teclado y el desplazamiento dentro del diálogo superior.
+function initAccesibilidadModales() {
+    const dialogs = [...document.querySelectorAll('[aria-modal="true"]')];
+    const abiertos = new Map();
+    let ultimoFoco = document.activeElement;
+    let overflowAnterior = '';
+    let bloqueado = false;
+    document.addEventListener('focusin', event => {
+        const dialog = event.target.closest('[aria-modal="true"]');
+        if (dialog && !abiertos.has(dialog)) abiertos.set(dialog, ultimoFoco);
+        ultimoFoco = event.target;
+    });
+    const visibles = () => dialogs.filter(d => !d.classList.contains('hidden'))
+        .sort((a, b) => Number(getComputedStyle(a).zIndex) - Number(getComputedStyle(b).zIndex));
+    const actualizar = () => {
+        const activos = visibles();
+        const superior = activos.at(-1);
+        if (superior && !bloqueado) {
+            overflowAnterior = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            bloqueado = true;
+        } else if (!superior && bloqueado) {
+            document.body.style.overflow = overflowAnterior;
+            bloqueado = false;
+        }
+        for (const node of document.body.children) {
+            if (['SCRIPT', 'STYLE'].includes(node.tagName)) continue;
+            node.inert = !!superior && node !== superior && !node.contains(superior) && node.getAttribute('role') !== 'status';
+        }
+        if (superior && !superior.contains(document.activeElement)) {
+            if (!abiertos.has(superior)) abiertos.set(superior, ultimoFoco);
+            superior.focus({ preventScroll: true });
+        }
+        for (const [dialog, retorno] of abiertos) {
+            if (activos.includes(dialog)) continue;
+            abiertos.delete(dialog);
+            if (retorno?.isConnected && (!superior || superior.contains(retorno))) retorno.focus({ preventScroll: true });
+        }
+    };
+    const observer = new MutationObserver(actualizar);
+    dialogs.forEach(dialog => observer.observe(dialog, { attributes: true, attributeFilter: ['class', 'style'] }));
+    document.addEventListener('keydown', event => {
+        const superior = visibles().at(-1);
+        if (!superior) return;
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            if (superior.id === 'confirm-modal') document.getElementById('confirm-cancel').click();
+            else ({ 'coachbot-modal': cerrarCoachBot, 'faq-modal': cerrarFAQ, 'problema-modal': cerrarFlujoProblema,
+                'video-modal': closeVideoModal, 'dashboard-modal': cerrarDashboard, 'rutas-modal': cerrarRutas }[superior.id])?.();
+        } else if (event.key === 'Tab') {
+            const botones = [...superior.querySelectorAll('button, a[href], input, textarea, select, iframe, [tabindex="0"]')]
+                .filter(el => !el.disabled && !el.closest('[inert]') && el.getClientRects().length);
+            const primero = botones[0], ultimo = botones.at(-1);
+            if (!primero) { event.preventDefault(); superior.focus(); }
+            else if (event.shiftKey && (document.activeElement === primero || !botones.includes(document.activeElement))) {
+                event.preventDefault(); ultimo.focus();
+            } else if (!event.shiftKey && (document.activeElement === ultimo || !botones.includes(document.activeElement))) {
+                event.preventDefault(); primero.focus();
+            }
+        }
+    }, true);
+}
 
 /* ============================================================
    TOAST — notificaciones no bloqueantes (reemplaza alert())
@@ -129,7 +194,9 @@ const SECTION_DATA = {
     'Ingles':        { title: 'COMPARTIR INGLÉS',        icon: 'globe',        color: 'text-emerald-400', theme: 'emerald' },
     'Suplementales': { title: 'Compartir Suplementales', icon: 'blocks', color: 'text-cyan-400', theme: 'cyan' },
     'Robotica':      { title: 'Compartir Robótica', icon: 'bot', color: 'text-amber-400', theme: 'amber' },
-    'FE':            { title: 'COMPARTIR FE',            icon: 'layout-grid',  color: 'text-cyan-400',    theme: 'cyan' }
+    'FE':            { title: 'COMPARTIR FE',            icon: 'book-heart',  color: 'text-purple-400',    theme: 'purple' },
+    'Bienestar':     { title: 'Compartir Bienestar', icon: 'heart-handshake', color: 'text-cyan-400', theme: 'cyan' },
+    'Pruebas':       { title: 'Compartir Pruebas', icon: 'clipboard-check', color: 'text-green-400', theme: 'green' }
 };
 
 const videosFE = [
@@ -216,7 +283,8 @@ function marcarVisto() {
     const vistos = getVistos();
     if (!vistos.includes(videoActualId)) {
         vistos.push(videoActualId);
-        localStorage.setItem('cv_vistos', JSON.stringify(vistos));
+        try { localStorage.setItem('cv_vistos', JSON.stringify(vistos)); }
+        catch { mostrarToast('No se pudo guardar el progreso en este navegador.', 'warning'); return; }
     }
     // Actualizar tarjeta en la lista sin reconstruir el DOM
     actualizarTarjetaVista(videoActualId);
@@ -296,7 +364,8 @@ window.ratingVoto = function(tipo) {
     }
 
     ratings[videoActualId] = data;
-    localStorage.setItem('cv_ratings', JSON.stringify(ratings));
+    try { localStorage.setItem('cv_ratings', JSON.stringify(ratings)); }
+    catch { mostrarToast('No se pudo guardar tu valoración en este navegador.', 'warning'); return; }
     actualizarUIRating(videoActualId);
 
     // Micro-animación en el botón
@@ -716,9 +785,7 @@ function initSearch() {
                 return;
             }
             const filtrados = todosLosVideos.filter(v =>
-                v.title.toLowerCase().includes(query) ||
-                v.desc.toLowerCase().includes(query) ||
-                (v.tags && v.tags.some(t => t.toLowerCase().includes(query)))
+                coincideBusqueda(v, query)
             );
             cardsContainer.classList.add('hidden');
             searchResults.classList.remove('hidden');
@@ -754,7 +821,9 @@ function initSectionSearch() {
 
     input.addEventListener('input', (e) => {
         clearTimeout(debounceTimer);
+        const revision = revisionBusquedaSeccion;
         debounceTimer = setTimeout(() => {
+            if (revision !== revisionBusquedaSeccion) return;
             const query = e.target.value.toLowerCase().trim();
             if (query.length < 2) {
                 results.classList.add('hidden');
@@ -763,9 +832,7 @@ function initSectionSearch() {
                 return;
             }
             const filtrados = seccionActualVideos.filter(v =>
-                v.title.toLowerCase().includes(query) ||
-                v.desc.toLowerCase().includes(query) ||
-                (v.tags && v.tags.some(t => t.toLowerCase().includes(query)))
+                coincideBusqueda(v, query)
             );
             content.style.display = 'none';
             results.classList.remove('hidden');
@@ -809,6 +876,22 @@ const generarTarjetas = (videos) => {
    NAVEGACIÓN ENTRE SECCIONES
    ============================================================ */
 let supplementalActual = null;
+let seccionAbierta = null;
+let revisionBusquedaSeccion = 0;
+
+function coincideBusqueda(video, consulta) {
+    const normalizar = texto => texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    return [video.title, video.desc, ...(video.tags || [])].some(texto => normalizar(texto).includes(normalizar(consulta)));
+}
+
+function mostrarSeccion() {
+    mainMenu.classList.add('hidden', 'fade-out');
+    sectionView.classList.remove('hidden');
+    sectionView.classList.add('fade-in');
+    sectionView.setAttribute('tabindex', '-1');
+    sectionView.focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+}
 
 const mainMenu        = document.getElementById('main-menu');
 const sectionView     = document.getElementById('section-view');
@@ -818,31 +901,24 @@ function openRoleSelection(sectionId) {
     const data = SECTION_DATA[sectionId];
     if (!data) return;
     resetSectionSearch();
-    supplementalActual = ['FE', 'Robotica'].includes(sectionId) ? sectionId : null;
+    seccionAbierta = sectionId;
+    seccionActualCtx = null;
+    seccionActualVideos = [];
+    document.getElementById('section-search').closest('[role="search"]').hidden = ['Bienestar', 'Pruebas'].includes(sectionId);
+    supplementalActual = ['FE', 'Robotica', 'Bienestar', 'Pruebas'].includes(sectionId) ? sectionId : null;
     document.getElementById('section-back').setAttribute('aria-label', supplementalActual ? 'Volver a Compartir Suplementales' : 'Volver al menú principal');
-    if (sectionId === 'Suplementales' || sectionId === 'Robotica') {
-        mainMenu.classList.add('hidden', 'fade-out');
-        sectionView.classList.remove('hidden');
-        sectionView.classList.add('fade-in');
+    if (['Suplementales', 'Robotica', 'Bienestar', 'Pruebas'].includes(sectionId)) {
         if (sectionId === 'Suplementales') loadSupplementalContent();
-        else loadRoboticaContent();
-        sectionView.setAttribute('tabindex', '-1');
-        sectionView.focus();
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        else if (sectionId === 'Robotica') loadRoboticaContent();
+        else loadComingSoonContent(sectionId);
+        mostrarSeccion();
         return;
     }
 
     // FE no tiene segmentación por rol — va directo al contenido
     if (sectionId === 'FE') {
-        mainMenu.classList.add('fade-out');
-        setTimeout(() => {
-            mainMenu.classList.add('hidden');
-            sectionView.classList.remove('hidden');
-            requestAnimationFrame(() => sectionView.classList.add('fade-in'));
-            sectionView.setAttribute('tabindex', '-1');
-            sectionView.focus();
-        }, 400);
         loadFEContent();
+        mostrarSeccion();
         return;
     }
     sectionContent.innerHTML = `
@@ -874,14 +950,7 @@ function openRoleSelection(sectionId) {
             </div>
         </div>`;
     lucide.createIcons();
-    mainMenu.classList.add('fade-out');
-    setTimeout(() => {
-        mainMenu.classList.add('hidden');
-        sectionView.classList.remove('hidden');
-        requestAnimationFrame(() => sectionView.classList.add('fade-in'));
-        sectionView.setAttribute('tabindex', '-1');
-        sectionView.focus();
-    }, 400);
+    mostrarSeccion();
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -1035,8 +1104,6 @@ function loadFilteredContent(sectionId, role) {
         <div id="grupos-container" class="flex flex-col gap-4">${renderGruposOrdenados(sectionId, role, data)}</div>`;
 
     // ── Render final ──────────────────────────────────────────
-    sectionContent.style.opacity = 0;
-    setTimeout(() => {
         sectionContent.innerHTML = `
             <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center gap-4">
@@ -1051,7 +1118,6 @@ function loadFilteredContent(sectionId, role) {
             ${contentHTML}`;
         lucide.createIcons();
         sectionContent.style.opacity = 1;
-    }, 300);
 }
 
 /* Renderiza una ruta embebida dentro de la sección */
@@ -1135,18 +1201,44 @@ function loadSupplementalContent() {
         <h2 class="section-heading">Compartir Suplementales</h2>
         <p class="supplemental-intro">Más experiencias para aprender y crecer. Explora los recursos de cada programa.</p>
         <div class="supplemental-grid">
-            <button type="button" id="card-FE" class="card category-card category-cyan" onclick="openRoleSelection('FE')" aria-label="Compartir Fe">
+            <button type="button" id="card-FE" class="card category-card category-purple" onclick="openRoleSelection('FE')" aria-label="Compartir Fe">
                 <span class="category-icon" aria-hidden="true"><i data-lucide="book-heart"></i></span>
                 <span class="category-kicker">Compartir</span><span class="category-title">Fe</span>
                 <span class="category-description">Tutoriales, conexiones curriculares y recursos de CREO para acompañar la formación en valores.</span>
                 <span class="category-footer">Explorar CREO<i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
             </button>
-            <button type="button" id="card-Robotica" class="card category-card category-amber" onclick="openRoleSelection('Robotica')" aria-label="Compartir Robótica">
+            <button type="button" id="card-Robotica" class="card category-card category-purple" onclick="openRoleSelection('Robotica')" aria-label="Compartir Robótica">
                 <span class="category-icon" aria-hidden="true"><i data-lucide="bot"></i></span>
                 <span class="category-kicker">Compartir</span><span class="category-title">Robótica</span>
                 <span class="category-description">Conoce SET-XXI: proyectos, programación, cultura Maker y habilidades para la vida, de Transición a 11°.</span>
                 <span class="category-footer">Explorar SET-XXI<i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
             </button>
+            <button type="button" id="card-Bienestar" class="card category-card category-cyan" onclick="openRoleSelection('Bienestar')" aria-label="Compartir Bienestar">
+                <span class="category-icon" aria-hidden="true"><i data-lucide="heart-handshake"></i></span>
+                <span class="category-kicker">Compartir</span><span class="category-title">Bienestar</span>
+                <span class="category-description">Un nuevo espacio de Compartir. Sus contenidos estarán disponibles próximamente.</span>
+                <span class="category-footer">Próximamente<i data-lucide="clock-3" aria-hidden="true"></i></span>
+            </button>
+            <button type="button" id="card-Pruebas" class="card category-card category-green" onclick="openRoleSelection('Pruebas')" aria-label="Compartir Pruebas">
+                <span class="category-icon" aria-hidden="true"><i data-lucide="clipboard-check"></i></span>
+                <span class="category-kicker">Compartir</span><span class="category-title">Pruebas</span>
+                <span class="category-description">Un nuevo espacio de Compartir. Sus contenidos estarán disponibles próximamente.</span>
+                <span class="category-footer">Próximamente<i data-lucide="clock-3" aria-hidden="true"></i></span>
+            </button>
+        </div>`;
+    lucide.createIcons();
+}
+
+function loadComingSoonContent(sectionId) {
+    const data = SECTION_DATA[sectionId];
+    sectionContent.style.opacity = 1;
+    sectionContent.innerHTML = `
+        <div class="coming-soon ${sectionId === 'Pruebas' ? 'category-green' : 'category-cyan'}">
+            <span class="category-icon" aria-hidden="true"><i data-lucide="${data.icon}"></i></span>
+            <h2 class="section-heading">${data.title}</h2>
+            <p class="coming-soon-badge"><i data-lucide="clock-3" aria-hidden="true"></i>Próximamente</p>
+            <p>Estamos preparando este espacio. Aquí encontrarás los contenidos de ${data.title} cuando estén disponibles.</p>
+            <button type="button" class="coming-soon-back" onclick="closeSection()">Volver a Suplementales</button>
         </div>`;
     lucide.createIcons();
 }
@@ -1183,8 +1275,6 @@ function loadFEContent() {
     seccionActualCtx = null;
     const data = SECTION_DATA['FE'];
     seccionActualVideos = videosFE;
-    sectionContent.style.opacity = 0;
-    setTimeout(() => {
         sectionContent.innerHTML = `
             <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center gap-4">
@@ -1200,26 +1290,31 @@ function loadFEContent() {
             `;
         lucide.createIcons();
         sectionContent.style.opacity = 1;
-    }, 300);
 }
 
 
 function closeSection() {
     if (supplementalActual) {
+        const volverA = supplementalActual;
         openRoleSelection('Suplementales');
+        document.getElementById('card-' + volverA)?.focus({ preventScroll: true });
         return;
     }
-    sectionView.classList.remove('fade-in');
+    const volverA = seccionAbierta;
+    seccionAbierta = null;
+    seccionActualCtx = null;
     seccionActualVideos = [];
     resetSectionSearch();
-    setTimeout(() => {
-        sectionView.classList.add('hidden');
-        mainMenu.classList.remove('hidden');
-        requestAnimationFrame(() => mainMenu.classList.remove('fade-out'));
-    }, 400);
+    sectionView.classList.remove('fade-in');
+    sectionView.classList.add('hidden');
+    sectionContent.replaceChildren();
+    mainMenu.classList.remove('hidden', 'fade-out');
+    document.getElementById('card-' + volverA)?.focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function resetSectionSearch() {
+    revisionBusquedaSeccion++;
     const input   = document.getElementById('section-search');
     const results = document.getElementById('section-search-results');
     if (input)   input.value = '';
@@ -1243,7 +1338,7 @@ window.abrirCoachBot = function() {
     }
     setTimeout(() => {
         const inp = document.getElementById('chat-input');
-        if (inp) inp.focus();
+        if (inp && !m.classList.contains('hidden')) inp.focus();
     }, 200);
 };
 
