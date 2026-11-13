@@ -27,15 +27,27 @@ const cases=[
  ['¿Cuánto cuesta CREO?','fe_sin_dato'],['¿Qué temas exactos tiene el PDF de CREO?','fe_documentos'],['¿Hay robótica y Fe?','programas_comparar'],['Compartir Suplementales','suplementales_bot'],['Necesito una malla curricular','programa_aclarar'],
  ['¿Cómo creo una tarea?','docente_tarea'],['Como creo un quiz','quiz_base'],['Cómo creo una evaluación','pleno_doc_crear'],['¿Cómo respondo una tarea?','est_tareas'],['Soy profesor','menu_profesor'],['Soy estudiante','menu_estudiante'],['Un café',null],['Referencia',null],['Mi profesor',null],['¿Cómo asigno tareas en Richmond?','richmond_doc_tareas'],['¿Cómo responder evaluaciones en Pleno?','pleno_est_responder'],['Limpiar caché de Richmond','richmond_cookies'],['Hola','inicio'],['Necesito rúbricas','pleno_doc_calificar'],['Crear evaluaciones','pleno_doc_crear'],['Fórmula matemática','q_mates']
 ];
-const results=cases.map(([question,expected])=>{Object.assign(bot.botMemoria,{ultimoTopic:null,ultimaSeccion:null,ultimoRol:null});const actual=bot.searchByKeyword(question);return {question,expected,actual,passed:actual===expected};});
+const results=cases.map(([question,expected])=>{Object.assign(bot.botMemoria,{ultimaSeccion:null,ultimoRol:null});const actual=bot.searchByKeyword(question);return {question,expected,actual,passed:actual===expected};});
 const conversations=[
  [['¿Qué es Robótica?','robotica'],['¿Y las cajas?','robotica_cajas'],['¿Y cuánto cuestan?','robotica_sin_dato'],['¿Y la formación?','robotica_formacion'],['¿Y cómo se evalúa?','robotica_evaluacion']],
  [['¿Qué es CREO?','fe_docente'],['¿Y para las familias?','fe_familias'],['¿Y primaria?','fe_primaria'],['¿Y los tutoriales?','fe_tutoriales']],
  [['¿Qué es CREO?','fe_docente'],['¿Qué es Wokwi?','robotica_wokwi'],['¿Y la cartilla?','robotica_cartilla'],['¿Cómo creo una tarea?','docente_tarea']],
  [['¿Qué es Robótica?','robotica'],['¿Cómo ingreso a CREO?','fe_acceso'],['¿Y los documentos?','fe_documentos'],['¿Cómo respondo una tarea?','est_tareas']],
- [['Soy estudiante','menu_estudiante'],['Richmond','ingles_estudiante']]
+ [['Soy estudiante','menu_estudiante'],['Richmond','ingles_estudiante']],
+ [['Soy estudiante','menu_estudiante'],['calificaciones','duda_estudiante_seccion']],
+ [['Soy estudiante','menu_estudiante'],['Compartir Conocimientos','est_conocimientos'],['calificaciones','est_conocimientos']],
+ [['Soy estudiante','menu_estudiante'],['Richmond','ingles_estudiante'],['calificaciones','richmond_est_markbook']],
+ [['Soy estudiante','menu_estudiante'],['primeros pasos','est_inicio'],['tareas','est_tareas'],['Richmond','ingles_estudiante']],
+ [['Soy estudiante','menu_estudiante'],['CREO','fe_docente'],['Richmond','ingles_estudiante']],
+ [['Soy estudiante','menu_estudiante'],['Pleno','progreso_estudiante'],['y como sigo','progreso_estudiante']],
+ [['Robotica','robotica'],['quiz','quiz_base']],
+ [['CREO','fe_docente'],['libro web','est_libroweb']],
+ [['CREO','fe_docente'],['Compartir Conocimientos','prof_conocimientos']],
+ [['Soy estudiante','menu_estudiante'],['Como creo una tarea','docente_tarea']],
+ [['CREO','fe_docente'],['y como se evalua','fe_evaluacion']],
+ [['Robotica','robotica'],['y las rubricas','robotica_evaluacion']]
 ];
-for(const conversation of conversations){Object.assign(bot.botMemoria,{ultimoTopic:null,ultimaSeccion:null,ultimoRol:null});for(const [question,expected] of conversation){const actual=bot.searchByKeyword(question);results.push({question,expected,actual,passed:actual===expected,context:true});}}
+for(const conversation of conversations){Object.assign(bot.botMemoria,{ultimaSeccion:null,ultimoRol:null});for(const [question,expected] of conversation){const actual=bot.searchByKeyword(question);results.push({question,expected,actual,passed:actual===expected,context:true});}}
 const dangling=Object.entries(bot.BOT_DATA).flatMap(([topic,data])=>(data.options||[]).filter(o=>!bot.BOT_DATA[o.topic]).map(o=>({topic,target:o.topic})));
 const sourceFailures=Object.entries(bot.PROGRAM_DATA.topics).flatMap(([topic,data])=>(data.sources||[]).filter(k=>!bot.PROGRAM_DATA.sources[k]).map(k=>({topic,key:k})));
 const main=fs.readFileSync('js/main.js','utf8'),catalog=new Set([...main.matchAll(/id: '([^']{11})'/g)].map(m=>m[1]));

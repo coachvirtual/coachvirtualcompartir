@@ -1,0 +1,74 @@
+CORRECCIONES DE COACH BOT — 12 DE NOVIEMBRE DE 2026
+
+Cambios locales; no se desplego ni se modificaron servicios externos.
+
+Comportamiento
+- Las consultas genericas de primeros pasos y tareas respetan el perfil.
+- Fe ya no cambia implicitamente un perfil estudiante a docente.
+- Quiz, Libro Web y Compartir Conocimientos permiten cambiar de programa.
+- Las consultas de calificaciones usan la plataforma activa o piden aclararla.
+- Se bloquean envios repetidos durante la respuesta y se conserva el borrador.
+- Reiniciar cancela la respuesta pendiente de la conversacion anterior.
+
+Iconografia y recursos
+- Menus, retrocesos, tutoriales, documentos y fuentes usan SVG de Lucide.
+- Las opciones de retroceso tienen una unica flecha izquierda; sus etiquetas
+  y acciones se almacenan por separado.
+- Los iconos decorativos no forman parte del nombre accesible del control.
+- Cada respuesta crea solamente sus SVG nuevos. El renderer compartido admite
+  un contenedor y conserva los SVG ya creados.
+- Los tutoriales heredados se presentan como botones con eventos DOM.
+- La mascota original se conserva como fuente; se generaron derivados para
+  avatar, favicon y dispositivos Apple.
+- Avatar: 30292 bytes frente a 979533 del original.
+- Biblioteca: 30358 bytes frente a 357796; contiene 68 definiciones utilizadas
+  por la aplicacion, con licencia ISC y renderer derivado de Lucide 0.468.0.
+
+Limpieza
+- Retiradas 305 lineas de main.js: helpers sin consumidores y la antigua
+  interfaz del modal de rutas. Se conserva el refresco de progreso activo.
+- Retiradas variables sin lectura, incluido ultimoTopic.
+- Eliminados js/creo.js, js/creo-guide.js, js/creo-data.js y el bundle completo
+  antiguo de Lucide; no habia consumidores en las paginas actuales.
+- Se conservan las respuestas basicas usadas si falta BOT_PROGRAMAS.
+
+Hallazgo adicional durante la verificacion
+- El dock flotante cubria el paginador de Fe en movil y recibia sus clics.
+- Se oculta al mostrar una vista incrustada de Fe o Robotica; el acceso a
+  Coach Bot del encabezado permanece disponible.
+- La prueba de conexiones detecta paginas repetidas y comprueba cada avance,
+  evitando bucles indefinidos ante una regresion.
+
+Verificacion completada
+- npm run build y npm run check: correctos.
+- npm run test:bot: 143/143 casos de intenciones, flujos de navegador y
+  regresiones en 320, 820 y 1366 px; 102 temas y 53 retrocesos comprobados.
+- npm run test:design: 24 combinaciones de pagina y pantalla correctas.
+- npm run test:security: 10 comprobaciones correctas.
+- npm run test:creo: contenido, 43 imagenes y flujos correctos en 4 tamanos.
+- npm run test:conexiones: 266 filas, 2128 valores, paginacion completa,
+  filtros, guia de 8 pasos y 27 paginas de referencia correctas.
+- Sin scripts referenciados ausentes; sin iconos pendientes o errores JS
+  en las comprobaciones del bot.
+
+Reproduccion
+- npm run build:icons regenera el subconjunto de Lucide desde las fuentes.
+- npm run build incluye ese paso y reconstruye Tailwind.
+- npm run build:assets regenera los derivados de la mascota usando FFmpeg.
+- Los binarios derivados ya estan presentes; el build habitual no requiere
+  instalar ni ejecutar FFmpeg.
+
+Evidencia
+audit/coachbot-intent-results.json
+audit/coachbot-browser-results.json
+audit/coachbot-regressions-results.json
+audit/design-results.json
+audit/security-regression-results.json
+audit/creo-experience-results.json
+audit/conexiones/results.json
+audit/coachbot-cleanup-320.png
+audit/coachbot-cleanup-820.png
+audit/coachbot-cleanup-1366.png
+
+Las pruebas usaron navegadores locales con red externa interceptada. No
+verifican reproduccion remota de videos ni servicios de produccion.

@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <meta name="theme-color" content="#0f172a">
     <title>Coach Virtual - Santillana Compartir</title>
-    <link rel="icon" type="image/png" href="assets/coach-bot-icon.png">
-    <link rel="apple-touch-icon" href="assets/coach-bot-icon.png">
-    <link rel="stylesheet" href="css/tailwind.css?v=20261112-diseno-suplementales">
-    <script src="js/vendor/lucide-0.468.0.min.js"></script>
+    <link rel="icon" type="image/png" sizes="48x48" href="assets/coach-bot-favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/coach-bot-touch.png">
+    <link rel="stylesheet" href="css/tailwind.css?v=20261112-bot-cleanup">
+    <script src="js/vendor/lucide-icons.js?v=20261112-bot-cleanup" defer></script>
     <link href="assets/fonts/fonts.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20261112-coach-visible">
+    <link rel="stylesheet" href="css/style.css?v=20261112-bot-cleanup">
 
     <!-- ============ GOOGLE ANALYTICS GA4 ============
          INSTRUCCIONES: Reemplaza el valor de GA4_MEASUREMENT_ID
@@ -99,7 +99,7 @@
                 <button onclick="abrirCoachBot()"
                     class="glass-panel text-indigo-300 hover:text-white px-3 py-1.5 rounded-full text-[11px] font-bold hover:bg-indigo-600/30 transition border border-indigo-500/30 hover:border-indigo-400 flex items-center gap-1.5 cyber-hover"
                     aria-label="Abrir Coach Bot" aria-haspopup="dialog">
-                    <img src="assets/coach-bot-icon.png" class="coach-nav-icon" width="24" height="28" alt="">
+                    <img src="assets/coach-bot-avatar.webp" class="coach-nav-icon" width="24" height="28" alt="">
                     <span>Coach Bot</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shrink-0" aria-hidden="true"></span>
                 </button>
@@ -125,7 +125,7 @@
             <div class="coach-portrait" aria-hidden="true">
                 <span class="coach-orbit coach-orbit-one"></span>
                 <span class="coach-orbit coach-orbit-two"></span>
-                <img class="coach-character" src="assets/coach-bot-icon.png" width="954" height="1082" alt="" fetchpriority="high">
+                <img class="coach-character" src="assets/coach-bot-avatar.webp" width="954" height="1082" alt="" fetchpriority="high">
                 <span class="coach-hello">¡Hola!</span>
             </div>
             <div class="coach-welcome-copy">
@@ -344,7 +344,7 @@
     </div>
 
     <button type="button" class="coach-dock" onclick="abrirCoachBot()" aria-label="Conversar con Coach Bot" aria-haspopup="dialog" aria-controls="coachbot-modal">
-        <img src="assets/coach-bot-icon.png" width="46" height="52" alt="">
+        <img src="assets/coach-bot-avatar.webp" width="46" height="52" alt="">
         <span><strong>Coach Bot</strong><span>¿Necesitas ayuda?</span></span>
         <i data-lucide="message-circle" aria-hidden="true"></i>
     </button>
@@ -357,7 +357,7 @@
             <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full overflow-hidden shadow-[0_0_20px_rgba(79,70,229,0.6)] bg-[#0a0f1e]" aria-hidden="true">
-                        <img src="assets/coach-bot-icon.png" alt="" class="w-full h-full object-cover">
+                        <img src="assets/coach-bot-avatar.webp" alt="" class="w-full h-full object-cover">
                     </div>
                     <div>
                         <h2 class="text-white font-black text-base">Coach Bot</h2>
@@ -367,7 +367,7 @@
                     </div>
                 </div>
                 <button onclick="cerrarCoachBot()" class="text-white/40 hover:text-white transition bg-white/5 p-2 rounded-full hover:bg-red-500/80 border border-white/10" aria-label="Cerrar Coach Bot">
-                    <i data-lucide="x" class="w-4 h-4"></i>
+                    <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
                 </button>
             </div>
             <!-- Mensajes -->
@@ -379,7 +379,7 @@
                     <textarea id="chat-input" placeholder="Escribe tu pregunta..." rows="1"
                         class="flex-1 glass-panel text-white placeholder-slate-400 rounded-2xl py-2.5 px-4 outline-none border border-white/20 focus:border-indigo-500/70 transition-all text-sm resize-none custom-scroll"
                         onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendFreeText();}"></textarea>
-                    <button onclick="sendFreeText()" class="w-10 h-10 bg-indigo-600 hover:bg-indigo-500 rounded-full flex items-center justify-center text-white transition shrink-0 shadow-[0_0_15px_rgba(79,70,229,0.4)]" aria-label="Enviar">
+                    <button id="chat-send" type="button" onclick="sendFreeText()" class="w-10 h-10 bg-indigo-600 hover:bg-indigo-500 rounded-full flex items-center justify-center text-white transition shrink-0 shadow-[0_0_15px_rgba(79,70,229,0.4)]" aria-label="Enviar">
                         <i data-lucide="send" class="w-4 h-4" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -388,10 +388,10 @@
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="js/main.js?v=20261112-diseno-suplementales"></script>
-    <script src="js/bot-programas.js?v=20261112-diseno-suplementales-1"></script>
-    <script src="js/bot.js?v=20261112-diseno-suplementales"></script>
-    <script src="js/contador.js"></script>
+    <script src="js/main.js?v=20261112-bot-cleanup"></script>
+    <script src="js/bot-programas.js?v=20261112-bot-cleanup"></script>
+    <script src="js/bot.js?v=20261112-bot-cleanup"></script>
+    <script src="js/contador.js?v=20261112-bot-cleanup"></script>
 
     <!-- ==================== ESTADÍSTICAS LOCALES ==================== -->
     <!-- Activar con: Ctrl + Shift + A  (datos de este navegador)  -->

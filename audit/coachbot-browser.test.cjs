@@ -1,18 +1,19 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {chromium}=require('playwright');
 (async()=>{
+ const live=process.argv.includes('--live'),base=live?'https://coachvirtual.github.io/coachvirtualcompartir/':'http://audit.local/';
  const browser=await chromium.launch({headless:true,channel:'msedge'}),root=process.cwd(),results=[],errors=[];
  try{
  for(const [name,width,height] of [['mobile-small',320,740],['ipad',820,1180],['laptop',1366,768]]){
   const context=await browser.newContext({viewport:{width,height},hasTouch:width<1100,reducedMotion:'reduce'}),page=await context.newPage();page.on('pageerror',e=>errors.push(name+': '+e.message));
   await page.route('**/*',route=>{
-   const url=new URL(route.request().url());if(url.origin!=='http://audit.local')return route.fulfill({body:'',contentType:'application/javascript'});
+   const url=new URL(route.request().url());if(live&&url.hostname==='coachvirtual.github.io')return route.continue();if(url.origin!=='http://audit.local')return route.fulfill({body:'',contentType:'application/javascript'});
    const file=path.resolve(root,'.'+decodeURIComponent(url.pathname==='/'?'/index.html':url.pathname));
    if(!file.startsWith(root+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile())return route.fulfill({status:404,body:''});
    const contentType={'.html':'text/html; charset=utf-8','.js':'application/javascript','.css':'text/css','.png':'image/png','.webp':'image/webp','.ttf':'font/ttf'}[path.extname(file)]||'application/octet-stream';
    return route.fulfill({body:fs.readFileSync(file),contentType});
   });
-  await page.goto('http://audit.local');await page.evaluate(()=>document.fonts.ready);
+  await page.goto(base+'?bot='+(process.env.COACH_RELEASE||'published'));await page.evaluate(()=>document.fonts.ready);
   await page.getByRole('button',{name:'Abrir Coach Bot',exact:true}).click();
   const modal=page.locator('#coachbot-modal');
   const last=()=>modal.locator('[data-bot-topic]').last();
@@ -39,7 +40,7 @@ const {chromium}=require('playwright');
   await ask('¿Cuáles son las seis fases de Robótica?','robotica_fases',/Evaluemos/);
   const measurements=await modal.evaluate(el=>({height:el.querySelector(':scope>div').getBoundingClientRect().height,width:innerWidth,overflow:[...el.querySelectorAll('*')].filter(n=>{const r=n.getBoundingClientRect();return r.width>0&&r.right>innerWidth+1&&!n.closest('svg')}).map(n=>n.className)}));
   assert.ok(measurements.height<=height);assert.deepEqual(measurements.overflow,[]);
-  await page.screenshot({path:`audit/coachbot-${name}.png`});
+  await page.screenshot({path:`audit/coachbot-${live?'published-':''}${name}.png`});
   await ask('Ver video de Robótica','robotica_video',/proyectos tecnológicos/);
   await page.evaluate(()=>{window.auditOpenedVideo=null;window.openVideoModal=id=>{window.auditOpenedVideo=id;};});
   await last().getByRole('button',{name:/Ver video:/}).click();assert.equal(await page.evaluate(()=>window.auditOpenedVideo),'Vf3GUM8fC0U');
@@ -60,6 +61,6 @@ const {chromium}=require('playwright');
   console.log(name+': bot questions, sources, resources, navigation and safety passed');
   await context.close();
  }
- assert.deepEqual(errors,[]);fs.writeFileSync('audit/coachbot-browser-results.json',JSON.stringify({results,errors},null,2));
+ assert.deepEqual(errors,[]);fs.writeFileSync(`audit/coachbot-${live?'published':'browser'}-results.json`,JSON.stringify({url:base,results,errors},null,2));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});

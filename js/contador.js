@@ -37,7 +37,7 @@
         if (num) num.textContent = formatear(valor);
         wrap.classList.remove('hidden');
         if (window.lucide && typeof lucide.createIcons === 'function') {
-            try { lucide.createIcons({ nodes: [wrap] }); } catch (_) {}
+            try { lucide.createIcons({ root: wrap }); } catch (_) {}
         }
     }
 

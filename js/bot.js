@@ -4,13 +4,13 @@
 
 const BOT_DATA = {
     "inicio": {
-        text: "¡Hola! 👋 Soy tu **Coach Bot**.\n\n¿Con qué te puedo ayudar hoy?",
+        text: "¡Hola! Soy tu **Coach Bot**.\n\n¿Con qué te puedo ayudar hoy?",
         options: [
-            { label: "🎯 Quiero aprender — soy Docente",              topic: "menu_profesor" },
-            { label: "🎒 Quiero aprender — soy Estudiante o Padre",   topic: "menu_estudiante" },
-            { label: "❓ Tengo una duda o problema",                   topic: "tengo_duda" },
-            { label: "🧩 Compartir Suplementales", topic: "suplementales_bot" },
-            { label: "📋 Preguntas frecuentes",                        topic: "faq_bot" }
+            { label: "Quiero aprender — soy Docente",              topic: "menu_profesor" },
+            { label: "Quiero aprender — soy Estudiante o Padre",   topic: "menu_estudiante" },
+            { label: "Tengo una duda o problema",                   topic: "tengo_duda" },
+            { label: "Compartir Suplementales", topic: "suplementales_bot" },
+            { label: "Preguntas frecuentes",                        topic: "faq_bot" }
         ]
     },
 
@@ -20,7 +20,7 @@ const BOT_DATA = {
         options: [
             { label: "Soy Docente",                                    topic: "duda_docente_seccion" },
             { label: "Soy Estudiante o Padre de familia",              topic: "duda_estudiante_seccion" },
-            { label: "◀ Volver",                                       topic: "inicio" }
+            { label: "Volver", action: "back",                                       topic: "inicio" }
         ]
     },
     "duda_docente_seccion": {
@@ -31,7 +31,7 @@ const BOT_DATA = {
             { label: "Inglés — Richmond Studio",                       topic: "ingles_docente" },
             { label: "Compartir Fe — CREO",                            topic: "fe_docente" },
             { label: "Compartir Robótica — SET-XXI",                     topic: "robotica" },
-            { label: "◀ Volver",                                       topic: "tengo_duda" }
+            { label: "Volver", action: "back",                                       topic: "tengo_duda" }
         ]
     },
     "duda_estudiante_seccion": {
@@ -42,7 +42,7 @@ const BOT_DATA = {
             { label: "Inglés — Richmond Studio",                       topic: "ingles_estudiante" },
             { label: "Compartir Fe — CREO", topic: "fe_docente" },
             { label: "Compartir Robótica — SET-XXI", topic: "robotica" },
-            { label: "◀ Volver",                                       topic: "tengo_duda" }
+            { label: "Volver", action: "back",                                       topic: "tengo_duda" }
         ]
     },
 
@@ -59,7 +59,7 @@ const BOT_DATA = {
             { label: "¿Cómo ingreso a Richmond Studio?",               topic: "richmond_ingreso" },
             { label: "¿Qué es Compartir Robótica / SET-XXI?", topic: "robotica" },
             { label: "¿Qué es Compartir FE / CREO?",                   topic: "fe_docente" },
-            { label: "◀ Volver",                                       topic: "inicio" }
+            { label: "Volver", action: "back",                                       topic: "inicio" }
         ]
     },
 
@@ -72,7 +72,7 @@ const BOT_DATA = {
             { label: "Inglés — Richmond Studio",                       topic: "ingles_docente" },
             { label: "Compartir Fe — CREO",                            topic: "fe_docente" },
             { label: "Compartir Robótica — SET-XXI",                     topic: "robotica" },
-            { label: "◀ Cambiar perfil",                               topic: "inicio" }
+            { label: "Cambiar perfil", action: "back",                               topic: "inicio" }
         ]
     },
     "menu_estudiante": {
@@ -83,20 +83,20 @@ const BOT_DATA = {
             { label: "Inglés — Richmond Studio",                       topic: "ingles_estudiante" },
             { label: "Compartir Fe — CREO", topic: "fe_docente" },
             { label: "Compartir Robótica — SET-XXI", topic: "robotica" },
-            { label: "◀ Cambiar perfil",                               topic: "inicio" }
+            { label: "Cambiar perfil", action: "back",                               topic: "inicio" }
         ]
     },
 
     "robotica": {
         text: "**Compartir Robótica — SET-XXI**\n\nProyectos de robótica educativa, programación, computación física y diseño e impresión 3D, de Transición a 11°.\n\nEncuentra el programa completo en **Compartir Suplementales → Compartir Robótica**.",
-        options: [{ label: "◀ Volver al inicio", topic: "inicio" }]
+        options: [{ label: "Volver al inicio", action: "back", topic: "inicio" }]
     },
 
     // ── FE / CREO ──────────────────────────────────────────────
     "fe_docente": {
-        text: "**Compartir FE — CREO**\n\nCREO es el ecosistema de formación en valores integrado con Compartir.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('QCviXJSVUHc')\" class=\"text-cyan-400 font-bold underline\">Tutorial Contenidos Globales CREO</a>\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('I7Yd9PWTDc8')\" class=\"text-cyan-400 font-bold underline\">Tutorial Conexiones CREO en Compartir</a>\n\n📄 Para las mallas curriculares y recursos globales, ve a la tarjeta <strong>Compartir FE</strong> dentro de <strong>Compartir Suplementales</strong>.",
+        text: "**Compartir FE — CREO**\n\nCREO es el ecosistema de formación en valores integrado con Compartir.\n\n<a href=\"#\" onclick=\"openVideoModal('QCviXJSVUHc')\" class=\"text-cyan-400 font-bold underline\">Tutorial Contenidos Globales CREO</a>\n\n<a href=\"#\" onclick=\"openVideoModal('I7Yd9PWTDc8')\" class=\"text-cyan-400 font-bold underline\">Tutorial Conexiones CREO en Compartir</a>\n\nPara las mallas curriculares y recursos globales, ve a la tarjeta <strong>Compartir FE</strong> dentro de <strong>Compartir Suplementales</strong>.",
         options: [
-            { label: "◀ Volver al menú",  topic: "menu_profesor" }
+            { label: "Volver al menú", action: "back",  topic: "menu_profesor" }
         ]
     },
 
@@ -105,8 +105,8 @@ const BOT_DATA = {
         text: "**Compartir Conocimientos — Docente**\n\n¿Qué deseas aprender?",
         options: [
             { label: "Gestión General (Asignar, Panel…)",       topic: "prof_gestion" },
-            { label: "Crear Quizzes y Actividades 🧩",           topic: "quiz_categorias" },
-            { label: "◀ Volver",                                 topic: "menu_profesor" }
+            { label: "Crear Quizzes y Actividades",           topic: "quiz_categorias" },
+            { label: "Volver", action: "back",                                 topic: "menu_profesor" }
         ]
     },
     "prof_gestion": {
@@ -117,28 +117,28 @@ const BOT_DATA = {
             { label: "Asignar Contenidos",                       topic: "docente_asignar" },
             { label: "Panel de Comunicaciones",                  topic: "docente_panel" },
             { label: "Agregar Material Propio",                  topic: "docente_material" },
-            { label: "◀ Volver",                                 topic: "prof_conocimientos" }
+            { label: "Volver", action: "back",                                 topic: "prof_conocimientos" }
         ]
     },
     "docente_inicio": {
-        text: "**Primeros pasos en Compartir Conocimientos**\n\n1. Ingresa a https://edi-compartir-co.stn-neds.com.\n2. Arriba a la derecha: Biblioteca, Tareas, Calendario y Notificaciones.\n3. En el centro verás tus clases.\n4. Al entrar a una clase, 4 pestañas:\n  • **Programa:** Módulos y Aprendizajes Nucleares.\n  • **Recursos del aula:** Apoyo docente.\n  • **Panel:** Tablero de publicaciones.\n  • **Calificaciones:** Rejilla de control.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('Bv_FinX79vk')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "prof_gestion" }]
+        text: "**Primeros pasos en Compartir Conocimientos**\n\n1. Ingresa a https://edi-compartir-co.stn-neds.com.\n2. Arriba a la derecha: Biblioteca, Tareas, Calendario y Notificaciones.\n3. En el centro verás tus clases.\n4. Al entrar a una clase, 4 pestañas:\n  • **Programa:** Módulos y Aprendizajes Nucleares.\n  • **Recursos del aula:** Apoyo docente.\n  • **Panel:** Tablero de publicaciones.\n  • **Calificaciones:** Rejilla de control.\n\n<a href=\"#\" onclick=\"openVideoModal('Bv_FinX79vk')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "prof_gestion" }]
     },
     "docente_tarea": {
-        text: "**Crear una Tarea**\n\n1. Ve al Aprendizaje Nuclear → clic en **'+'** > Tarea.\n2. Configura escala, categoría y destinatarios.\n3. Ponle título y elige formato (texto, archivo, audio).\n4. Clic en **Crear Tarea**.\n5. Edita el enunciado a la izquierda.\n6. Elige: Guardar (borrador), Guardar y publicar, o Programar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('KXROB84Q3IU')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "prof_gestion" }]
+        text: "**Crear una Tarea**\n\n1. Ve al Aprendizaje Nuclear → clic en **'+'** > Tarea.\n2. Configura escala, categoría y destinatarios.\n3. Ponle título y elige formato (texto, archivo, audio).\n4. Clic en **Crear Tarea**.\n5. Edita el enunciado a la izquierda.\n6. Elige: Guardar (borrador), Guardar y publicar, o Programar.\n\n<a href=\"#\" onclick=\"openVideoModal('KXROB84Q3IU')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "prof_gestion" }]
     },
     "docente_asignar": {
-        text: "**Asignar contenidos**\n\n1. Asignatura → Aprendizaje Nuclear.\n2. Ubica el contenido y haz clic en los **tres puntos** → **'Asignar a…'**.\n3. Define quién puede verlo y fechas de entrega.\n4. Clic en Guardar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('X6akIQPrJWw')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "prof_gestion" }]
+        text: "**Asignar contenidos**\n\n1. Asignatura → Aprendizaje Nuclear.\n2. Ubica el contenido y haz clic en los **tres puntos** → **'Asignar a…'**.\n3. Define quién puede verlo y fechas de entrega.\n4. Clic en Guardar.\n\n<a href=\"#\" onclick=\"openVideoModal('X6akIQPrJWw')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "prof_gestion" }]
     },
     "docente_panel": {
-        text: "**Panel de Comunicaciones**\n\n1. En tu clase → pestaña Panel.\n2. **Configuración**: define permisos de estudiantes.\n3. Escribe tu anuncio (adjuntos hasta 200 MB).\n4. Clic en Publicar. Los alumnos recibirán notificación.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('SO60tHz47kU')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "prof_gestion" }]
+        text: "**Panel de Comunicaciones**\n\n1. En tu clase → pestaña Panel.\n2. **Configuración**: define permisos de estudiantes.\n3. Escribe tu anuncio (adjuntos hasta 200 MB).\n4. Clic en Publicar. Los alumnos recibirán notificación.\n\n<a href=\"#\" onclick=\"openVideoModal('SO60tHz47kU')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "prof_gestion" }]
     },
     "docente_material": {
-        text: "**Subir Material Propio**\n\n1. Inicio → **Mi Biblioteca**.\n2. Clic en **'+'** → Añadir material.\n3. Elige Enlace o Archivo.\n4. Título, descripción y clasificación.\n5. Clic en Aceptar. Tip: crea carpetas para organizarlo.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('sGX_D17T4h8')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "prof_gestion" }]
+        text: "**Subir Material Propio**\n\n1. Inicio → **Mi Biblioteca**.\n2. Clic en **'+'** → Añadir material.\n3. Elige Enlace o Archivo.\n4. Título, descripción y clasificación.\n5. Clic en Aceptar. Tip: crea carpetas para organizarlo.\n\n<a href=\"#\" onclick=\"openVideoModal('sGX_D17T4h8')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "prof_gestion" }]
     },
 
     // ── CONOCIMIENTOS ESTUDIANTE ─────────────────────────────
@@ -149,24 +149,24 @@ const BOT_DATA = {
             { label: "Cómo responder Tareas",                   topic: "est_tareas" },
             { label: "Buscar el Libro Web",                     topic: "est_libroweb" },
             { label: "Recursos de la Biblioteca",               topic: "est_biblioteca" },
-            { label: "◀ Volver",                                topic: "menu_estudiante" }
+            { label: "Volver", action: "back",                                topic: "menu_estudiante" }
         ]
     },
     "est_inicio": {
-        text: "**Primeros pasos — Estudiante**\n\n1. Ingresa a https://edi-compartir-co.stn-neds.com.\n2. Selecciona Compartir Conocimientos.\n3. Arriba a la derecha: Tareas, Calendario, Notificaciones.\n4. Entra a tu clase y verás:\n  • **Programa:** actividades.\n  • **Recursos:** Flipbook.\n  • **Panel:** avisos del profe.\n  • **Calificaciones:** tus notas.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('9oKz6MQgDsk')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "est_conocimientos" }]
+        text: "**Primeros pasos — Estudiante**\n\n1. Ingresa a https://edi-compartir-co.stn-neds.com.\n2. Selecciona Compartir Conocimientos.\n3. Arriba a la derecha: Tareas, Calendario, Notificaciones.\n4. Entra a tu clase y verás:\n  • **Programa:** actividades.\n  • **Recursos:** Flipbook.\n  • **Panel:** avisos del profe.\n  • **Calificaciones:** tus notas.\n\n<a href=\"#\" onclick=\"openVideoModal('9oKz6MQgDsk')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "est_conocimientos" }]
     },
     "est_tareas": {
-        text: "**Responder Tareas**\n\n1. Clic en el ícono **Tareas** (arriba a la derecha) → Ver todo.\n2. Filtra por Pendiente.\n3. Selecciona la actividad, desarróllala y clic en **Enviar**.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('XugiPvcc20g')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "est_conocimientos" }]
+        text: "**Responder Tareas**\n\n1. Clic en el ícono **Tareas** (arriba a la derecha) → Ver todo.\n2. Filtra por Pendiente.\n3. Selecciona la actividad, desarróllala y clic en **Enviar**.\n\n<a href=\"#\" onclick=\"openVideoModal('XugiPvcc20g')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "est_conocimientos" }]
     },
     "est_libroweb": {
-        text: "**Libro Web**\n\n1. Entra a la asignatura → Aprendizaje Nuclear.\n2. En **Nuevos Aprendizajes** está tu Libro Web.\n3. Clic en **Ir** → **Ver**. Se abre en nueva pestaña.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('l0MHO5QO1eQ')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "est_conocimientos" }]
+        text: "**Libro Web**\n\n1. Entra a la asignatura → Aprendizaje Nuclear.\n2. En **Nuevos Aprendizajes** está tu Libro Web.\n3. Clic en **Ir** → **Ver**. Se abre en nueva pestaña.\n\n<a href=\"#\" onclick=\"openVideoModal('l0MHO5QO1eQ')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "est_conocimientos" }]
     },
     "est_biblioteca": {
-        text: "**Biblioteca / Recursos del Aula**\n\n1. Entra a tu asignatura → pestaña **Recursos del aula**.\n2. En la sección **Anual** verás los materiales de apoyo.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('RjS2b5h-UqY')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "est_conocimientos" }]
+        text: "**Biblioteca / Recursos del Aula**\n\n1. Entra a tu asignatura → pestaña **Recursos del aula**.\n2. En la sección **Anual** verás los materiales de apoyo.\n\n<a href=\"#\" onclick=\"openVideoModal('RjS2b5h-UqY')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "est_conocimientos" }]
     },
 
     // ── PROGRESO ─────────────────────────────────────────────
@@ -177,35 +177,35 @@ const BOT_DATA = {
             { label: "Crear Evaluaciones (Banco / Propias)",     topic: "pleno_doc_crear" },
             { label: "Rúbricas y Calificación",                  topic: "pleno_doc_calificar" },
             { label: "Habilitar / Reiniciar Evaluaciones",       topic: "pleno_doc_reiniciar" },
-            { label: "◀ Volver",                                 topic: "menu_profesor" }
+            { label: "Volver", action: "back",                                 topic: "menu_profesor" }
         ]
     },
     "pleno_doc_planificar": {
-        text: "**Acceder y Planificar en Pleno**\n\nIngresa a la plataforma y configura fechas y parámetros.\n\n▶️ Acceder: <a href=\"#\" onclick=\"openVideoModal('Och9Do2176Q')\" class=\"underline text-blue-400\">Ver Video</a> | Planificar: <a href=\"#\" onclick=\"openVideoModal('iJMU2Iyu8ng')\" class=\"underline text-blue-400\">Ver Video</a>",
-        options: [{ label: "◀ Volver", topic: "progreso_docente" }]
+        text: "**Acceder y Planificar en Pleno**\n\nIngresa a la plataforma y configura fechas y parámetros.\n\nAcceder: <a href=\"#\" onclick=\"openVideoModal('Och9Do2176Q')\" class=\"underline text-blue-400\">Ver Video</a> | Planificar: <a href=\"#\" onclick=\"openVideoModal('iJMU2Iyu8ng')\" class=\"underline text-blue-400\">Ver Video</a>",
+        options: [{ label: "Volver", action: "back", topic: "progreso_docente" }]
     },
     "pleno_doc_crear": {
-        text: "**Crear Evaluaciones**\n\n▶️ Banco Santillana: <a href=\"#\" onclick=\"openVideoModal('DdPnWYVu1y4')\" class=\"underline text-blue-400\">Ver Video</a> | Ítems propios: <a href=\"#\" onclick=\"openVideoModal('aLm91Avo63Y')\" class=\"underline text-blue-400\">Ver Video</a> | Aleatorias: <a href=\"#\" onclick=\"openVideoModal('WpDFMfZdm5g')\" class=\"underline text-blue-400\">Ver Video</a>",
-        options: [{ label: "◀ Volver", topic: "progreso_docente" }]
+        text: "**Crear Evaluaciones**\n\nBanco Santillana: <a href=\"#\" onclick=\"openVideoModal('DdPnWYVu1y4')\" class=\"underline text-blue-400\">Ver Video</a> | Ítems propios: <a href=\"#\" onclick=\"openVideoModal('aLm91Avo63Y')\" class=\"underline text-blue-400\">Ver Video</a> | Aleatorias: <a href=\"#\" onclick=\"openVideoModal('WpDFMfZdm5g')\" class=\"underline text-blue-400\">Ver Video</a>",
+        options: [{ label: "Volver", action: "back", topic: "progreso_docente" }]
     },
     "pleno_doc_calificar": {
-        text: "**Rúbricas y Calificación**\n\n▶️ Crear rúbricas: <a href=\"#\" onclick=\"openVideoModal('7kp_-ZL7Amw')\" class=\"underline text-blue-400\">Ver Video</a> | Calificar abiertas: <a href=\"#\" onclick=\"openVideoModal('iTIFZeCEO_o')\" class=\"underline text-blue-400\">Ver Video</a>",
-        options: [{ label: "◀ Volver", topic: "progreso_docente" }]
+        text: "**Rúbricas y Calificación**\n\nCrear rúbricas: <a href=\"#\" onclick=\"openVideoModal('7kp_-ZL7Amw')\" class=\"underline text-blue-400\">Ver Video</a> | Calificar abiertas: <a href=\"#\" onclick=\"openVideoModal('iTIFZeCEO_o')\" class=\"underline text-blue-400\">Ver Video</a>",
+        options: [{ label: "Volver", action: "back", topic: "progreso_docente" }]
     },
     "pleno_doc_reiniciar": {
-        text: "**Habilitar / Reiniciar Evaluaciones**\n\nReasigna pruebas a estudiantes con problemas técnicos.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('OemyOCXD8U8')\" class=\"text-blue-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "progreso_docente" }]
+        text: "**Habilitar / Reiniciar Evaluaciones**\n\nReasigna pruebas a estudiantes con problemas técnicos.\n\n<a href=\"#\" onclick=\"openVideoModal('OemyOCXD8U8')\" class=\"text-blue-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "progreso_docente" }]
     },
     "progreso_estudiante": {
         text: "**Compartir Progreso (Pleno) — Estudiante**",
         options: [
             { label: "Responder Evaluaciones",                   topic: "pleno_est_responder" },
-            { label: "◀ Volver",                                 topic: "menu_estudiante" }
+            { label: "Volver", action: "back",                                 topic: "menu_estudiante" }
         ]
     },
     "pleno_est_responder": {
-        text: "**Responder Evaluaciones en Pleno**\n\nIngresa a Pleno, busca la evaluación activa, respóndela y envíala.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('_oDKSoJItHo')\" class=\"text-blue-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "progreso_estudiante" }]
+        text: "**Responder Evaluaciones en Pleno**\n\nIngresa a Pleno, busca la evaluación activa, respóndela y envíala.\n\n<a href=\"#\" onclick=\"openVideoModal('_oDKSoJItHo')\" class=\"text-blue-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "progreso_estudiante" }]
     },
 
     // ── INGLÉS DOCENTE ───────────────────────────────────────
@@ -217,7 +217,7 @@ const BOT_DATA = {
             { label: "Calificar audios (Pending Marks)",        topic: "richmond_doc_calificar" },
             { label: "Acceder al i-solution",                   topic: "richmond_doc_isolution" },
             { label: "Limpiar cookies y caché",                 topic: "richmond_cookies" },
-            { label: "◀ Volver",                                topic: "menu_profesor" }
+            { label: "Volver", action: "back",                                topic: "menu_profesor" }
         ]
     },
     // ── INGLÉS ESTUDIANTE ────────────────────────────────────
@@ -229,46 +229,46 @@ const BOT_DATA = {
             { label: "Ver mis notas (Markbook)",                topic: "richmond_est_markbook" },
             { label: "My Links — accesos directos",             topic: "richmond_est_mylinks" },
             { label: "Limpiar cookies y caché",                 topic: "richmond_cookies" },
-            { label: "◀ Volver",                                topic: "menu_estudiante" }
+            { label: "Volver", action: "back",                                topic: "menu_estudiante" }
         ]
     },
     "richmond_ingreso": {
-        text: "**Ingresar a Richmond Studio**\n\n• **Via Santillana Connect:** ingresa y busca Richmond Studio.\n• **Via EDI Santillana:** ingresa a https://edi-compartir-co.stn-neds.com y localiza el acceso.\n\n▶️ Connect: <a href=\"#\" onclick=\"openVideoModal('P9ohgrwD_zs')\" class=\"underline text-emerald-400\">Ver Video</a> | EDI: <a href=\"#\" onclick=\"openVideoModal('wyxu3QD9WX8')\" class=\"underline text-emerald-400\">Ver Video</a>",
+        text: "**Ingresar a Richmond Studio**\n\n• **Via Santillana Connect:** ingresa y busca Richmond Studio.\n• **Via EDI Santillana:** ingresa a https://edi-compartir-co.stn-neds.com y localiza el acceso.\n\nConnect: <a href=\"#\" onclick=\"openVideoModal('P9ohgrwD_zs')\" class=\"underline text-emerald-400\">Ver Video</a> | EDI: <a href=\"#\" onclick=\"openVideoModal('wyxu3QD9WX8')\" class=\"underline text-emerald-400\">Ver Video</a>",
         options: [
-            { label: "◀ Volver (Docente)",     topic: "ingles_docente" },
-            { label: "◀ Volver (Estudiante)",  topic: "ingles_estudiante" }
+            { label: "Volver (Docente)", action: "back",     topic: "ingles_docente" },
+            { label: "Volver (Estudiante)", action: "back",  topic: "ingles_estudiante" }
         ]
     },
     "richmond_cookies": {
-        text: "**Limpiar Cookies y Caché**\n\nSi Richmond Studio no carga bien, limpiar el caché suele resolver el problema.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('sKtj-gpv78E')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        text: "**Limpiar Cookies y Caché**\n\nSi Richmond Studio no carga bien, limpiar el caché suele resolver el problema.\n\n<a href=\"#\" onclick=\"openVideoModal('sKtj-gpv78E')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
         options: [
-            { label: "◀ Volver (Docente)",     topic: "ingles_docente" },
-            { label: "◀ Volver (Estudiante)",  topic: "ingles_estudiante" }
+            { label: "Volver (Docente)", action: "back",     topic: "ingles_docente" },
+            { label: "Volver (Estudiante)", action: "back",  topic: "ingles_estudiante" }
         ]
     },
     "richmond_doc_tareas": {
-        text: "**Asignar Tareas — Richmond Studio (Docente)**\n\nCrea y asigna actividades a tus grupos directamente en la plataforma de inglés.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('ABBwpKFDN8M')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "ingles_docente" }]
+        text: "**Asignar Tareas — Richmond Studio (Docente)**\n\nCrea y asigna actividades a tus grupos directamente en la plataforma de inglés.\n\n<a href=\"#\" onclick=\"openVideoModal('ABBwpKFDN8M')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "ingles_docente" }]
     },
     "richmond_doc_calificar": {
-        text: "**Calificar Audios — Pending Marks (Docente)**\n\nRevisa y califica los audios grabados por tus estudiantes en la sección Pending Marks.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('zC5L4zTrZJA')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "ingles_docente" }]
+        text: "**Calificar Audios — Pending Marks (Docente)**\n\nRevisa y califica los audios grabados por tus estudiantes en la sección Pending Marks.\n\n<a href=\"#\" onclick=\"openVideoModal('zC5L4zTrZJA')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "ingles_docente" }]
     },
     "richmond_doc_isolution": {
-        text: "**Acceder al i-solution (Docente)**\n\nEl libro de soluciones disponible en modo online y offline.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('oWvbBcSyjkA')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "ingles_docente" }]
+        text: "**Acceder al i-solution (Docente)**\n\nEl libro de soluciones disponible en modo online y offline.\n\n<a href=\"#\" onclick=\"openVideoModal('oWvbBcSyjkA')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "ingles_docente" }]
     },
     "richmond_est_assignments": {
-        text: "**Ver mis Asignaciones (Assignments)**\n\nDesde tu panel en Richmond Studio puedes ver las actividades pendientes y entregadas.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('vSR2f5hqw84')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "ingles_estudiante" }]
+        text: "**Ver mis Asignaciones (Assignments)**\n\nDesde tu panel en Richmond Studio puedes ver las actividades pendientes y entregadas.\n\n<a href=\"#\" onclick=\"openVideoModal('vSR2f5hqw84')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "ingles_estudiante" }]
     },
     "richmond_est_markbook": {
-        text: "**Ver mis Notas (Markbook)**\n\nEl Markbook muestra todas tus calificaciones en Richmond Studio.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('L1sNm4j3ICU')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "ingles_estudiante" }]
+        text: "**Ver mis Notas (Markbook)**\n\nEl Markbook muestra todas tus calificaciones en Richmond Studio.\n\n<a href=\"#\" onclick=\"openVideoModal('L1sNm4j3ICU')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "ingles_estudiante" }]
     },
     "richmond_est_mylinks": {
-        text: "**My Links (Estudiante)**\n\nGuarda y organiza accesos rápidos a los recursos que más usas en Richmond Studio.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('NG5Jkq0uFeE')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "ingles_estudiante" }]
+        text: "**My Links (Estudiante)**\n\nGuarda y organiza accesos rápidos a los recursos que más usas en Richmond Studio.\n\n<a href=\"#\" onclick=\"openVideoModal('NG5Jkq0uFeE')\" class=\"text-emerald-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "ingles_estudiante" }]
     },
 
     // ── QUIZZES ──────────────────────────────────────────────
@@ -280,12 +280,12 @@ const BOT_DATA = {
             { label: "Completar / Arrastrar",                    topic: "cat_completar" },
             { label: "Ordenar y Relacionar",                     topic: "cat_relacionar" },
             { label: "Evaluación Manual / Especial",             topic: "cat_manual" },
-            { label: "◀ Volver",                                 topic: "prof_conocimientos" }
+            { label: "Volver", action: "back",                                 topic: "prof_conocimientos" }
         ]
     },
     "quiz_base": {
-        text: "**Crear un Quiz General**\n\n1. Aprendizaje Nuclear → **'+'** → Quiz.\n2. Configura escala, si es evaluativo y fechas.\n3. Clic en **Crear Quiz**.\n4. Agrega preguntas con **'+'** (nueva o desde biblioteca).\n5. Asigna valor y dale a Guardar y Publicar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('xMUUcHz1RMY')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "quiz_categorias" }]
+        text: "**Crear un Quiz General**\n\n1. Aprendizaje Nuclear → **'+'** → Quiz.\n2. Configura escala, si es evaluativo y fechas.\n3. Clic en **Crear Quiz**.\n4. Agrega preguntas con **'+'** (nueva o desde biblioteca).\n5. Asigna valor y dale a Guardar y Publicar.\n\n<a href=\"#\" onclick=\"openVideoModal('xMUUcHz1RMY')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "quiz_categorias" }]
     },
     "cat_test": {
         text: "Selecciona el tipo de test:",
@@ -293,7 +293,7 @@ const BOT_DATA = {
             { label: "Respuesta Única / Múltiple",               topic: "q_unica_multiple" },
             { label: "Verdadero o Falso",                        topic: "q_vf" },
             { label: "Tabla / Lista de Selección",               topic: "q_tabla" },
-            { label: "◀ Volver",                                 topic: "quiz_categorias" }
+            { label: "Volver", action: "back",                                 topic: "quiz_categorias" }
         ]
     },
     "cat_completar": {
@@ -301,7 +301,7 @@ const BOT_DATA = {
         options: [
             { label: "Completar con Texto (huecos/imagen)",      topic: "q_comp_texto" },
             { label: "Arrastrar y Soltar (huecos/imagen)",       topic: "q_arrastrar" },
-            { label: "◀ Volver",                                 topic: "quiz_categorias" }
+            { label: "Volver", action: "back",                                 topic: "quiz_categorias" }
         ]
     },
     "cat_relacionar": {
@@ -310,7 +310,7 @@ const BOT_DATA = {
             { label: "Emparejar / Unir / Ordenar",               topic: "q_emparejar" },
             { label: "Sopa de Letras / Crucigrama",              topic: "q_juegos" },
             { label: "Clasificar",                               topic: "q_clasificar" },
-            { label: "◀ Volver",                                 topic: "quiz_categorias" }
+            { label: "Volver", action: "back",                                 topic: "quiz_categorias" }
         ]
     },
     "cat_manual": {
@@ -318,57 +318,57 @@ const BOT_DATA = {
         options: [
             { label: "Fórmulas Matemáticas",                     topic: "q_mates" },
             { label: "Resp. Compleja / Audio / Archivo",         topic: "q_manual_archivos" },
-            { label: "◀ Volver",                                 topic: "quiz_categorias" }
+            { label: "Volver", action: "back",                                 topic: "quiz_categorias" }
         ]
     },
     "q_unica_multiple": {
-        text: "**Tipo Test: Única / Múltiple**\n\n1. Selecciona la plantilla → Continuar.\n2. Escribe la instrucción y las opciones.\n3. En **Soluciones**, elige Corrección Exacta (o Parcial si múltiple) y marca correctas.\n4. En **Ajustes** activa orden aleatorio si deseas.\n5. Clic en Guardar.\n\n▶️ Única: <a href=\"#\" onclick=\"openVideoModal('_L2wa7F_eyM')\" class=\"underline text-pink-400\">Ver Video</a> | Múltiple: <a href=\"#\" onclick=\"openVideoModal('3udWZoZfNfs')\" class=\"underline text-pink-400\">Ver Video</a>",
-        options: [{ label: "◀ Volver", topic: "cat_test" }]
+        text: "**Tipo Test: Única / Múltiple**\n\n1. Selecciona la plantilla → Continuar.\n2. Escribe la instrucción y las opciones.\n3. En **Soluciones**, elige Corrección Exacta (o Parcial si múltiple) y marca correctas.\n4. En **Ajustes** activa orden aleatorio si deseas.\n5. Clic en Guardar.\n\nÚnica: <a href=\"#\" onclick=\"openVideoModal('_L2wa7F_eyM')\" class=\"underline text-pink-400\">Ver Video</a> | Múltiple: <a href=\"#\" onclick=\"openVideoModal('3udWZoZfNfs')\" class=\"underline text-pink-400\">Ver Video</a>",
+        options: [{ label: "Volver", action: "back", topic: "cat_test" }]
     },
     "q_vf": {
-        text: "**Verdadero y Falso**\n\n1. Escribe la instrucción y la premisa.\n2. Opciones: Verdadero / Falso.\n3. En Soluciones, marca la correcta.\n4. Puedes añadir retroalimentación.\n5. Clic en Guardar.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('uoSCotTJcj0')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "cat_test" }]
+        text: "**Verdadero y Falso**\n\n1. Escribe la instrucción y la premisa.\n2. Opciones: Verdadero / Falso.\n3. En Soluciones, marca la correcta.\n4. Puedes añadir retroalimentación.\n5. Clic en Guardar.\n\n<a href=\"#\" onclick=\"openVideoModal('uoSCotTJcj0')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "cat_test" }]
     },
     "q_tabla": {
-        text: "**Tabla / Lista de Selección**\n\n1. Define columnas y filas.\n2. En Soluciones, marca las intersecciones correctas.\n3. En Ajustes activa 'Respuesta múltiple' si aplica.\n\n▶️ Tabla: <a href=\"#\" onclick=\"openVideoModal('OvXxkT4dak4')\" class=\"underline text-pink-400\">Ver Video</a> | Lista: <a href=\"#\" onclick=\"openVideoModal('zw4SWniGdbQ')\" class=\"underline text-pink-400\">Ver Video</a>",
-        options: [{ label: "◀ Volver", topic: "cat_test" }]
+        text: "**Tabla / Lista de Selección**\n\n1. Define columnas y filas.\n2. En Soluciones, marca las intersecciones correctas.\n3. En Ajustes activa 'Respuesta múltiple' si aplica.\n\nTabla: <a href=\"#\" onclick=\"openVideoModal('OvXxkT4dak4')\" class=\"underline text-pink-400\">Ver Video</a> | Lista: <a href=\"#\" onclick=\"openVideoModal('zw4SWniGdbQ')\" class=\"underline text-pink-400\">Ver Video</a>",
+        options: [{ label: "Volver", action: "back", topic: "cat_test" }]
     },
     "q_comp_texto": {
-        text: "**Completar con Texto**\n\n1. Pega texto o sube imagen.\n2. Selecciona palabras y clic en **Añadir hueco**.\n3. En Soluciones, escribe la respuesta válida.\n\n▶️ Huecos: <a href=\"#\" onclick=\"openVideoModal('f36XjOs9Kdw')\" class=\"underline text-pink-400\">Ver Video</a> | Imagen: <a href=\"#\" onclick=\"openVideoModal('Wlndj6N3zL0')\" class=\"underline text-pink-400\">Ver Video</a>",
-        options: [{ label: "◀ Volver", topic: "cat_completar" }]
+        text: "**Completar con Texto**\n\n1. Pega texto o sube imagen.\n2. Selecciona palabras y clic en **Añadir hueco**.\n3. En Soluciones, escribe la respuesta válida.\n\nHuecos: <a href=\"#\" onclick=\"openVideoModal('f36XjOs9Kdw')\" class=\"underline text-pink-400\">Ver Video</a> | Imagen: <a href=\"#\" onclick=\"openVideoModal('Wlndj6N3zL0')\" class=\"underline text-pink-400\">Ver Video</a>",
+        options: [{ label: "Volver", action: "back", topic: "cat_completar" }]
     },
     "q_arrastrar": {
-        text: "**Arrastrar y Soltar**\n\n1. Define los huecos en el texto o imagen.\n2. Escribe palabras correctas (y trampas extra).\n3. En Soluciones, arrastra cada palabra a su hueco.\n\n▶️ Textos: <a href=\"#\" onclick=\"openVideoModal('SSLxS0EffXQ')\" class=\"underline text-pink-400\">Ver Video</a> | Imagen: <a href=\"#\" onclick=\"openVideoModal('-W6vnpkmDEo')\" class=\"underline text-pink-400\">Ver Video</a>",
-        options: [{ label: "◀ Volver", topic: "cat_completar" }]
+        text: "**Arrastrar y Soltar**\n\n1. Define los huecos en el texto o imagen.\n2. Escribe palabras correctas (y trampas extra).\n3. En Soluciones, arrastra cada palabra a su hueco.\n\nTextos: <a href=\"#\" onclick=\"openVideoModal('SSLxS0EffXQ')\" class=\"underline text-pink-400\">Ver Video</a> | Imagen: <a href=\"#\" onclick=\"openVideoModal('-W6vnpkmDEo')\" class=\"underline text-pink-400\">Ver Video</a>",
+        options: [{ label: "Volver", action: "back", topic: "cat_completar" }]
     },
     "q_emparejar": {
-        text: "**Emparejar / Unir / Ordenar**\n\n• **Emparejar/Unir:** dos listas → define parejas en Soluciones.\n• **Ordenar:** escribe elementos en el orden correcto.\n\n▶️ Emparejar: <a href=\"#\" onclick=\"openVideoModal('G66EITN5HTM')\" class=\"underline text-pink-400\">Ver Video</a> | Unir: <a href=\"#\" onclick=\"openVideoModal('D-lSaspWGzQ')\" class=\"underline text-pink-400\">Ver Video</a>",
-        options: [{ label: "◀ Volver", topic: "cat_relacionar" }]
+        text: "**Emparejar / Unir / Ordenar**\n\n• **Emparejar/Unir:** dos listas → define parejas en Soluciones.\n• **Ordenar:** escribe elementos en el orden correcto.\n\nEmparejar: <a href=\"#\" onclick=\"openVideoModal('G66EITN5HTM')\" class=\"underline text-pink-400\">Ver Video</a> | Unir: <a href=\"#\" onclick=\"openVideoModal('D-lSaspWGzQ')\" class=\"underline text-pink-400\">Ver Video</a>",
+        options: [{ label: "Volver", action: "back", topic: "cat_relacionar" }]
     },
     "q_juegos": {
-        text: "**Sopa de Letras y Crucigrama**\n\n• **Crucigrama:** escribe pistas y palabras; el sistema genera el tablero.\n• **Sopa:** elige tamaño y escribe las palabras a buscar.\n\n▶️ Sopa: <a href=\"#\" onclick=\"openVideoModal('n8pDFxb8O78')\" class=\"underline text-pink-400\">Ver Video</a> | Crucigrama: <a href=\"#\" onclick=\"openVideoModal('M7Y1wYkXkiI')\" class=\"underline text-pink-400\">Ver Video</a>",
-        options: [{ label: "◀ Volver", topic: "cat_relacionar" }]
+        text: "**Sopa de Letras y Crucigrama**\n\n• **Crucigrama:** escribe pistas y palabras; el sistema genera el tablero.\n• **Sopa:** elige tamaño y escribe las palabras a buscar.\n\nSopa: <a href=\"#\" onclick=\"openVideoModal('n8pDFxb8O78')\" class=\"underline text-pink-400\">Ver Video</a> | Crucigrama: <a href=\"#\" onclick=\"openVideoModal('M7Y1wYkXkiI')\" class=\"underline text-pink-400\">Ver Video</a>",
+        options: [{ label: "Volver", action: "back", topic: "cat_relacionar" }]
     },
     "q_clasificar": {
-        text: "**Clasificar**\n\n1. Define entre 1 y 5 columnas.\n2. Agrega las palabras mezcladas.\n3. En Soluciones, arrastra cada palabra a su columna.\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('YgALIhJ-PGg')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "cat_relacionar" }]
+        text: "**Clasificar**\n\n1. Define entre 1 y 5 columnas.\n2. Agrega las palabras mezcladas.\n3. En Soluciones, arrastra cada palabra a su columna.\n\n<a href=\"#\" onclick=\"openVideoModal('YgALIhJ-PGg')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "cat_relacionar" }]
     },
     "q_mates": {
-        text: "**Fórmulas Matemáticas**\n\n1. Escribe las operaciones y selecciona la respuesta → **Añadir hueco**.\n2. En Ajustes activa el teclado (numérico, básico, científico…).\n\n▶️ <a href=\"#\" onclick=\"openVideoModal('XTkETvJ-s_c')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
-        options: [{ label: "◀ Volver", topic: "cat_manual" }]
+        text: "**Fórmulas Matemáticas**\n\n1. Escribe las operaciones y selecciona la respuesta → **Añadir hueco**.\n2. En Ajustes activa el teclado (numérico, básico, científico…).\n\n<a href=\"#\" onclick=\"openVideoModal('XTkETvJ-s_c')\" class=\"text-pink-400 font-bold underline\">Ver Video Tutorial</a>",
+        options: [{ label: "Volver", action: "back", topic: "cat_manual" }]
     },
     "q_manual_archivos": {
-        text: "**Evaluación Manual (requiere corrección docente)**\n\n• **Subir Archivo:** 1–10 archivos.\n• **Audio:** límite de segundos configurable.\n• **Respuesta Compleja:** contador de palabras opcional.\n• **Pintar:** imagen de fondo personalizable.\n\n▶️ Archivo: <a href=\"#\" onclick=\"openVideoModal('yUfpyWQb3zI')\" class=\"underline text-pink-400\">Ver Video</a> | Audio: <a href=\"#\" onclick=\"openVideoModal('pk3g6khFJlc')\" class=\"underline text-pink-400\">Ver Video</a>",
-        options: [{ label: "◀ Volver", topic: "cat_manual" }]
+        text: "**Evaluación Manual (requiere corrección docente)**\n\n• **Subir Archivo:** 1–10 archivos.\n• **Audio:** límite de segundos configurable.\n• **Respuesta Compleja:** contador de palabras opcional.\n• **Pintar:** imagen de fondo personalizable.\n\nArchivo: <a href=\"#\" onclick=\"openVideoModal('yUfpyWQb3zI')\" class=\"underline text-pink-400\">Ver Video</a> | Audio: <a href=\"#\" onclick=\"openVideoModal('pk3g6khFJlc')\" class=\"underline text-pink-400\">Ver Video</a>",
+        options: [{ label: "Volver", action: "back", topic: "cat_manual" }]
     },
 
     // ── NO ENCONTRADO ─────────────────────────────────────────
     "no_encontrado": {
-        text: "Hmm, no encontré un tutorial exacto para eso 🤔\n\nIntenta con palabras como: **quiz**, **tarea**, **pleno**, **richmond**, **sopa**, **rúbrica**, **markbook**, **libro**, **robótica** o **CREO**...\n\n¿Quieres ir al menú principal?",
+        text: "Hmm, no encontré un tutorial exacto para eso \n\nIntenta con palabras como: **quiz**, **tarea**, **pleno**, **richmond**, **sopa**, **rúbrica**, **markbook**, **libro**, **robótica** o **CREO**...\n\n¿Quieres ir al menú principal?",
         options: [
             { label: "Ir al menú",                              topic: "inicio" },
-            { label: "Soy Docente 🍎",                          topic: "menu_profesor" },
-            { label: "Soy Estudiante / Padre 🎒",               topic: "menu_estudiante" }
+            { label: "Soy Docente",                          topic: "menu_profesor" },
+            { label: "Soy Estudiante / Padre",               topic: "menu_estudiante" }
         ]
     }
 };
@@ -409,19 +409,11 @@ const KEYWORD_INDEX = {
     'contraseña': 'no_encontrado', 'password': 'no_encontrado', 'lento': 'no_encontrado'
 };
 
-/* ─── Memoria de conversación ligera ───────────────────────────
-   Guarda el último topic resuelto y las últimas palabras clave.
-   Permite resolver pronombres y referencias implícitas:
-   "cómo creo una tarea" → [topic: docente_tarea]
-   "y cómo la califico"  → "califico" no hace match, pero el
-                           contexto es docente → toma pleno_doc_calificar
-──────────────────────────────────────────────────────────────── */
+// El programa y el perfil permiten resolver preguntas de seguimiento.
 const botMemoria = {
-    ultimoTopic: null,
     ultimaSeccion: null,
     ultimoRol: null,
     setTopic(topic) {
-        this.ultimoTopic = topic;
         if (topic === 'inicio' || topic === 'suplementales_bot' || topic === 'programas_comparar' || topic === 'programa_aclarar') this.ultimaSeccion = null;
         else if (topic.startsWith('robotica')) this.ultimaSeccion = 'robotica';
         else if (topic.startsWith('fe_')) this.ultimaSeccion = 'fe';
@@ -429,7 +421,8 @@ const botMemoria = {
         else if (/ingles|richmond/.test(topic)) this.ultimaSeccion = 'ingles';
         else if (/^(docente_|est_|prof_|quiz_|cat_|q_)/.test(topic)) this.ultimaSeccion = 'conocimientos';
         else if (/^menu_|^duda_/.test(topic)) this.ultimaSeccion = null;
-        if (/docente|profesor|^prof_/.test(topic)) this.ultimoRol = 'docente';
+        // fe_docente es una entrada compartida por ambos perfiles.
+        if (/^(menu_profesor|duda_docente|docente_|prof_|progreso_docente|pleno_doc_|ingles_docente|richmond_doc_)/.test(topic)) this.ultimoRol = 'docente';
         else if (/estudiante|^est_|pleno_est_|richmond_est_/.test(topic)) this.ultimoRol = 'estudiante';
     }
 };
@@ -438,6 +431,11 @@ function normalizarConsulta(text) {
     return String(text).slice(0, 1500).normalize('NFD').replace(/[\u0300-\u036f]/g, '')
         .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, ' ');
 }
+
+// Normalizar y ordenar una sola vez, en vez de reconstruir el índice por consulta.
+const BOT_KEYWORDS = Object.entries(KEYWORD_INDEX)
+    .map(([keyword, topic]) => [normalizarConsulta(keyword), topic])
+    .sort((a, b) => b[0].length - a[0].length);
 
 // Specific questions take priority over a program name or a generic word such as "libro".
 const PROGRAM_INTENTS = {
@@ -540,15 +538,33 @@ function searchByKeyword(text) {
     if (crearActividad && /\bevaluacion\b/.test(q)) return remember('pleno_doc_crear');
     if (crearActividad && /\brubrica\b/.test(q)) return remember('pleno_doc_calificar');
 
+    // Estas herramientas identifican otra plataforma aunque siga activo Fe/Robótica.
+    if (/\b(quiz|quizzes|cuestionarios?|sopa de letras|crucigrama)\b/.test(q)) {
+        return remember(/\b(sopa|crucigrama)\b/.test(q) ? 'q_juegos' : 'quiz_base');
+    }
+    if (/\blibro web\b/.test(q)) return remember('est_libroweb');
+    if (/\bcompartir conocimientos\b/.test(q)) {
+        return remember(botMemoria.ultimoRol === 'estudiante' ? 'est_conocimientos' : 'prof_conocimientos');
+    }
+
     // Distinctive terms can identify a program without requiring its brand name.
     if (/\b(tinkercad|wokwi|micro\s*bit|maestro maker|cartilla|simulador|simuladores|fases|artefactos|prototipo|prototipos|explorador|practicante|indagador|construyamos|indaguemos|disenemos|comuniquemos|evaluemos|mecatronica|steam|maker|cajas?)\b/.test(q)) return remember(resolverPrograma('robotica', q));
     if (/\b(pensar y creer|aprender con sentido|pacto educativo|educacion religiosa escolar|escuela para padres|celebrar en familia|quince minutos|contenidos globales|recursos globales)\b/.test(q)) return remember(resolverPrograma('fe', q));
     if (botMemoria.ultimaSeccion === 'robotica' || botMemoria.ultimaSeccion === 'fe') return remember(resolverPrograma(botMemoria.ultimaSeccion, q));
     if (/\b(mallas?|primaria|secundaria|niveles?|formacion|familias?|pilares?|simuladores?|fases?|proyectos?)\b/.test(q)) return remember('programa_aclarar');
 
+    if (/\b(calificaciones|notas)\b/.test(q)) {
+        const student = botMemoria.ultimoRol === 'estudiante';
+        const destinations = {
+            ingles: 'richmond_est_markbook',
+            conocimientos: student ? 'est_conocimientos' : 'prof_conocimientos',
+            progreso: student ? 'progreso_estudiante' : 'pleno_doc_calificar'
+        };
+        return remember(destinations[botMemoria.ultimaSeccion] || (student ? 'duda_estudiante_seccion' : 'duda_docente_seccion'));
+    }
+
     // Phrase boundaries prevent "fe" from matching "profesor" and similar substrings.
-    const entries = Object.entries(KEYWORD_INDEX).map(([kw, topic]) => [normalizarConsulta(kw), topic]).sort((a, b) => b[0].length - a[0].length);
-    const match = entries.find(([kw]) => {
+    const match = BOT_KEYWORDS.find(([kw]) => {
         const variants = [kw];
         if (!kw.includes(' ')) {
             if (/[aeiou]$/.test(kw)) variants.push(kw + 's');
@@ -557,9 +573,13 @@ function searchByKeyword(text) {
         }
         return variants.some(term => (' ' + q + ' ').includes(' ' + term + ' '));
     });
-    if (match) return remember(match[1]);
+    if (match) {
+        const topic = match[1];
+        const studentTopics = { docente_inicio: 'est_inicio', docente_tarea: 'est_tareas' };
+        return remember(botMemoria.ultimoRol === 'estudiante' ? studentTopics[topic] || topic : topic);
+    }
     if (/^(y |tambien |ademas |como )/.test(q)) {
-        const contexts = {progreso:'progreso_docente',conocimientos:botMemoria.ultimoRol === 'estudiante' ? 'est_conocimientos':'prof_conocimientos',ingles:botMemoria.ultimoRol === 'estudiante' ? 'ingles_estudiante':'ingles_docente'};
+        const contexts = {progreso:botMemoria.ultimoRol === 'estudiante' ? 'progreso_estudiante':'progreso_docente',conocimientos:botMemoria.ultimoRol === 'estudiante' ? 'est_conocimientos':'prof_conocimientos',ingles:botMemoria.ultimoRol === 'estudiante' ? 'ingles_estudiante':'ingles_docente'};
         return remember(contexts[botMemoria.ultimaSeccion] || null);
     }
     return null;
@@ -570,12 +590,49 @@ function searchByKeyword(text) {
    MOTOR DEL CHATBOT
    ============================================================ */
 const chatContainer = document.getElementById('chat-msgs');
+let botResponseTimer = null;
+
+const BOT_TOPIC_ICONS = {
+    menu_profesor: 'graduation-cap', menu_estudiante: 'backpack',
+    tengo_duda: 'circle-help', faq_bot: 'list', suplementales_bot: 'blocks',
+    prof_conocimientos: 'atom', est_conocimientos: 'atom',
+    progreso_docente: 'trending-up', progreso_estudiante: 'trending-up',
+    ingles_docente: 'globe', ingles_estudiante: 'globe',
+    fe_docente: 'book-heart', robotica: 'bot',
+    bienestar_proximamente: 'heart-handshake', pruebas_proximamente: 'clipboard-check',
+    inicio: 'house'
+};
+
+function crearIconoBot(name) {
+    const key = name.replace(/(^|-)([a-z0-9])/g, (_, separator, letter) => letter.toUpperCase());
+    const icon = lucide.createElement(lucide.icons[key]);
+    icon.setAttribute('data-lucide', name);
+    icon.setAttribute('aria-hidden', 'true');
+    icon.setAttribute('focusable', 'false');
+    icon.setAttribute('class', 'lucide lucide-' + name + ' bot-control-icon');
+    return icon;
+}
+
+function etiquetarControlBot(control, label, iconName) {
+    const text = document.createElement('span');
+    text.textContent = label;
+    control.append(crearIconoBot(iconName), text);
+}
+
+function setBotBusy(busy) {
+    chatContainer.setAttribute('aria-busy', String(busy));
+    document.querySelectorAll('#chat-msgs .bot-option, #chat-send').forEach(button => {
+        button.disabled = busy;
+    });
+}
 
 window.initBot = function initBot() {
+    clearTimeout(botResponseTimer);
+    botResponseTimer = null;
     chatContainer.innerHTML = '';
-    botMemoria.ultimoTopic   = null;
     botMemoria.ultimaSeccion = null;
     botMemoria.ultimoRol     = null;
+    setBotBusy(false);
     renderBotResponse("inicio");
 }
 
@@ -587,7 +644,7 @@ function crearEnlaceBot(label, href) {
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.className = 'bot-resource-link';
-    link.textContent = label;
+    etiquetarControlBot(link, label, 'external-link');
     return link;
 }
 
@@ -599,7 +656,8 @@ function agregarRecursosBot(message, data) {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'bot-program-button';
-        button.textContent = 'Abrir Compartir ' + ({Robotica: 'Robótica', FE: 'Fe'}[program] || program);
+        const iconName = {Robotica: 'bot', FE: 'book-heart', Bienestar: 'heart-handshake', Pruebas: 'clipboard-check'}[program];
+        etiquetarControlBot(button, 'Abrir Compartir ' + ({Robotica: 'Robótica', FE: 'Fe'}[program] || program), iconName);
         button.addEventListener('click', () => {
             window.cerrarCoachBot();
             openRoleSelection(program);
@@ -612,7 +670,7 @@ function agregarRecursosBot(message, data) {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'bot-resource-link';
-        button.textContent = 'Ver video: ' + video.title;
+        etiquetarControlBot(button, 'Ver video: ' + video.title, 'play-circle');
         button.addEventListener('click', () => openVideoModal(id));
         resources.appendChild(button);
     });
@@ -652,6 +710,17 @@ function renderBotResponse(topicId) {
     botMsg.dataset.botTopic = topicId;
     const body = document.createElement('div');
     body.innerHTML = formattedText;
+    // Los tutoriales heredados se presentan como botones, igual que los recursos nuevos.
+    body.querySelectorAll('a[onclick]').forEach(link => {
+        const video = /^openVideoModal\('([\w-]{11})'\)$/.exec(link.getAttribute('onclick'));
+        if (!video) return;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'bot-resource-link bot-inline-video';
+        etiquetarControlBot(button, link.textContent, 'play-circle');
+        button.addEventListener('click', () => openVideoModal(video[1]));
+        link.replaceWith(button);
+    });
     botMsg.appendChild(body);
     agregarRecursosBot(botMsg, data);
     if (data.options?.length) {
@@ -664,32 +733,34 @@ function renderBotResponse(topicId) {
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'bot-option bg-slate-800/80 hover:bg-indigo-600 border border-indigo-500/30 py-2.5 px-4 rounded-xl font-bold transition-colors text-left flex justify-between items-center group cyber-hover';
-            button.setAttribute('aria-label', opt.label.replace(/◀ /, ''));
+            button.setAttribute('aria-label', opt.label);
+            const back = opt.action === 'back';
+            const leadingIcon = back ? 'arrow-left' : opt.icon || BOT_TOPIC_ICONS[opt.topic];
+            if (leadingIcon) button.appendChild(crearIconoBot(leadingIcon));
             const label = document.createElement('span');
             label.textContent = opt.label;
-            const icon = document.createElement('i');
-            icon.setAttribute('data-lucide', 'chevron-right');
-            icon.setAttribute('aria-hidden', 'true');
-            icon.className = 'w-4 h-4 shrink-0';
-            button.append(label, icon);
+            label.className = 'bot-option-label';
+            button.appendChild(label);
+            if (!back) button.appendChild(crearIconoBot('chevron-right'));
             button.addEventListener('click', () => handleUserClick(opt.label, opt.topic));
             options.appendChild(button);
         });
         botMsg.appendChild(options);
     }
     chatContainer.appendChild(botMsg);
-    lucide.createIcons({ nameAttr: 'data-lucide', attrs: {}, nodes: [botMsg] });
     requestAnimationFrame(() => botMsg.classList.remove('translate-y-2', 'opacity-0'));
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
 window.handleUserClick = function handleUserClick(label, targetTopic) {
-    appendUserMsg(label.replace(/◀ .*/, 'Atrás'));
+    if (botResponseTimer !== null) return;
+    appendUserMsg(label);
     botMemoria.setTopic(targetTopic);
     showTypingAndRespond(targetTopic);
 }
 
 window.sendFreeText = function sendFreeText() {
+    if (botResponseTimer !== null) return;
     const input = document.getElementById('chat-input');
     const text  = input.value.trim();
     if (!text) return;
@@ -710,6 +781,8 @@ function appendUserMsg(text) {
 }
 
 function showTypingAndRespond(targetTopic) {
+    if (botResponseTimer !== null) return;
+    setBotBusy(true);
     const dots = document.createElement('div');
     dots.className = "self-start bg-white/5 text-slate-400 p-3 rounded-2xl rounded-tl-sm text-xs mb-2 flex gap-1 items-center border border-white/10";
     dots.setAttribute('role', 'status');
@@ -719,9 +792,11 @@ function showTypingAndRespond(targetTopic) {
     ).join('');
     chatContainer.appendChild(dots);
     chatContainer.scrollTop = chatContainer.scrollHeight;
-    setTimeout(() => {
+    botResponseTimer = setTimeout(() => {
+        botResponseTimer = null;
         dots.remove();
         renderBotResponse(targetTopic);
+        setBotBusy(false);
     }, 550);
 }
 

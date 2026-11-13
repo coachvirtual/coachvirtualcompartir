@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "tailwindcss -c tailwind.config.cjs -i css/tailwind.input.css -o css/tailwind.css --minify",
+    "build": "npm run build:icons && tailwindcss -c tailwind.config.cjs -i css/tailwind.input.css -o css/tailwind.css --minify",
+    "build:icons": "node scripts/build-icons.cjs",
+    "build:assets": "node scripts/build-coach-assets.cjs",
     "check": "node --check js/main.js && node --check js/bot-programas.js && node --check js/bot.js && node --check js/contador.js && node --check js/creo-experience.js && node --check js/creo-content.js && node --check js/creo-media.js && node --check js/creo-image.js && node --check js/creo-connections.js && node --check js/creo-curriculum-data.js && node --check js/creo-connections-media.js && node --check js/creo-malla.js",
     "test:design": "node audit/design-audit.cjs",
     "test:security": "node audit/security-regression.cjs",
-    "test:bot": "node audit/coachbot-intents.test.cjs && node audit/coachbot-browser.test.cjs",
+    "test:bot": "node audit/coachbot-intents.test.cjs && node audit/coachbot-browser.test.cjs && node audit/coachbot-regressions.test.cjs",
+    "test:published": "node audit/coachbot-published.test.cjs && node audit/coachbot-regressions.test.cjs --live && node audit/creo-experience-check.cjs --live && node audit/conexiones/check.cjs --live",
     "test:creo": "node audit/creo-experience-check.cjs",
     "test:conexiones": "node audit/conexiones/check.cjs"
   },

@@ -63,7 +63,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_video"
         },
         {
-          "label": "◀ Otros programas",
+          "label": "Otros programas", "action": "back",
           "topic": "suplementales_bot"
         }
       ],
@@ -78,7 +78,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -92,7 +92,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -113,7 +113,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_roles"
         },
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ],
@@ -135,7 +135,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_evaluacion"
         },
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ],
@@ -150,7 +150,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -175,7 +175,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_areas"
         },
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ],
@@ -213,7 +213,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_eventos"
         },
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ],
@@ -228,7 +228,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -249,7 +249,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_acceso"
         },
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ],
@@ -264,7 +264,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -289,7 +289,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_microbit"
         },
         {
-          "label": "◀ Materiales de Robótica",
+          "label": "Materiales de Robótica", "action": "back",
           "topic": "robotica_componentes"
         }
       ],
@@ -307,7 +307,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_simuladores"
         },
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ],
@@ -325,7 +325,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_simuladores"
         },
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ],
@@ -343,7 +343,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_simuladores"
         },
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ],
@@ -373,7 +373,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_areas"
         },
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ],
@@ -388,7 +388,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -402,7 +402,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -416,7 +416,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -431,7 +431,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -445,7 +445,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -462,7 +462,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ],
@@ -482,7 +482,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -507,7 +507,7 @@ const BOT_PROGRAMAS = {
           "topic": "robotica_formacion"
         },
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ],
@@ -522,7 +522,7 @@ const BOT_PROGRAMAS = {
       "program": "Robotica",
       "options": [
         {
-          "label": "◀ Robótica",
+          "label": "Robótica", "action": "back",
           "topic": "robotica"
         }
       ]
@@ -567,7 +567,7 @@ const BOT_PROGRAMAS = {
           "topic": "fe_pacto"
         },
         {
-          "label": "◀ Otros programas",
+          "label": "Otros programas", "action": "back",
           "topic": "suplementales_bot"
         }
       ],
@@ -582,7 +582,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -611,7 +611,7 @@ const BOT_PROGRAMAS = {
           "topic": "fe_familias"
         },
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ],
@@ -626,7 +626,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -640,7 +640,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -654,7 +654,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -668,7 +668,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -682,7 +682,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -696,7 +696,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -715,7 +715,7 @@ const BOT_PROGRAMAS = {
           "topic": "fe_documentos"
         },
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ],
@@ -731,7 +731,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -746,7 +746,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -769,7 +769,7 @@ const BOT_PROGRAMAS = {
           "topic": "fe_acceso_documentos"
         },
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ],
@@ -782,7 +782,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -794,7 +794,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -814,7 +814,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -830,7 +830,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -844,7 +844,7 @@ const BOT_PROGRAMAS = {
       "program": "FE",
       "options": [
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]
@@ -852,12 +852,12 @@ const BOT_PROGRAMAS = {
     "bienestar_proximamente": {
       "text": "**Compartir Bienestar**\n\nPróximamente. Estamos preparando este espacio en Compartir Suplementales.",
       "program": "Bienestar",
-      "options": [{"label": "◀ Suplementales", "topic": "suplementales_bot"}]
+      "options": [{"label": "Suplementales", "action": "back", "topic": "suplementales_bot"}]
     },
     "pruebas_proximamente": {
       "text": "**Compartir Pruebas**\n\nPróximamente. Estamos preparando este espacio en Compartir Suplementales.",
       "program": "Pruebas",
-      "options": [{"label": "◀ Suplementales", "topic": "suplementales_bot"}]
+      "options": [{"label": "Suplementales", "action": "back", "topic": "suplementales_bot"}]
     },
     "suplementales_bot": {
       "text": "**Compartir Suplementales**\n\nExplora **Compartir Robótica — SET-XXI** y **Compartir Fe — CREO**. **Compartir Bienestar** y **Compartir Pruebas** estarán disponibles próximamente.",
@@ -866,7 +866,7 @@ const BOT_PROGRAMAS = {
         {"label": "Compartir Fe — CREO", "topic": "fe_docente"},
         {"label": "Compartir Bienestar · Próximamente", "topic": "bienestar_proximamente"},
         {"label": "Compartir Pruebas · Próximamente", "topic": "pruebas_proximamente"},
-        {"label": "◀ Inicio", "topic": "inicio"}
+        {"label": "Inicio", "action": "back", "topic": "inicio"}
       ]
     },
     "programas_comparar": {
@@ -898,7 +898,7 @@ const BOT_PROGRAMAS = {
           "topic": "fe_docente"
         },
         {
-          "label": "◀ Inicio",
+          "label": "Inicio", "action": "back",
           "topic": "inicio"
         }
       ]
@@ -916,7 +916,7 @@ const BOT_PROGRAMAS = {
           "topic": "fe_recursos"
         },
         {
-          "label": "◀ Compartir Fe",
+          "label": "Compartir Fe", "action": "back",
           "topic": "fe_docente"
         }
       ]

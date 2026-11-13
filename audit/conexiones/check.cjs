@@ -19,6 +19,9 @@ const data=ctx.data,normalize=t=>String(t).replace(/\s+/g,' ').trim();
    const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'}),errors=[];
    page.on('pageerror',e=>errors.push(e.message));await route(page);await page.goto(base+'?curriculum=20261112');await page.evaluate(()=>openRoleSelection('FE'));
    const frame=page.frameLocator('#fe-frame');await frame.locator('.connection-card').first().waitFor();
+   assert.equal(await page.locator('.coach-dock').isVisible(),false,'The Coach dock must not cover embedded pagination');
+   assert.equal(await page.getByRole('button',{name:'Abrir Coach Bot',exact:true}).isVisible(),true);
+   await frame.locator('body').evaluate(()=>{window.auditConnectionClicks=[];document.addEventListener('click',event=>{window.auditConnectionClicks.push(event.target.closest('button')?.id||event.target.tagName);},true);});
    const bringToView=async selector=>{await frame.locator(selector).evaluate(el=>parent.postMessage({type:'compartir-fe-scroll',top:el.getBoundingClientRect().top+scrollY},location.origin));await page.waitForFunction(selector=>{const f=document.querySelector('#fe-frame'),el=f.contentDocument.querySelector(selector),top=f.getBoundingClientRect().top+el.getBoundingClientRect().top;return top>=document.querySelector('header').offsetHeight&&top<250;},selector);};
    assert.equal(await frame.locator('[data-connection-mode]').count(),3);
    // Every field of every connection must be readable in both native views.
@@ -37,13 +40,20 @@ const data=ctx.data,normalize=t=>String(t).replace(/\s+/g,' ').trim();
     await frame.locator('[data-connection-view="cards"]').click();
     await frame.locator('#connection-show-all').click();
     assert.equal(await frame.locator('.connection-card').count(),8);
-    const seen=new Set();
+    const seen=new Set(),visitedPages=new Set();
     do{
-     for(const id of await frame.locator('[data-connection-id]').evaluateAll(els=>els.map(el=>el.dataset.connectionId)))seen.add(id);
+     const ids=await frame.locator('[data-connection-id]').evaluateAll(els=>els.map(el=>el.dataset.connectionId));
+     const pageKey=ids.join(',');assert.ok(!visitedPages.has(pageKey),`${name}/${level}: pagination repeated a page`);visitedPages.add(pageKey);
+     for(const id of ids)seen.add(id);
      if(await frame.locator('#connection-next').isDisabled())break;
+     const before=await frame.locator('#connection-page-label').innerText();
      await frame.locator('#connection-next').click();
+     const after=await frame.locator('#connection-page-label').innerText();
+     if(before===after){console.log('Pagination diagnostics',JSON.stringify(await frame.locator('body').evaluate(()=>({label:document.getElementById('connection-page-label').textContent,clicks:window.auditConnectionClicks.slice(-5)}))));await page.screenshot({path:'audit/conexiones/pagination-failure.png'});}
+     assert.notEqual(after,before,`${name}/${level}: next must advance the page`);
     }while(true);
     assert.equal(seen.size,data[key].length);
+    console.log(`${name}/${level}: ${seen.size} rows across ${visitedPages.size} pages verified`);
     // Combined grade/area/bimester filters retain their exact source values.
     const sample=data[key][0];await frame.locator(`[data-connection-grade="${sample.grade}"]`).click();
     await frame.locator('#connection-area').selectOption(sample.area);await frame.locator('#connection-bimester').selectOption(sample.bimester);
