@@ -1170,7 +1170,7 @@ window.addEventListener('message', event => {
     if (isFE && data.type === 'compartir-fe-video' && videosFE.some(video => video.id === data.id)) {
         openVideoModal(data.id);
     }
-    if (data.type === (isFE ? 'compartir-fe-height' : 'compartir-robotica-height') && Number.isFinite(data.height) && data.height > 0 && data.height < 100000) {
+    if (data.type === (isFE ? 'compartir-fe-height' : 'compartir-robotica-height') && Number.isFinite(data.height) && data.height > 0 && data.height < (isFE ? 1000000 : 100000)) {
         frame.style.height = Math.ceil(data.height) + 'px';
     }
     if (data.type === (isFE ? 'compartir-fe-scroll' : 'compartir-robotica-scroll') && Number.isFinite(data.top) && data.top >= 0) {
@@ -1195,27 +1195,9 @@ function loadFEContent() {
             </div>
             <div class="w-full h-px bg-white/10 mb-8"></div>
 
-            <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-ajustes-fe" title="Guía completa de Recursos Globales CREO 2026" loading="eager"></iframe>
+            <iframe id="fe-frame" class="robotica-frame fe-frame" src="creo-guia.html?v=20261112-conexiones" title="Compartir Fe: recursos globales, conexiones curriculares y manejo de conexiones" loading="eager"></iframe>
 
-            <!-- DOCUMENTOS -->
-            <h3 class="font-black text-white text-lg mb-4 flex items-center gap-2">
-                <i data-lucide="folder-open" class="${data.color} w-5 h-5 drop-shadow-[0_0_8px_currentColor]" aria-hidden="true"></i>
-                Documentos de apoyo
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-                ${documentosFE.map(doc => `
-                <a href="${doc.link}" target="_blank" rel="noopener noreferrer"
-                    class="flex flex-col items-center gap-3 p-5 glass-panel rounded-2xl border border-${doc.color}-500/20 hover:border-${doc.color}-400/50 hover:bg-${doc.color}-500/10 transition-all group text-center cyber-hover"
-                    aria-label="Abrir documento: ${doc.titulo}">
-                    <div class="w-12 h-12 bg-${doc.color}-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <i data-lucide="${doc.icono}" class="w-6 h-6 text-${doc.color}-400" aria-hidden="true"></i>
-                    </div>
-                    <span class="text-white text-xs font-bold leading-tight">${doc.titulo}</span>
-                    <span class="text-slate-500 text-[10px] flex items-center gap-1">
-                        <i data-lucide="external-link" class="w-3 h-3" aria-hidden="true"></i> Abrir documento
-                    </span>
-                </a>`).join('')}
-            </div>`;
+            `;
         lucide.createIcons();
         sectionContent.style.opacity = 1;
     }, 300);

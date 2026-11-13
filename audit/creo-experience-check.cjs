@@ -43,7 +43,7 @@ const context={};vm.createContext(context);vm.runInContext(fs.readFileSync('js/c
   await frame.locator('.stepper').filter({has:frame.locator('[data-show-steps="servicio"]')}).evaluate(el=>{parent.postMessage({type:'compartir-fe-scroll',top:el.getBoundingClientRect().top+scrollY},location.origin);});
   await page.screenshot({path:`audit/creo-experience-step-${live?'published-':''}${name}.png`});
   assert.equal(await frame.locator('html').evaluate(el=>el.scrollWidth>innerWidth),false);
-  assert.equal(await frame.locator('#acceso [data-tutorial-video="QCviXJSVUHc"]').count(),1);assert.equal(await page.locator('[data-vid-id="QCviXJSVUHc"]').count(),0);assert.equal(await page.getByRole('link',{name:'Abrir documento:',exact:false}).count(),3);assert.deepEqual(errors,[]);
+  assert.equal(await frame.locator('#acceso [data-tutorial-video="QCviXJSVUHc"]').count(),1);assert.equal(await page.locator('[data-vid-id="QCviXJSVUHc"]').count(),0);assert.equal(await page.getByRole('link',{name:'Abrir documento:',exact:false}).count(),0);assert.deepEqual(errors,[]);
   await page.evaluate(()=>{window.creoOpenedVideos=[];const original=window.openVideoModal;window.openVideoModal=(id,...args)=>{window.creoOpenedVideos.push(id);return original(id,...args);};});
   for(const id of ['QCviXJSVUHc','I7Yd9PWTDc8']){await frame.locator(`[data-tutorial-video="${id}"]`).click();await page.locator('#video-modal').waitFor({state:'visible'});assert.equal(await page.evaluate(()=>window.creoOpenedVideos.at(-1)),id);await page.getByRole('button',{name:'Cerrar video',exact:true}).click();}
   await frame.locator('#acceso .access-actions a[href="#inicio"]').click();

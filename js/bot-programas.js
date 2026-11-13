@@ -1,5 +1,4 @@
-/* Base de respuestas verificadas. Fuentes revisadas: 2026-11-12.
- * Los PDF restringidos solo se enlazan; no se infiere su contenido. */
+/* Respuestas verificadas: fuentes oficiales y documentos CREO 2026 proporcionados para esta app. */
 const BOT_PROGRAMAS = {
   "sources": {
     "robotica": {
@@ -529,7 +528,7 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_docente": {
-      "text": "**Compartir Fe — CREO**\n\nCompartir Fe reúne los tutoriales y materiales de integración de **CREO**, el sistema educativo católico de Santillana. Su propuesta relaciona el currículo con el Evangelio y la formación integral, e involucra a directivos, docentes, estudiantes y familias.\n\nEn esta app encontrarás la **guía completa de Recursos Globales CREO 2026**, organizada en cinco pilares y quince propuestas, además de **dos tutoriales y tres documentos de apoyo**. La disponibilidad de servicios del sistema CREO en cada colegio depende de su implementación.",
+      "text": "**Compartir Fe — CREO**\n\nCompartir Fe reúne los tutoriales y materiales de integración de **CREO**, el sistema educativo católico de Santillana. Su propuesta relaciona el currículo con el Evangelio y la formación integral, e involucra a directivos, docentes, estudiantes y familias.\n\nEn esta app encontrarás la **guía completa de Recursos Globales CREO 2026**, organizada en cinco pilares y quince propuestas, además de las **mallas completas de Primaria y Secundaria**, el **manejo de conexiones en ocho pasos** y **dos tutoriales**. La disponibilidad de servicios del sistema CREO en cada colegio depende de su implementación.",
       "section": "fe",
       "sources": [
         "creo"
@@ -729,9 +728,6 @@ const BOT_PROGRAMAS = {
       "videos": [
         "QCviXJSVUHc"
       ],
-      "documents": [
-        2
-      ],
       "program": "FE",
       "options": [
         {
@@ -741,15 +737,11 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_conexiones": {
-      "text": "**Conexiones CREO en Compartir**\n\nEl tutorial explica la integración de CREO en Compartir. Las conexiones curriculares se acompañan de documentos separados para Primaria y Secundaria.",
+      "text": "**Conexiones curriculares CREO en Compartir**\n\nCompartir Fe integra **266 conexiones completas**: **128 de Primaria** y **138 de Secundaria**. Puedes filtrar por grado, área, bimestre y, en Secundaria, por colección; buscar por lección, tema o recurso; y alternar entre tarjetas y tabla.\n\nCada conexión conserva el aprendizaje nuclear, la lección, el tema articulador, el recurso asociado y la página del libro digital. También encontrarás la **guía completa de manejo en ocho pasos**, con las imágenes del documento y el tutorial de Conexiones CREO.",
       "section": "fe",
       "sources": [],
       "videos": [
         "I7Yd9PWTDc8"
-      ],
-      "documents": [
-        0,
-        1
       ],
       "program": "FE",
       "options": [
@@ -760,14 +752,9 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_documentos": {
-      "text": "**Documentos disponibles de Compartir Fe**\n\nAquí tienes los tres documentos enlazados en la app: **conexión curricular de Primaria, conexión curricular de Secundaria y Recursos Globales CREO**.\n\nSe abren en SharePoint y pueden solicitar permisos de tu cuenta institucional. Si no tienes acceso, pide autorización al responsable del material. El documento de Recursos Globales CREO 2026 ya está disponible íntegramente en la guía de Compartir Fe. Las conexiones curriculares de Primaria y Secundaria se consultan en sus documentos originales.",
+      "text": "**Contenido completo de Compartir Fe**\n\nEn Compartir Fe puedes consultar los **recursos globales CREO**, las **mallas curriculares de Primaria y Secundaria** y el **manejo de conexiones** directamente en la app.\n\nLas mallas están organizadas en fichas y tablas con todos los campos de cada fila. Los enlaces de referencia permiten cotejar las fichas con las páginas de las mallas. Para utilizar los contenidos interactivos y descargables de CREO, ingresa con la cuenta de tu institución en EDI.",
       "section": "fe",
       "sources": [],
-      "documents": [
-        0,
-        1,
-        2
-      ],
       "options": [
         {
           "label": "Malla de Primaria",
@@ -789,12 +776,9 @@ const BOT_PROGRAMAS = {
       "program": "FE"
     },
     "fe_primaria": {
-      "text": "**Conexión curricular Compartir–CREO · Primaria**\n\nLa app enlaza el documento de conexión curricular para **Primaria**. Puedes abrirlo debajo.\n\nPara contenidos exactos por grado y asignatura, revisa la malla; no tengo ese detalle interno confirmado. Si SharePoint solicita permisos, utiliza la cuenta autorizada por tu colegio o pide acceso al responsable del documento.",
+      "text": "**Conexión curricular Compartir–CREO · Primaria**\n\nLa malla completa ya está integrada en **Compartir Fe → Conexiones curriculares → Primaria**: **128 conexiones de 1° a 5°**.\n\nFiltra por grado, área y bimestre o busca una lección, tema o recurso. Cada ficha conserva todos los campos del documento: área, grado, bimestre, aprendizaje nuclear, lección, tema articulador, recurso asociado y página del libro digital. También puedes consultar la tabla y la referencia visual de cada fila.",
       "section": "fe",
       "sources": [],
-      "documents": [
-        0
-      ],
       "program": "FE",
       "options": [
         {
@@ -804,12 +788,9 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_secundaria": {
-      "text": "**Conexión curricular Compartir–CREO · Secundaria**\n\nLa app enlaza el documento de conexión curricular para **Secundaria**. Puedes abrirlo debajo.\n\nPara contenidos exactos por grado y asignatura, revisa la malla; no tengo ese detalle interno confirmado. Si SharePoint solicita permisos, utiliza la cuenta autorizada por tu colegio o pide acceso al responsable del documento.",
+      "text": "**Conexiones curriculares CREO · Secundaria**\n\nLa malla completa PDC y PAR ya está integrada en **Compartir Fe → Conexiones curriculares → Secundaria**: **138 conexiones de 6° a 11°**. El documento distingue las colecciones **Competencias** y **ActivaMente+**.\n\nFiltra por grado, área, bimestre y colección. Cada ficha conserva los ocho campos de la malla, incluido el aprendizaje nuclear y la página del libro digital. También puedes consultar la tabla, contrastar cada fila con su página y seguir la guía completa de manejo de conexiones.",
       "section": "fe",
       "sources": [],
-      "documents": [
-        1
-      ],
       "program": "FE",
       "options": [
         {
@@ -839,14 +820,9 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_acceso_documentos": {
-      "text": "**Si un documento de Fe pide autorización**\n\nLos tres documentos de apoyo están alojados en SharePoint. Abre el enlace con la cuenta institucional que tenga permisos; si continúa el bloqueo, solicita acceso al propietario o al responsable del colegio.\n\nCoach Bot no puede conceder permisos ni cambiar tu contraseña. Mientras tanto, puedes revisar los dos tutoriales de integración.",
+      "text": "**Acceso a las mallas y recursos de CREO**\n\nLas mallas de Primaria y Secundaria y el manejo de conexiones ya se consultan directamente en **Compartir Fe → Conexiones curriculares**, junto con sus páginas de referencia.\n\nSi estás utilizando un enlace antiguo de SharePoint y solicita permisos, usa una cuenta autorizada o consulta al responsable del archivo. Para abrir los recursos interactivos de la plataforma, ingresa en EDI con la cuenta de tu colegio.",
       "section": "fe",
       "sources": [],
-      "documents": [
-        0,
-        1,
-        2
-      ],
       "videos": [
         "QCviXJSVUHc",
         "I7Yd9PWTDc8"
@@ -860,7 +836,7 @@ const BOT_PROGRAMAS = {
       ]
     },
     "fe_sin_dato": {
-      "text": "**Ese detalle de Compartir Fe no está confirmado**\n\nNo tengo tarifas, licencias, calendarios del colegio ni el detalle de las conexiones curriculares de los PDF de SharePoint confirmado. Para esos detalles, consulta al colegio o su asesor de CREO.\n\nSí puedo explicar la propuesta pública, los pilares, los recursos, las familias, la formación y cómo encontrar los tutoriales y documentos.",
+      "text": "**Ese detalle de Compartir Fe no está confirmado**\n\nNo tengo tarifas, licencias ni calendarios de cada colegio confirmados. Para esos detalles, consulta al colegio o su asesor de CREO.\n\nSí puedo explicar los pilares, los recursos, las familias y cómo consultar las mallas completas de Primaria y Secundaria, los ocho pasos del manejo de conexiones y los tutoriales de Compartir Fe.",
       "section": "fe",
       "sources": [
         "creo_formacion"

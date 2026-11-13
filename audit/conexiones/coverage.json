@@ -1,0 +1,428 @@
+{
+  "sources": [
+    {
+      "file": "Malla COMPARTIR primaria CREO 2026.pdf",
+      "sha256": "14761e5fad0fe457a07a6e2bfed333dd8cd2bd4e4de8bd8fe58004d3c7b12cb8"
+    },
+    {
+      "file": "Malla PDC y PAR secundaria 2026.pdf",
+      "sha256": "2d6341ce903364bd8d39cb93f1133aa3c69aeeed1ee43fb92f7f691007997f6d"
+    },
+    {
+      "file": "Manejo de Conexiones CREO Tangerine.docx",
+      "sha256": "bb7477a2b695bce496be8a869e13585b09a669781e6b239e47fd64762582869c"
+    }
+  ],
+  "primaryRows": 128,
+  "secondaryRows": 138,
+  "totalRows": 266,
+  "fieldsPerRow": 8,
+  "fieldValues": 2128,
+  "primaryPages": 16,
+  "secondaryPages": 11,
+  "guideParagraphs": 8,
+  "guideImages": 10,
+  "secondaryVerifiedPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "secondaryCorrections": [
+    {
+      "id": "s-1-4",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-1-5",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-1-5",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-1-7",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-1-11",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-2-5",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-2-6",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-2-7",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-2-8",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-3-2",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-3-6",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-4-2",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-4-2",
+      "field": "digitalPage",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-4-3",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-4-8",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-4-9",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-5-1",
+      "field": "lesson",
+      "ocr": "Respuestas intemas que implican movimiento de células y mecanismos de defensa: el sistema inmune",
+      "verified": "Respuestas internas que implican movimiento de células y mecanismos de defensa: el sistema inmune"
+    },
+    {
+      "id": "s-5-2",
+      "field": "learning",
+      "ocr": "",
+      "verified": "7"
+    },
+    {
+      "id": "s-5-2",
+      "field": "lesson",
+      "ocr": "Respuestas intemas que implican movimiento de células y mecanismos de defensa: el sistema inmune",
+      "verified": "Respuestas internas que implican movimiento de células y mecanismos de defensa: el sistema inmune"
+    },
+    {
+      "id": "s-5-3",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-5-5",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-5-8",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-5-9",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-5-9",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-6-3",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-6-7",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-6-8",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-6-9",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-6-10",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-7-1",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-7-3",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-7-5",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-8-1",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-8-2",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-8-3",
+      "field": "bimester",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-8-3",
+      "field": "resource",
+      "ocr": "La necesidad de las actvidades circulares",
+      "verified": "La necesidad de las actividades circulares"
+    },
+    {
+      "id": "s-8-5",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-8-5",
+      "field": "resource",
+      "ocr": "El mapa de nuestras relaciones con el entomo",
+      "verified": "El mapa de nuestras relaciones con el entorno"
+    },
+    {
+      "id": "s-8-6",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-8-7",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-8-7",
+      "field": "lesson",
+      "ocr": "Lectura critica: La reseña comercial",
+      "verified": "Lectura crítica: La reseña comercial"
+    },
+    {
+      "id": "s-8-8",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-8-8",
+      "field": "digitalPage",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-8-9",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-8-11",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-8-12",
+      "field": "lesson",
+      "ocr": "Principio de consewación de la energía mecánica",
+      "verified": "Principio de conservación de la energía mecánica"
+    },
+    {
+      "id": "s-8-13",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-8-13",
+      "field": "digitalPage",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-8-17",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-10-2",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-10-3",
+      "field": "learning",
+      "ocr": "",
+      "verified": "1"
+    },
+    {
+      "id": "s-10-3",
+      "field": "topic",
+      "ocr": "Criterio de la primera deñvada",
+      "verified": "Criterio de la primera derivada"
+    },
+    {
+      "id": "s-10-4",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-10-5",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-10-5",
+      "field": "lesson",
+      "ocr": "El mundo desde la perspecüva humana",
+      "verified": "El mundo desde la perspectiva humana"
+    },
+    {
+      "id": "s-10-6",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-10-8",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-10-11",
+      "field": "area",
+      "ocr": "ComunicatÑas",
+      "verified": "Comunicativas"
+    },
+    {
+      "id": "s-10-11",
+      "field": "topic",
+      "ocr": "¿Cómo descifrar un sistema de gobiemo?",
+      "verified": "¿Cómo descifrar un sistema de gobierno?"
+    },
+    {
+      "id": "s-10-12",
+      "field": "resource",
+      "ocr": "Cambia. todo cambia",
+      "verified": "Cambia, todo cambia"
+    },
+    {
+      "id": "s-11-2",
+      "field": "topic",
+      "ocr": "Los derechos humanos y el derecho intemacional humanitario",
+      "verified": "Los derechos humanos y el derecho internacional humanitario"
+    },
+    {
+      "id": "s-11-3",
+      "field": "grade",
+      "ocr": "II",
+      "verified": "11"
+    },
+    {
+      "id": "s-11-5",
+      "field": "lesson",
+      "ocr": "Impactos positivos y negatvos de la globalización",
+      "verified": "Impactos positivos y negativos de la globalización"
+    }
+  ],
+  "sourceGuide": [
+    "¿Cómo interactuar con las conexiones pastorales?Desde el archivo de conexiones verifica si el tema tiene una conexión.",
+    "Una vez hayas identificado la conexión que deseas explorar da clic en el área y grado correspondientes",
+    "Selecciona el bimestre",
+    "Da clic en el tema asociado al AN (Aprendizaje Nuclear).",
+    "Da clic en el XAPI correspondiente y selecciona",
+    "Identifica las tres barras a la izquierda y despliega el menú para seleccionar el nombre del tema articulador.",
+    "Identifica el recurso asociado con el cubo de CREO a uno de los lados de la página y haz clic.",
+    "Sigue los pasos que te indica el recurso"
+  ]
+}

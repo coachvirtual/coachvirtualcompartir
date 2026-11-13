@@ -1,0 +1,30 @@
+{
+  "review": "All eleven secondary pages visually checked against their rendered tables. Numeric triples are bimestre, aprendizaje nuclear, página del libro digital.",
+  "pages": {
+    "1": {"grade": "6", "areas": [["Matemáticas",4],["Comunicativas",3],["Científicas",3],["Sociales",8]], "numbers": [[3,1,1],[3,2,1],[2,2,1],[4,1,4],[1,4,2],[4,2,1],[3,4,1],[3,2,3],[3,4,5],[4,2,2],[1,3,3],[3,4,4],[3,4,6],[4,4,2],[4,3,4],[4,4,5],[4,3,6],[4,4,3]]},
+    "2": {"grade": "7", "areas": [["Matemáticas",4],["Comunicativas",4],["Científicas",6]], "numbers": [[4,1,2],[2,1,1],[3,1,2],[3,3,1],[1,1,3],[2,1,2],[1,5,3],[3,4,2],[3,3,1],[3,4,1],[3,4,1],[3,4,2],[3,4,2],[4,1,2]]},
+    "3": {"grade": "7", "areas": [["Sociales",9]], "numbers": [[1,2,5],[1,5,3],[1,5,4],[2,2,8],[2,3,4],[3,1,5],[3,4,4],[4,1,6],[4,2,7]]},
+    "4": {"grade": "8", "areas": [["Matemáticas",4],["Comunicativas",6],["Científicas",6]], "numbers": [[3,1,2],[1,3,1],[4,1,3],[3,3,2],[4,3,1],[4,2,3],[2,2,1],[4,3,3],[3,4,2],[4,5,5],[1,4,1],[1,4,4],[1,4,3],[1,4,2],[1,1,3],[1,4,1]]},
+    "5": {"grade": "8", "areas": [["Científicas",6],["Sociales",6]], "numbers": [[2,7,8],[2,7,1],[3,1,2],[3,2,5],[3,1,6],[3,2,6],[1,2,2],[1,1,3],[1,1,2],[1,4,10],[3,4,5],[4,3,4]]},
+    "6": {"grade": "9", "areas": [["Matemáticas",4],["Comunicativas",3],["Científicas",7]], "numbers": [[1,3,3],[1,3,1],[3,1,2],[4,3,2],[4,3,3],[4,4,1],[4,2,1],[1,1,2],[1,1,6],[1,1,3],[2,2,1],[2,3,2],[2,3,4],[2,3,3]]},
+    "7": {"grade": "9", "areas": [["Sociales",8]], "numbers": [[1,1,7],[1,3,5],[1,5,4],[2,4,1],[3,1,3],[4,3,3],[4,4,5],[4,1,3]]},
+    "8": {"grade": "10", "areas": [["Matemáticas",4],["Comunicativas",5],["Científicas",4],["Sociales",5]], "numbers": [[1,1,2],[1,1,3],[1,2,3],[4,2,3],[4,1,1],[4,1,3],[2,2,1],[4,4,1],[4,4,3],[2,5,4],[3,1,3],[4,2,3],[4,1,1],[1,1,4],[1,1,6],[1,3,4],[2,1,4],[2,2,2]]},
+    "9": {"grade": "10", "areas": [["Sociales",7]], "numbers": [[2,3,2],[2,3,4],[3,4,2],[3,4,2],[4,1,4],[4,4,5],[4,3,2]]},
+    "10": {"grade": "11", "areas": [["Matemáticas",3],["Comunicativas",8],["Científicas",4]], "numbers": [[2,1,2],[4,1,3],[3,1,2],[2,2,2],[1,3,2],[4,2,1],[4,2,3],[4,2,3],[3,1,1],[4,3,3],[3,4,1],[1,2,4],[1,1,7],[2,3,1],[4,3,1]]},
+    "11": {"grade": "11", "areas": [["Sociales",7]], "numbers": [[1,4,4],[2,1,2],[3,1,3],[3,3,3],[3,3,5],[4,4,2],[4,4,3]]}
+  },
+  "textCorrections": {
+    "s-5-1": {"lesson": "Respuestas internas que implican movimiento de células y mecanismos de defensa: el sistema inmune"},
+    "s-5-2": {"lesson": "Respuestas internas que implican movimiento de células y mecanismos de defensa: el sistema inmune"},
+    "s-8-3": {"resource": "La necesidad de las actividades circulares"},
+    "s-8-5": {"resource": "El mapa de nuestras relaciones con el entorno"},
+    "s-8-7": {"lesson": "Lectura crítica: La reseña comercial"},
+    "s-8-12": {"lesson": "Principio de conservación de la energía mecánica"},
+    "s-10-3": {"topic": "Criterio de la primera derivada"},
+    "s-10-5": {"lesson": "El mundo desde la perspectiva humana"},
+    "s-10-11": {"topic": "¿Cómo descifrar un sistema de gobierno?"},
+    "s-10-12": {"resource": "Cambia, todo cambia"},
+    "s-11-2": {"topic": "Los derechos humanos y el derecho internacional humanitario"},
+    "s-11-5": {"lesson": "Impactos positivos y negativos de la globalización"}
+  }
+}

@@ -4,6 +4,7 @@
  const safe=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const normalize=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  const keyPhrases=['Educación Religiosa Escolar','Proyectos de Aprendizaje y Servicio Solidario','Aprendizaje y Servicio Solidario','Pacto Educativo Global','Itinerarios de Vida Cristiana','Comunidades Infantiles y Juveniles','Convivencias y Retiros','Quince minutos en familia','Compartir Conocimientos','Creo Contenidos Globales','La voz de la experiencia','Escuela de familias','Celebrar en familia','Celebrar en comunidad','Enseñar en la escuela católica','Un libro para todos','Plan Lector CREO','Palabra de Dios','palabra de Dios','vida cristiana','formación Presacramental','comunidad educativa','escuela católica','identidad','valores cristianos','participación activa','preescolar','primaria','bachillerato','secundaria','Navidad','Pascua','Día de la familia','Día del maestro','Día de la infancia','virgen María','cultura del encuentro','esperanza y compromiso social','cuidado de la casa común','humanización del uso de la tecnología','preguntas esenciales','preguntas escenciales','perfil de maestro','ícono de la nube','índice de navegación','rangos de edad','minuto a minuto','cuatro períodos','crianza','vínculo familiar','lectura en familia','proyecto','planificación','ejecución','evaluación','celebración','experimentar','comprender','discernir','poner manos a la obra','conocer','celebrar','vivir','comunión','confirmación','Evangelio','Jesús','pastoral','docentes','familias','metas','objetivos','reflexión','guías','descargables','contenidos interactivos','recursos interactivos','vídeos','vídeo','vídeos cortos','temáticas','temas','tema','tres pasos','paso a paso','instrucciones sencillas','lecciones','pertinencia','guía','lectura','etapas','introducción','CREO','EDI','contenido'];
+ keyPhrases.push('aprendizaje nuclear','AN','XAPI','tema articulador','cubo de CREO','conexiones pastorales','conexión','área','grado','bimestre','menú','recurso','tres barras','recursos pastorales','pilares','temática','contenidos');
  const keyPattern=new RegExp(`(?<![\\p{L}\\p{N}])(?:${[...new Set(keyPhrases)].sort((a,b)=>b.length-a.length).map(s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')})(?![\\p{L}\\p{N}])`,'giu');
  function emphasize(text){
   let html='',cursor=0,count=0;const used=new Set();
@@ -131,4 +132,5 @@
  new ResizeObserver(publish).observe(document.body);
  window.addEventListener('load',publish);
  document.fonts.ready.then(restoreHash);
+ window.CreoUI=Object.freeze({escape:safe,emphasize,publishHeight:publish,scrollTo:scrollHost});
 })();

@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "build": "tailwindcss -c tailwind.config.cjs -i css/tailwind.input.css -o css/tailwind.css --minify",
-    "check": "node --check js/main.js && node --check js/bot-programas.js && node --check js/bot.js && node --check js/contador.js && node --check js/creo-experience.js && node --check js/creo-content.js && node --check js/creo-media.js && node --check js/creo-image.js",
+    "check": "node --check js/main.js && node --check js/bot-programas.js && node --check js/bot.js && node --check js/contador.js && node --check js/creo-experience.js && node --check js/creo-content.js && node --check js/creo-media.js && node --check js/creo-image.js && node --check js/creo-connections.js && node --check js/creo-curriculum-data.js && node --check js/creo-connections-media.js && node --check js/creo-malla.js",
     "test:security": "node audit/security-regression.cjs",
     "test:bot": "node audit/coachbot-intents.test.cjs && node audit/coachbot-browser.test.cjs",
-    "test:creo": "node audit/creo-experience-check.cjs"
+    "test:creo": "node audit/creo-experience-check.cjs",
+    "test:conexiones": "node audit/conexiones/check.cjs"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "4.0.1",
